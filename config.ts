@@ -10,3 +10,5 @@ if (process.env.NODE_ENV === 'production') {
     const  os = require("os");
     FRONTEND_URL = os.hostname();
 }
+
+console.log(process.env)

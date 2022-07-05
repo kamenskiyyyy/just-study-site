@@ -1,7 +1,6 @@
-const {FRONTEND_URL} = require("./config");
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: FRONTEND_URL,
+  siteUrl: process.env.FRONTEND_URL,
   changefreq: "daily",
   priority: 0.7,
   autoLastmod: true,
