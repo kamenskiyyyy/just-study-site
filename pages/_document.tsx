@@ -3,14 +3,18 @@ import Document, {Head, Html, Main, NextScript} from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
+import {withFork} from 'effector-next';
 
-export default class MyDocument extends Document {
+const enhance = withFork({ debug: false });
+
+class MyDocument extends Document {
     render() {
         return (
             <Html>
                 <Head>
                     <meta name='theme-color' content={theme.palette.primary.main}/>
-                    <link rel='shortcut icon' href='/static/favicon.ico'/>
+                    <link rel='icon' href='/favicon.ico'/>
+                    <link rel="manifest" href="/site.webmanifest" />
                     <link
                         rel='stylesheet'
                         href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
@@ -84,3 +88,5 @@ MyDocument.getInitialProps = async (ctx) => {
         emotionStyleTags,
     };
 };
+
+export default enhance(MyDocument);

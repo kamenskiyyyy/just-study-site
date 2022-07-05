@@ -24,6 +24,12 @@
       "@shared/*": [
         "./shared/*"
       ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@src/*": [
+        "./*"
+      ]
     }
   },
   "include": [

@@ -1,33 +1,43 @@
 import * as React from 'react';
 import Head from 'next/head';
 import {AppProps} from 'next/app';
-import {ThemeProvider} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import {CacheProvider, EmotionCache} from '@emotion/react';
-import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import {ApolloProvider} from "@apollo/client";
 import client from '../apolloClient';
+import BrandingProvider from "@src/BrandingProvider";
+import AppHeader from "@src/layouts/AppHeader";
+import {withHydrate} from "effector-next";
+import {useStore} from "effector-react";
+import {$theme} from "../model/theme";
+import AppFooter from "@src/layouts/AppFooter";
 
 const clientSideEmotionCache = createEmotionCache();
+const enhance = withHydrate();
 
 interface MyAppProps extends AppProps {
     emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
+function MyApp(props: MyAppProps) {
     const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
+    const appTheme = useStore($theme);
+
     return (
         <ApolloProvider client={client}>
             <CacheProvider value={emotionCache}>
                 <Head>
+                    <title>Just Study - онлайн школа английского языка</title>
                     <meta name='viewport' content='initial-scale=1, width=device-width'/>
                 </Head>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-                    <Component {...pageProps} />
-                </ThemeProvider>
+                    <BrandingProvider mode={appTheme}>
+                        <AppHeader/>
+                        <Component {...pageProps} />
+                        <AppFooter />
+                    </BrandingProvider>
             </CacheProvider>
         </ApolloProvider>
     );
 }
+
+export default enhance(MyApp)
