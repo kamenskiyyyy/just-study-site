@@ -5,3 +5,8 @@ export const BACKEND_URL_GRAPHQL = `${BACKEND_URL}/api/graphql`;
 if (typeof window !== 'undefined') {
     const FRONTEND_URL = window.location.hostname;
 }
+
+if (process.env.NODE_ENV === 'production') {
+    const  os = require("os");
+    FRONTEND_URL = os.hostname();
+}
