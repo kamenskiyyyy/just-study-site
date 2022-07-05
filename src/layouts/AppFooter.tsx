@@ -11,8 +11,11 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ROUTES from '@src/routes';
 import Link from '@shared/ui/Link';
 import SvgJustStudyLogo from "@src/icons/SvgJustStudyLogo";
+import {useRouter} from "next/router";
 
 export default function AppFooter() {
+    const {locale, asPath} = useRouter()
+
     return (
         <Container component="footer">
             <Box
@@ -67,8 +70,30 @@ export default function AppFooter() {
 
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Typography fontWeight="bold" variant="body2">
-                            Resources
+                            Languages
                         </Typography>
+                        <Link
+                            activeClassName={locale === "es"}
+                            href={asPath}
+                            locale="es"
+                        >
+                            Spain
+                        </Link>
+
+                        <Link
+                            activeClassName={locale === "en"}
+                            href={asPath}
+                            locale="en"
+                        >
+                            English
+                        </Link>
+                        <Link
+                            activeClassName={locale === "ru"}
+                            href={asPath}
+                            locale="ru"
+                        >
+                            Russian
+                        </Link>
                         {/*<Link href={ROUTES.materialIcons}>Material Icons</Link>*/}
                         {/*<Link href={ROUTES.freeTemplates}>Free templates</Link>*/}
                         {/*<Link href={ROUTES.components}>Components</Link>*/}

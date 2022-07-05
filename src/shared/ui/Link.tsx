@@ -1,16 +1,16 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
-import NextLink, { LinkProps as NextLinkProps } from 'next/link';
-import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
-import { styled } from '@mui/material/styles';
+import {useRouter} from 'next/router';
+import NextLink, {LinkProps as NextLinkProps} from 'next/link';
+import MuiLink, {LinkProps as MuiLinkProps} from '@mui/material/Link';
+import {styled} from '@mui/material/styles';
 
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled("a")({});
 
 interface NextLinkComposedProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
-    Omit<NextLinkProps, "href" | "as" | "onClick" | "onMouseEnter"> {
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
+        Omit<NextLinkProps, "href" | "as" | "onClick" | "onMouseEnter"> {
   to: NextLinkProps["href"];
   linkAs?: NextLinkProps["as"];
 }
@@ -39,7 +39,7 @@ export const NextLinkComposed = React.forwardRef<
 });
 
 export type LinkProps = {
-  activeClassName?: string;
+  activeClassName?: boolean;
   as?: NextLinkProps["as"];
   href: NextLinkProps["href"];
   linkAs?: NextLinkProps["as"]; // Useful when the as prop is shallow by styled().
@@ -54,7 +54,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   ref
 ) {
   const {
-    activeClassName = "active",
+    activeClassName,
     as,
     className: classNameProps,
     href,
@@ -72,7 +72,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   const router = useRouter();
   const pathname = typeof href === "string" ? href : href.pathname;
   const className = clsx(classNameProps, {
-    [activeClassName]: router.pathname === pathname && activeClassName,
+    'active': router.pathname === pathname && activeClassName,
   });
 
   const isExternal =
