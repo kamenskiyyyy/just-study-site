@@ -1,10 +1,10 @@
 import * as React from "react";
-import type { NextPage } from "next";
+import type {NextPage} from "next";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ProTip from "../src/ProTip";
-import Link from "@shared/local-ui/Link";
+import Link from "@shared/ui/Link";
 import Copyright from "../src/Copyright";
 
 const Home: NextPage = () => {
