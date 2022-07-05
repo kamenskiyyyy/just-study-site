@@ -2,27 +2,23 @@ import * as React from 'react';
 import NextHead from 'next/head';
 import {useRouter} from 'next/router';
 import PropTypes from 'prop-types';
-import {LANGUAGES_SSR} from 'docs/src/modules/constants';
-import {useTranslate, useUserLanguage} from 'docs/src/modules/utils/i18n';
-import {pathnameToLanguage} from 'docs/src/modules/utils/helpers';
 
 // #major-version-switch
 const HOST = 'https://mui.com';
 
-export default function Head(props) {
-    const t = useTranslate();
+export default function Head(props: any) {
     const {
         card = '/static/social-previews/default-preview.jpg',
         children,
-        description = t('strapline'),
+        description = 'strapline',
         disableAlternateLocale = false,
         largeCard = true,
-        title = t('headTitle'),
+        title = 'headTitle',
     } = props;
-    const userLanguage = useUserLanguage();
+    // const userLanguage = useUserLanguage();
     const router = useRouter();
     const preview = card.startsWith('http') ? card : `${HOST}${card}`;
-    const { canonicalAs } = pathnameToLanguage(router.asPath);
+    // const { canonicalAs } = pathnameToLanguage(router.asPath);
 
     return (
         <NextHead>
@@ -45,21 +41,21 @@ export default function Head(props) {
             <meta property="og:image" content={preview} />
             <meta property="og:ttl" content="604800" />
             {/* Algolia */}
-            <meta name="docsearch:language" content={userLanguage} />
+            {/*<meta name="docsearch:language" content={userLanguage} />*/}
             {/* #major-version-switch */}
             <meta name="docsearch:version" content="master" />
-            {disableAlternateLocale
-                ? null
-                : LANGUAGES_SSR.map((userLanguage2) => (
-                    <link
-                        key={userLanguage2}
-                        rel="alternate"
-                        href={`https://mui.com${
-                            userLanguage2 === 'en' ? '' : `/${userLanguage2}`
-                        }${canonicalAs}`}
-                        hrefLang={userLanguage2}
-                    />
-                ))}
+            {/*{disableAlternateLocale*/}
+            {/*    ? null*/}
+            {/*    : LANGUAGES_SSR.map((userLanguage2) => (*/}
+            {/*        <link*/}
+            {/*            key={userLanguage2}*/}
+            {/*            rel="alternate"*/}
+            {/*            href={`https://mui.com${*/}
+            {/*                userLanguage2 === 'en' ? '' : `/${userLanguage2}`*/}
+            {/*            }${canonicalAs}`}*/}
+            {/*            hrefLang={userLanguage2}*/}
+            {/*        />*/}
+            {/*    ))}*/}
             {children}
         </NextHead>
     );

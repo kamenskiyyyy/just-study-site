@@ -10,6 +10,7 @@ import AppHeader from "@src/layouts/AppHeader";
 import {withHydrate} from "effector-next";
 import {useStore} from "effector-react";
 import {$theme} from "../model/theme";
+import AppFooter from "@src/layouts/AppFooter";
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
@@ -32,6 +33,7 @@ function MyApp(props: MyAppProps) {
                     <BrandingProvider mode={appTheme}>
                         <AppHeader/>
                         <Component {...pageProps} />
+                        <AppFooter />
                     </BrandingProvider>
             </CacheProvider>
         </ApolloProvider>
