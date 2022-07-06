@@ -1,6 +1,5 @@
 import {useRouter} from "next/router";
 import {transition} from "@src/lib/transition";
-import {homePage} from "../../../translations/homePage";
 import {ILanguages} from "@src/modules/constants";
 import {Box, Container, Typography} from "@mui/material";
 import * as React from "react";
@@ -9,10 +8,11 @@ import Image from "next/image";
 import cat from './benjimemes_069.webp';
 import Link from "@shared/ui/Link";
 import ROUTES from "@src/routes";
+import {errorPage} from "../../../translations/errorPage";
 
 export const Custom404: NextPage = () => {
     const {locale} = useRouter()
-    const t = transition(homePage, locale as ILanguages);
+    const t = transition(errorPage, locale as ILanguages);
 
     return (
         <Container maxWidth="lg">
@@ -27,10 +27,10 @@ export const Custom404: NextPage = () => {
             >
                 <Box>
                     <Typography variant="h1" component="h1" gutterBottom>
-                        Ууупс!
+                        {t.title}
                     </Typography>
                     <Typography variant={"h2"}>
-                        We can't seem to find the page you're looking for.
+                        {t.description}
                     </Typography>
                     <Typography my={2} variant={"body2"}>
                         Error code: 404
@@ -38,7 +38,7 @@ export const Custom404: NextPage = () => {
 
                     <Link href={ROUTES.home}>Go home</Link>
                 </Box>
-                <Image src={cat} loading={"lazy"} />
+                <Image src={cat} alt={'Error image'} loading={"lazy"} />
             </Box>
         </Container>
     );

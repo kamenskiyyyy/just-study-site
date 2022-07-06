@@ -8,4 +8,7 @@ module.exports = enhance({
     defaultLocale: 'en',
     localeDetection: true
   },
+  typescript: {
+    ignoreBuildErrors: true
+  }
 });
