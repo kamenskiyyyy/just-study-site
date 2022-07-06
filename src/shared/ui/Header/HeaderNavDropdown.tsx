@@ -9,6 +9,11 @@ import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRound
 import Link from '@shared/ui/Link';
 import ROUTES from '@src/routes';
 import SvgHamburgerMenu from 'icons/SvgHamburgerMenu';
+import {useRouter} from "next/router";
+import {transition} from "@src/lib/transition";
+import {navigation} from "../../../../translations/navigation";
+import {ILanguages} from "@src/modules/constants";
+import {COURSES_PATHS} from "@shared/ui/Header/HeaderNavBar";
 
 const Anchor = styled('a')<{ component?: React.ElementType; noLinkStyle?: boolean }>(
     ({theme}) => ({
@@ -42,33 +47,14 @@ const UList = styled('ul')({
     margin: 0,
 });
 
-const COURSES = [
-    {
-        name: 'MUI Core',
-        description: 'Ready-to-use foundational components, free forever.',
-        href: ROUTES.productCore,
-    },
-    {
-        name: 'MUI X',
-        description: 'Advanced and powerful components for complex use-cases.',
-        href: ROUTES.productAdvanced,
-    },
-    {
-        name: 'Templates',
-        description: 'Fully built, out-of-the-box, templates for your application.',
-        href: ROUTES.productTemplates,
-    },
-    {
-        name: 'Design kits',
-        description: 'Our components available in your favorite design tool.',
-        href: ROUTES.productDesignKits,
-    },
-];
-
 export default function HeaderNavDropdown() {
     const [open, setOpen] = React.useState(false);
     const [productsOpen, setProductsOpen] = React.useState(true);
     const hambugerRef = React.useRef<HTMLButtonElement | null>(null);
+
+    const {locale} = useRouter()
+    const t = transition(navigation, locale as ILanguages);
+
     return (
         <React.Fragment>
             <IconButton
@@ -127,13 +113,14 @@ export default function HeaderNavDropdown() {
                         <UList>
                             <li>
                                 <Anchor
-                                    as="button"
-                                    onClick={() => setProductsOpen((bool) => !bool)}
+                                    as={Link}
+                                    href={ROUTES.directions}
                                     sx={{justifyContent: 'space-between'}}
                                 >
-                                    Courses
+                                    {t.directions.title}
                                     <KeyboardArrowDownRounded
                                         color="primary"
+                                        onClick={() => setProductsOpen((bool) => !bool)}
                                         sx={{
                                             transition: '0.3s',
                                             transform: productsOpen ? 'rotate(-180deg)' : 'rotate(0)',
@@ -151,17 +138,17 @@ export default function HeaderNavDropdown() {
                                             ml: 1,
                                         }}
                                     >
-                                        {COURSES.map((item) => (
-                                            <li key={item.name}>
+                                        {t.directions.children.map(({title, desc}, index) => (
+                                            <li key={index}>
                                                 <Anchor
-                                                    href={item.href}
+                                                    href={COURSES_PATHS[index]}
                                                     as={Link}
                                                     noLinkStyle
                                                     sx={{flexDirection: 'column', alignItems: 'initial'}}
                                                 >
-                                                    <div>{item.name}</div>
+                                                    <div>{title}</div>
                                                     <Typography variant="body2" color="text.secondary">
-                                                        {item.description}
+                                                        {desc}
                                                     </Typography>
                                                 </Anchor>
                                             </li>
@@ -171,7 +158,7 @@ export default function HeaderNavDropdown() {
                             </li>
                             <li>
                                 <Anchor href={ROUTES.blog} as={Link} noLinkStyle>
-                                    Blog
+                                    {t.blog.title}
                                 </Anchor>
                             </li>
                         </UList>
