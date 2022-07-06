@@ -8,7 +8,7 @@ import {useRouter} from "next/router";
 import {transition} from "@src/lib/transition";
 import {ILanguages} from "@src/modules/constants";
 
-const Home: NextPage = () => {
+const Directions: NextPage = () => {
     const {locale} = useRouter()
     const t = transition(homePage, locale as ILanguages);
 
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
                 }}
             >
                 <Typography variant="h4" component="h1" gutterBottom>
-                    {t.title}
+                    Directions
                 </Typography>
             </Box>
         </Container>
@@ -33,4 +33,4 @@ const Home: NextPage = () => {
 
 
 
-export default Home;
+export default Directions;

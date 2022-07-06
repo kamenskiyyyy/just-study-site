@@ -12,3 +12,5 @@ export const LANGUAGES_LABEL = [
         text: 'Spanish',
     },
 ];
+
+export type ILanguages = 'en' | 'ru' | 'es';

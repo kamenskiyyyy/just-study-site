@@ -1,6 +1,9 @@
 const ROUTES = {
     home: '/',
-    courses: '/courses',
+    directions: '/directions',
+    directions_general: '/directions/general',
+    directions_aviation: '/directions/aviation',
+    directions_business: '/directions/business',
     blog: "/blog",
     productCore: '/core/',
     productAdvanced: '/x/',

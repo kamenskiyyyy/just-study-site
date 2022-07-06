@@ -6,11 +6,11 @@ import createEmotionCache from '../src/createEmotionCache';
 import {ApolloProvider} from "@apollo/client";
 import client from '../apolloClient';
 import BrandingProvider from "@src/BrandingProvider";
-import AppHeader from "@src/layouts/AppHeader";
 import {withHydrate} from "effector-next";
 import {useStore} from "effector-react";
 import {$theme} from "../model/theme";
 import AppFooter from "@src/layouts/AppFooter";
+import AppHeader from '@src/layouts/AppHeader';
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
@@ -30,11 +30,11 @@ function MyApp(props: MyAppProps) {
                     <title>Just Study - онлайн школа английского языка</title>
                     <meta name='viewport' content='initial-scale=1, width=device-width'/>
                 </Head>
-                    <BrandingProvider mode={appTheme}>
-                        <AppHeader/>
-                        <Component {...pageProps} />
-                        <AppFooter />
-                    </BrandingProvider>
+                <BrandingProvider mode={appTheme}>
+                    <AppHeader/>
+                    <Component {...pageProps} />
+                    <AppFooter/>
+                </BrandingProvider>
             </CacheProvider>
         </ApolloProvider>
     );

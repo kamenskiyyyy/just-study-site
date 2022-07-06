@@ -1,20 +1,27 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import {Container} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import ROUTES from '@src/routes';
 import Link from '@shared/ui/Link';
 import SvgJustStudyLogo from "@src/icons/SvgJustStudyLogo";
 import {useRouter} from "next/router";
+import {transition} from "@src/lib/transition";
+import {ILanguages, LANGUAGES_LABEL} from "@src/modules/constants";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import {footer} from "../../translations/footer";
+import {navigation} from "../../translations/navigation";
+import {COURSES_PATHS} from "@shared/ui/Header/HeaderNavBar";
+import ROUTES from "@src/routes";
+
+export const INFO_PATH = [ROUTES.home, ROUTES.home, ROUTES.home]
 
 export default function AppFooter() {
-    const {locale, asPath} = useRouter()
+    const {locale, asPath} = useRouter();
+    const t = transition(footer, locale as ILanguages);
+    const t_nav = transition(navigation, locale as ILanguages);
 
     return (
         <Container component="footer">
@@ -41,110 +48,52 @@ export default function AppFooter() {
                 }}
             >
                 <div>
-                    <SvgJustStudyLogo width={32}/>
-                    <Typography variant="body2" fontWeight="bold" sx={{pt: 2}}>
-                        Keep up to date
+                    <Stack spacing={1} direction="row">
+                        <SvgJustStudyLogo width={32}/>
+                        <Typography variant={"h5"} fontWeight={"bold"}>Just Study</Typography>
+                    </Stack>
+                    <Typography variant="body1" sx={{pt: 2}}>
+                        {t.school_desc}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{mb: 2}}>
-                        Join our newsletter for regular updates. No spam ever.
-                    </Typography>
-                    {/*<EmailSubscribe sx={{ mb: 1 }} />*/}
                 </div>
                 <Box
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: {xs: '1fr 1fr', md: '1fr 1fr 1fr 1fr'},
+                        gridTemplateColumns: {xs: '1fr 1fr', md: '1fr 1fr 1fr'},
                         gridAutoColumns: '1fr',
                         gap: 2,
                     }}
                 >
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Typography fontWeight="bold" variant="body2">
-                            Products
+                            {t_nav.directions.title}
                         </Typography>
-                        <Link href={ROUTES.productCore}>MUI Core</Link>
-                        <Link href={ROUTES.productAdvanced}>MUI X</Link>
-                        <Link href={ROUTES.productTemplates}>Templates</Link>
-                        <Link href={ROUTES.productDesignKits}>Design kits</Link>
+                        {t_nav.directions.children.map(({title, desc}, index) => (
+                            <Link href={COURSES_PATHS[index]} key={index}>{title}</Link>
+                        ))}
                     </Box>
 
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Typography fontWeight="bold" variant="body2">
-                            Languages
+                            {t.languages}
                         </Typography>
-                        <Link
-                            activeClassName={locale === "es"}
-                            href={asPath}
-                            locale="es"
-                        >
-                            Spain
-                        </Link>
-
-                        <Link
-                            activeClassName={locale === "en"}
-                            href={asPath}
-                            locale="en"
-                        >
-                            English
-                        </Link>
-                        <Link
-                            activeClassName={locale === "ru"}
-                            href={asPath}
-                            locale="ru"
-                        >
-                            Russian
-                        </Link>
-                        {/*<Link href={ROUTES.materialIcons}>Material Icons</Link>*/}
-                        {/*<Link href={ROUTES.freeTemplates}>Free templates</Link>*/}
-                        {/*<Link href={ROUTES.components}>Components</Link>*/}
-                        {/*<Link href={ROUTES.customization}>Customization</Link>*/}
-                        {/*<Link href={ROUTES.theming}>Theming</Link>*/}
-                    </Box>
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Typography fontWeight="bold" variant="body2">
-                            Explore
-                        </Typography>
-                        {/*<Link href={ROUTES.documentation}>Documentation</Link>*/}
-                        {/*<Link href={ROUTES.store}>Store</Link>*/}
-                        {/*<Link href={ROUTES.blog}>Blog</Link>*/}
-                        {/*<Link href={ROUTES.showcase}>Showcase</Link>*/}
-                        {/*<Link href={ROUTES.roadmap}>Roadmap</Link>*/}
-                        {/*<Link href={ROUTES.languages}>Languages</Link>*/}
-                    </Box>
-                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                        <Typography fontWeight="bold" variant="body2">
-                            Company
-                        </Typography>
-                        <Link href={ROUTES.about}>About</Link>
-                        {/*<Link href={ROUTES.vision}>Vision</Link>*/}
-                        <Box sx={{display: 'flex', alignItems: 'end'}}>
-                            <Link href={ROUTES.careers}>Careers </Link>
-                            <Box
-                                sx={{
-                                    px: 0.5,
-                                    py: '3px',
-                                    ml: 1,
-                                    mb: '1px',
-                                    borderRadius: 0.5,
-                                    fontSize: (theme) => theme.typography.pxToRem(9),
-                                    fontWeight: 700,
-                                    textTransform: 'uppercase',
-                                    color: '#fff',
-                                    letterSpacing: '0.1rem',
-                                    backgroundColor: (theme) =>
-                                        theme.palette.mode === 'dark'
-                                            ? theme.palette.success[900]
-                                            : theme.palette.success.main,
-                                }}
+                        {LANGUAGES_LABEL.map(({code, text}) => (
+                            <Link
+                                key={code}
+                                href={asPath}
+                                locale={code}
                             >
-                                Hiring
-                            </Box>
-                        </Box>
-                        {/*<Link href={ROUTES.support}>Support</Link>*/}
-                        {/*<Link href={ROUTES.privacyPolicy}>Privacy policy</Link>*/}
-                        <Link target="_blank" rel="noopener noreferrer" href="mailto:contact@mui.com">
-                            Contact us
-                        </Link>
+                                {text}
+                            </Link>
+                        ))}
+                    </Box>
+                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                        <Typography fontWeight="bold" variant="body2">
+                            {t.information.title}
+                        </Typography>
+                        {t.information.children.map((title, index) => (
+                            <Link href={INFO_PATH[index]} key={index}>{title}</Link>
+                        ))}
                     </Box>
                 </Box>
             </Box>
@@ -158,39 +107,29 @@ export default function AppFooter() {
                 }}
             >
                 <Typography color="text.secondary" variant="body2">
-                    Copyright © {new Date().getFullYear()} Material UI SAS.
+                    Copyright © {new Date().getFullYear()} Just Study.
                 </Typography>
                 <Box sx={{py: {xs: 2, sm: 0}}}>
                     <Stack spacing={2} direction="row">
                         <IconButton
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://github.com/mui"
-                            aria-label="github"
-                            title="GitHub"
+                            href="https://www.instagram.com/goshanchico/"
+                            aria-label="instagram"
+                            title="Instagram"
                             size="small"
                         >
-                            <GitHubIcon fontSize="small"/>
+                            <InstagramIcon fontSize="small"/>
                         </IconButton>
                         <IconButton
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://twitter.com/MUI_hq"
-                            aria-label="twitter"
-                            title="Twitter"
+                            href="https://t.me/goshline"
+                            aria-label="telegram"
+                            title="Telegram"
                             size="small"
                         >
-                            <TwitterIcon fontSize="small"/>
-                        </IconButton>
-                        <IconButton
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.linkedin.com/company/mui/"
-                            aria-label="linkedin"
-                            title="LinkedIn"
-                            size="small"
-                        >
-                            <LinkedInIcon fontSize="small"/>
+                            <TelegramIcon fontSize="small"/>
                         </IconButton>
                     </Stack>
                 </Box>
