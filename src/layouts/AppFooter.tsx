@@ -24,7 +24,7 @@ export default function AppFooter() {
     const t_nav = transition(navigation, locale as ILanguages);
 
     return (
-        <Container component="footer">
+        <Container maxWidth={"xl"} component="footer">
             <Box
                 sx={{
                     pt: 4,

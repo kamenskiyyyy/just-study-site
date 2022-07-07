@@ -38,7 +38,7 @@ export default function AppHeader() {
                     },
                 }}
             />
-            <Container sx={{display: 'flex', alignItems: 'center', minHeight: HEIGHT}}>
+            <Container maxWidth={"xl"} sx={{display: 'flex', alignItems: 'center', minHeight: HEIGHT}}>
                 <Box
                     component={Link}
                     href={ROUTES.home}
@@ -46,6 +46,9 @@ export default function AppHeader() {
                     sx={{lineHeight: 0, mr: 2}}
                 >
                     <SvgJustStudyLogo width={30}/>
+                </Box>
+                <Box sx={{display: {md: 'none'}}}>
+                    <HeaderNavDropdown/>
                 </Box>
                 <Box sx={{display: {xs: 'none', md: 'initial'}}}>
                     <HeaderNavBar/>
@@ -55,9 +58,6 @@ export default function AppHeader() {
                     <ThemeModeToggle
                     />
                 </Stack>
-                <Box sx={{display: {md: 'none'}, ml: 1}}>
-                    <HeaderNavDropdown/>
-                </Box>
             </Container>
         </Header>
     );
