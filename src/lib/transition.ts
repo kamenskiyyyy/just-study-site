@@ -1,4 +1,4 @@
-import {ILanguages} from "@src/modules/constants";
+import { ILanguages } from '@src/modules/constants';
 
 export type IFile = {
     [key in ILanguages]: any;
@@ -11,8 +11,8 @@ export type IFile = {
  */
 export const transition = (file: IFile, lang?: ILanguages) => {
     if (lang && file[lang]) {
-        return file[lang]
+        return file[lang];
     } else {
         return file['ru'];
     }
-}
+};

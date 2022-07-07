@@ -1,32 +1,32 @@
 import * as React from 'react';
-import Document, {Head, Html, Main, NextScript} from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
-import {withFork} from 'effector-next';
-import {Box} from '@mui/material';
+import { withFork } from 'effector-next';
+import { Box } from '@mui/material';
 
 const enhance = withFork({ debug: false });
 
 class MyDocument extends Document {
     render() {
         return (
-            <Html style={{height: '100%'}}>
+            <Html style={{ height: '100%' }}>
                 <Head>
-                    <meta name='theme-color' content={theme.palette.primary.main}/>
-                    <link rel='icon' href='/favicon.ico'/>
-                    <link rel="manifest" href="/site.webmanifest"/>
+                    <meta name="theme-color" content={theme.palette.primary.main} />
+                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="manifest" href="/site.webmanifest" />
                     <link
-                        rel='stylesheet'
-                        href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+                        rel="stylesheet"
+                        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     />
                     {(this.props as any).emotionStyleTags}
                 </Head>
-                <body style={{height: "100%"}}>
-                <Box display={"flex"} minHeight={'100%'} flexDirection={'column'}>
-                    <Main/>
-                    <NextScript/>
-                </Box>
+                <body style={{ height: '100%' }}>
+                    <Box display={'flex'} minHeight={'100%'} flexDirection={'column'}>
+                        <Main />
+                        <NextScript />
+                    </Box>
                 </body>
             </Html>
         );
@@ -63,14 +63,14 @@ MyDocument.getInitialProps = async (ctx) => {
     // You can consider sharing the same Emotion cache between all the SSR requests to speed up performance.
     // However, be aware that it can have global side effects.
     const cache = createEmotionCache();
-    const {extractCriticalToChunks} = createEmotionServer(cache);
+    const { extractCriticalToChunks } = createEmotionServer(cache);
 
     ctx.renderPage = () =>
         originalRenderPage({
             enhanceApp: (App: any) =>
                 function EnhanceApp(props) {
                     return <App emotionCache={cache} {...props} />;
-                },
+                }
         });
 
     const initialProps = await Document.getInitialProps(ctx);
@@ -82,13 +82,13 @@ MyDocument.getInitialProps = async (ctx) => {
             data-emotion={`${style.key} ${style.ids.join(' ')}`}
             key={style.key}
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{__html: style.css}}
+            dangerouslySetInnerHTML={{ __html: style.css }}
         />
     ));
 
     return {
         ...initialProps,
-        emotionStyleTags,
+        emotionStyleTags
     };
 };
 

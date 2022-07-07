@@ -1,27 +1,27 @@
 import * as React from 'react';
-import {alpha, styled} from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import Paper from '@mui/material/Paper';
-import {unstable_debounce as debounce} from '@mui/utils';
+import { unstable_debounce as debounce } from '@mui/utils';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import ROUTES from '@src/routes';
 import Link from '@shared/ui/Link';
-import {useRouter} from "next/router";
-import {navigation} from "../../../../translations/navigation";
+import { useRouter } from 'next/router';
+import { navigation } from '../../../../translations/navigation';
 import WorkIcon from '@mui/icons-material/Work';
 import FlightIcon from '@mui/icons-material/Flight';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import {transition} from "@src/lib/transition";
-import {ILanguages} from "@src/modules/constants";
+import { transition } from '@src/lib/transition';
+import { ILanguages } from '@src/modules/constants';
 
-const Navigation = styled('nav')(({theme}) => ({
+const Navigation = styled('nav')(({ theme }) => ({
     '& ul': {
         padding: 0,
         margin: 0,
         listStyle: 'none',
-        display: 'flex',
+        display: 'flex'
     },
     '& li': {
         color: theme.palette.text.primary,
@@ -35,25 +35,33 @@ const Navigation = styled('nav')(({theme}) => ({
             borderRadius: theme.shape.borderRadius,
             '&:hover, &:focus': {
                 backgroundColor:
-                    theme.palette.mode === 'dark' ? theme.palette.primaryDark[700] : theme.palette.grey[50],
+                    theme.palette.mode === 'dark'
+                        ? theme.palette.primaryDark[700]
+                        : theme.palette.grey[50],
                 color:
-                    theme.palette.mode === 'dark' ? theme.palette.primaryDark[200] : theme.palette.grey[700],
+                    theme.palette.mode === 'dark'
+                        ? theme.palette.primaryDark[200]
+                        : theme.palette.grey[700],
                 // Reset on touch devices, it doesn't add specificity
                 '@media (hover: none)': {
-                    backgroundColor: 'initial',
-                },
-            },
+                    backgroundColor: 'initial'
+                }
+            }
         },
         '& > div': {
-            cursor: 'default',
-        },
-    },
+            cursor: 'default'
+        }
+    }
 }));
 
 export const COURSES_IDS = ['general', 'aviation', 'bigness'];
-export const COURSES_PATHS = [ROUTES.directions_general, ROUTES.directions_aviation, ROUTES.directions_business];
+export const COURSES_PATHS = [
+    ROUTES.directions_general,
+    ROUTES.directions_aviation,
+    ROUTES.directions_business
+];
 // eslint-disable-next-line react/jsx-key
-const COURSES_ICONS = [<AutoAwesomeIcon/>, <FlightIcon/>, <WorkIcon/>];
+const COURSES_ICONS = [<AutoAwesomeIcon />, <FlightIcon />, <WorkIcon />];
 
 type CoursesSubMenuProps = {
     icon?: React.ReactElement;
@@ -63,7 +71,7 @@ type CoursesSubMenuProps = {
 } & Omit<JSX.IntrinsicElements['a'], 'ref'>;
 
 const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
-    function CourseSubMenu({icon, name, description, href, ...props}, ref) {
+    function CourseSubMenu({ icon, name, description, href, ...props }, ref) {
         return (
             <Box
                 component={Link}
@@ -81,13 +89,12 @@ const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
                         outline: 'none',
                         '@media (hover: none)': {
                             backgroundColor: 'initial',
-                            outline: 'initial',
-                        },
-                    },
+                            outline: 'initial'
+                        }
+                    }
                 }}
-                {...props}
-            >
-                {icon &&
+                {...props}>
+                {icon && (
                     <Box
                         sx={{
                             px: 2,
@@ -95,13 +102,12 @@ const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
                                 fill: (theme) =>
                                     theme.palette.mode === 'dark'
                                         ? theme.palette.primaryDark[700]
-                                        : theme.palette.grey[100],
-                            },
-                        }}
-                    >
+                                        : theme.palette.grey[100]
+                            }
+                        }}>
                         {icon}
                     </Box>
-                }
+                )}
                 <div>
                     <Typography color="text.primary" variant="body2" fontWeight={700}>
                         {name}
@@ -112,11 +118,11 @@ const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
                 </div>
             </Box>
         );
-    },
+    }
 );
 
 export default function HeaderNavBar() {
-    const {locale} = useRouter()
+    const { locale } = useRouter();
     const t = transition(navigation, locale as ILanguages);
 
     const [subMenuOpen, setSubMenuOpen] = React.useState<null | 'courses'>(null);
@@ -130,7 +136,7 @@ export default function HeaderNavBar() {
 
     const setSubMenuOpenDebounced = React.useMemo(
         () => debounce(setSubMenuOpen, 40),
-        [setSubMenuOpen],
+        [setSubMenuOpen]
     );
 
     const setSubMenuOpenUndebounce = React.useMemo(
@@ -138,7 +144,7 @@ export default function HeaderNavBar() {
             setSubMenuOpenDebounced.clear();
             setSubMenuOpen(value);
         },
-        [setSubMenuOpen, setSubMenuOpenDebounced],
+        [setSubMenuOpen, setSubMenuOpenDebounced]
     );
 
     React.useEffect(() => {
@@ -155,13 +161,15 @@ export default function HeaderNavBar() {
                     onMouseEnter={() => setSubMenuOpenUndebounce('courses')}
                     onFocus={() => setSubMenuOpenUndebounce('courses')}
                     onMouseLeave={() => setSubMenuOpenDebounced(null)}
-                    onBlur={() => setSubMenuOpenUndebounce(null)}
-                >
-
-                    <Link href={ROUTES.directions} tabIndex={0} role={"menuitem"} ref={coursesMenuRef}
-                          id="courses-menu" aria-haspopup
-                          aria-expanded={subMenuOpen === 'courses' ? 'true' : 'false'}
-                    >
+                    onBlur={() => setSubMenuOpenUndebounce(null)}>
+                    <Link
+                        href={ROUTES.directions}
+                        tabIndex={0}
+                        role={'menuitem'}
+                        ref={coursesMenuRef}
+                        id="courses-menu"
+                        aria-haspopup
+                        aria-expanded={subMenuOpen === 'courses' ? 'true' : 'false'}>
                         {t.directions.title}
                     </Link>
                     <Popper
@@ -171,19 +179,23 @@ export default function HeaderNavBar() {
                         placement="bottom-start"
                         style={{
                             zIndex: 1200,
-                            pointerEvents: subMenuOpen === 'courses' ? undefined : 'none',
-                        }}
-                    >
-                        {({TransitionProps}) => (
+                            pointerEvents: subMenuOpen === 'courses' ? undefined : 'none'
+                        }}>
+                        {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={350}>
                                 <Paper
                                     variant="outlined"
                                     sx={(theme) => ({
                                         minWidth: 498,
                                         overflow: 'hidden',
-                                        borderColor: theme.palette.mode === 'dark' ? 'primaryDark.700' : 'grey.200',
+                                        borderColor:
+                                            theme.palette.mode === 'dark'
+                                                ? 'primaryDark.700'
+                                                : 'grey.200',
                                         bgcolor:
-                                            theme.palette.mode === 'dark' ? 'primaryDark.900' : 'background.paper',
+                                            theme.palette.mode === 'dark'
+                                                ? 'primaryDark.900'
+                                                : 'background.paper',
                                         boxShadow: `0px 4px 20px ${
                                             theme.palette.mode === 'dark'
                                                 ? alpha(theme.palette.background.paper, 0.72)
@@ -192,17 +204,19 @@ export default function HeaderNavBar() {
                                         '& ul': {
                                             margin: 0,
                                             padding: 0,
-                                            listStyle: 'none',
+                                            listStyle: 'none'
                                         },
                                         '& li:not(:last-of-type)': {
                                             borderBottom: '1px solid',
-                                            borderColor: theme.palette.mode === 'dark' ? 'primaryDark.700' : 'grey.100',
+                                            borderColor:
+                                                theme.palette.mode === 'dark'
+                                                    ? 'primaryDark.700'
+                                                    : 'grey.100'
                                         },
-                                        '& a': {textDecoration: 'none'},
-                                    })}
-                                >
+                                        '& a': { textDecoration: 'none' }
+                                    })}>
                                     <ul role="menu">
-                                        {t.directions.children.map(({title, desc}, index) => (
+                                        {t.directions.children.map(({ title, desc }, index) => (
                                             <li role="none" key={index}>
                                                 <CoursesSubMenu
                                                     id={COURSES_IDS[index]}

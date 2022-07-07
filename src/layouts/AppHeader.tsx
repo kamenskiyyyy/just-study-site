@@ -1,4 +1,4 @@
-import {alpha, styled} from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -10,7 +10,7 @@ import ThemeModeToggle from '@shared/ui/Header/ThemeModeToggle';
 import Link from '@shared/ui/Link';
 import ROUTES from '@src/routes';
 
-const Header = styled('header')(({theme}) => ({
+const Header = styled('header')(({ theme }) => ({
     position: 'sticky',
     top: 0,
     transition: theme.transitions.create('top'),
@@ -22,41 +22,40 @@ const Header = styled('header')(({theme}) => ({
     backgroundColor:
         theme.palette.mode === 'dark'
             ? alpha(theme.palette.primaryDark[900], 0.72)
-            : 'rgba(255,255,255,0.72)',
+            : 'rgba(255,255,255,0.72)'
 }));
 
 const HEIGHT = 56;
 
 export default function AppHeader() {
-
     return (
         <Header>
             <GlobalStyles
                 styles={{
                     ':root': {
-                        '--MuiDocs-header-height': `${HEIGHT}px`,
-                    },
+                        '--MuiDocs-header-height': `${HEIGHT}px`
+                    }
                 }}
             />
-            <Container maxWidth={"xl"} sx={{display: 'flex', alignItems: 'center', minHeight: HEIGHT}}>
+            <Container
+                maxWidth={'xl'}
+                sx={{ display: 'flex', alignItems: 'center', minHeight: HEIGHT }}>
                 <Box
                     component={Link}
                     href={ROUTES.home}
                     aria-label="Go to homepage"
-                    sx={{lineHeight: 0, mr: 2}}
-                >
-                    <SvgJustStudyLogo width={30}/>
+                    sx={{ lineHeight: 0, mr: 2 }}>
+                    <SvgJustStudyLogo width={30} />
                 </Box>
-                <Box sx={{display: {md: 'none'}}}>
-                    <HeaderNavDropdown/>
+                <Box sx={{ display: { md: 'none' } }}>
+                    <HeaderNavDropdown />
                 </Box>
-                <Box sx={{display: {xs: 'none', md: 'initial'}}}>
-                    <HeaderNavBar/>
+                <Box sx={{ display: { xs: 'none', md: 'initial' } }}>
+                    <HeaderNavBar />
                 </Box>
-                <Box sx={{ml: 'auto'}}/>
+                <Box sx={{ ml: 'auto' }} />
                 <Stack direction="row" spacing={1}>
-                    <ThemeModeToggle
-                    />
+                    <ThemeModeToggle />
                 </Stack>
             </Container>
         </Header>

@@ -4,7 +4,7 @@ const ROUTES = {
     directions_general: '/directions/general',
     directions_aviation: '/directions/aviation',
     directions_business: '/directions/business',
-    blog: "/blog",
+    blog: '/blog',
     productCore: '/core/',
     productAdvanced: '/x/',
     productTemplates: '/templates/',

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import NextHead from 'next/head';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
 // #major-version-switch
@@ -13,7 +13,7 @@ export default function Head(props: any) {
         description = 'strapline',
         disableAlternateLocale = false,
         largeCard = true,
-        title = 'headTitle',
+        title = 'headTitle'
     } = props;
     // const userLanguage = useUserLanguage();
     const router = useRouter();
@@ -67,5 +67,5 @@ Head.propTypes = {
     description: PropTypes.string,
     disableAlternateLocale: PropTypes.bool,
     largeCard: PropTypes.bool,
-    title: PropTypes.string,
+    title: PropTypes.string
 };

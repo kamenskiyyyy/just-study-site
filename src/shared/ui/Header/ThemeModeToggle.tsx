@@ -3,8 +3,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DarkModeOutlined from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlined from '@mui/icons-material/LightModeOutlined';
-import {useStore} from "effector-react";
-import {$theme, setTheme} from "../../../../model/theme";
+import { useStore } from 'effector-react';
+import { $theme, setTheme } from '../../../../model/theme';
 
 export default function ThemeModeToggle() {
     const theme = useStore($theme);
@@ -14,9 +14,9 @@ export default function ThemeModeToggle() {
         if (theme === 'light') {
             setTheme('dark');
         } else {
-            setTheme('light')
+            setTheme('light');
         }
-    }
+    };
 
     return (
         <Tooltip title={checked ? 'Turn on the light' : 'Turn off the light'}>

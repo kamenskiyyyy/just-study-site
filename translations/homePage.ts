@@ -1,11 +1,11 @@
 export const homePage = {
-    'ru': {
-        title: 'Заголовок домашней страницы',
+    ru: {
+        title: 'Заголовок домашней страницы'
     },
-    'en': {
-        title: 'Header for main page',
+    en: {
+        title: 'Header for main page'
     },
-    'es': {
-        title: "Encabezado de la página principal"
+    es: {
+        title: 'Encabezado de la página principal'
     }
-}
+};

@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Head from 'next/head';
-import {AppProps} from 'next/app';
-import {CacheProvider, EmotionCache} from '@emotion/react';
+import { AppProps } from 'next/app';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../src/createEmotionCache';
-import {ApolloProvider} from "@apollo/client";
+import { ApolloProvider } from '@apollo/client';
 import client from '../apolloClient';
-import BrandingProvider from "@src/BrandingProvider";
-import {withHydrate} from "effector-next";
-import {useStore} from "effector-react";
-import {$theme} from "../model/theme";
-import AppFooter from "@src/layouts/AppFooter";
+import BrandingProvider from '@src/BrandingProvider';
+import { withHydrate } from 'effector-next';
+import { useStore } from 'effector-react';
+import { $theme } from '../model/theme';
+import AppFooter from '@src/layouts/AppFooter';
 import AppHeader from '@src/layouts/AppHeader';
 
 const clientSideEmotionCache = createEmotionCache();
@@ -20,7 +20,7 @@ interface MyAppProps extends AppProps {
 }
 
 function MyApp(props: MyAppProps) {
-    const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
+    const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
     const appTheme = useStore($theme);
 
     return (
@@ -28,16 +28,16 @@ function MyApp(props: MyAppProps) {
             <CacheProvider value={emotionCache}>
                 <Head>
                     <title>Just Study - онлайн школа английского языка</title>
-                    <meta name='viewport' content='initial-scale=1, width=device-width'/>
+                    <meta name="viewport" content="initial-scale=1, width=device-width" />
                 </Head>
                 <BrandingProvider mode={appTheme}>
-                    <AppHeader/>
+                    <AppHeader />
                     <Component {...pageProps} />
-                    <AppFooter/>
+                    <AppFooter />
                 </BrandingProvider>
             </CacheProvider>
         </ApolloProvider>
     );
 }
 
-export default enhance(MyApp)
+export default enhance(MyApp);

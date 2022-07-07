@@ -1,16 +1,16 @@
 export const LANGUAGES_LABEL = [
     {
         code: 'en',
-        text: 'English',
+        text: 'English'
     },
     {
         code: 'ru',
-        text: 'Русский',
+        text: 'Русский'
     },
     {
         code: 'es',
-        text: 'Spanish',
-    },
+        text: 'Spanish'
+    }
 ];
 
 export type ILanguages = 'en' | 'ru' | 'es';
