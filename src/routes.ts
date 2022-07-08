@@ -1,5 +1,6 @@
-const ROUTES = {
+const routes = {
     home: '/',
+    privacy: '/privacy',
     directions: '/directions',
     directions_general: '/directions/general',
     directions_aviation: '/directions/aviation',
@@ -20,4 +21,4 @@ const ROUTES = {
     advancedComponents: '/'
 };
 
-export default ROUTES;
+export default routes;

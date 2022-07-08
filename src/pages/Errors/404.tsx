@@ -7,8 +7,8 @@ import { NextPage } from 'next';
 import Image from 'next/image';
 import cat from './benjimemes_069.webp';
 import Link from '@shared/ui/Link';
-import ROUTES from '@src/routes';
-import { errorPage } from '../../../translations/errorPage';
+import routes from '@src/routes';
+import { errorPage } from '@translations/errorPage';
 
 export const Custom404: NextPage = () => {
     const { locale } = useRouter();
@@ -33,7 +33,7 @@ export const Custom404: NextPage = () => {
                         Error code: 404
                     </Typography>
 
-                    <Link href={ROUTES.home}>Go home</Link>
+                    <Link href={routes.home}>Go home</Link>
                 </Box>
                 <Image src={cat} alt={'Error image'} loading={'lazy'} />
             </Box>

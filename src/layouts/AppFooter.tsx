@@ -11,12 +11,12 @@ import { transition } from '@src/lib/transition';
 import { ILanguages, LANGUAGES_LABEL } from '@src/modules/constants';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
-import { footer } from '../../translations/footer';
-import { navigation } from '../../translations/navigation';
+import { footer } from '@translations/footer';
+import { navigation } from '@translations/navigation';
 import { COURSES_PATHS } from '@shared/ui/Header/HeaderNavBar';
-import ROUTES from '@src/routes';
+import routes from '@src/routes';
 
-export const INFO_PATH = [ROUTES.home, ROUTES.home, ROUTES.home];
+export const INFO_PATH = [routes.home, routes.home, routes.home];
 
 export default function AppFooter() {
     const { locale, asPath } = useRouter();
@@ -68,7 +68,7 @@ export default function AppFooter() {
                         <Typography fontWeight="bold" variant="body2">
                             {t_nav.directions.title}
                         </Typography>
-                        {t_nav.directions.children.map(({ title, desc }, index) => (
+                        {t_nav.directions.children.map(({ title }, index) => (
                             <Link href={COURSES_PATHS[index]} key={index}>
                                 {title}
                             </Link>

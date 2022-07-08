@@ -6,10 +6,10 @@ import Paper from '@mui/material/Paper';
 import { unstable_debounce as debounce } from '@mui/utils';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
-import ROUTES from '@src/routes';
+import routes from '@src/routes';
 import Link from '@shared/ui/Link';
 import { useRouter } from 'next/router';
-import { navigation } from '../../../../translations/navigation';
+import { navigation } from '@translations/navigation';
 import WorkIcon from '@mui/icons-material/Work';
 import FlightIcon from '@mui/icons-material/Flight';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -35,13 +35,8 @@ const Navigation = styled('nav')(({ theme }) => ({
             borderRadius: theme.shape.borderRadius,
             '&:hover, &:focus': {
                 backgroundColor:
-                    theme.palette.mode === 'dark'
-                        ? theme.palette.primaryDark[700]
-                        : theme.palette.grey[50],
-                color:
-                    theme.palette.mode === 'dark'
-                        ? theme.palette.primaryDark[200]
-                        : theme.palette.grey[700],
+                    theme.palette.mode === 'dark' ? theme.palette.primaryDark[700] : theme.palette.grey[50],
+                color: theme.palette.mode === 'dark' ? theme.palette.primaryDark[200] : theme.palette.grey[700],
                 // Reset on touch devices, it doesn't add specificity
                 '@media (hover: none)': {
                     backgroundColor: 'initial'
@@ -55,11 +50,7 @@ const Navigation = styled('nav')(({ theme }) => ({
 }));
 
 export const COURSES_IDS = ['general', 'aviation', 'bigness'];
-export const COURSES_PATHS = [
-    ROUTES.directions_general,
-    ROUTES.directions_aviation,
-    ROUTES.directions_business
-];
+export const COURSES_PATHS = [routes.directions_general, routes.directions_aviation, routes.directions_business];
 // eslint-disable-next-line react/jsx-key
 const COURSES_ICONS = [<AutoAwesomeIcon />, <FlightIcon />, <WorkIcon />];
 
@@ -70,74 +61,64 @@ type CoursesSubMenuProps = {
     href: string;
 } & Omit<JSX.IntrinsicElements['a'], 'ref'>;
 
-const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
-    function CourseSubMenu({ icon, name, description, href, ...props }, ref) {
-        return (
-            <Box
-                component={Link}
-                href={href}
-                ref={ref}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    py: 2,
-                    '&:hover, &:focus': {
-                        backgroundColor: (theme) =>
-                            theme.palette.mode === 'dark'
-                                ? alpha(theme.palette.primaryDark[700], 0.4)
-                                : theme.palette.grey[50],
-                        outline: 'none',
-                        '@media (hover: none)': {
-                            backgroundColor: 'initial',
-                            outline: 'initial'
-                        }
+const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(function CourseSubMenu(
+    { icon, name, description, href, ...props },
+    ref
+) {
+    return (
+        <Box
+            component={Link}
+            href={href}
+            ref={ref}
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 2,
+                '&:hover, &:focus': {
+                    backgroundColor: (theme) =>
+                        theme.palette.mode === 'dark'
+                            ? alpha(theme.palette.primaryDark[700], 0.4)
+                            : theme.palette.grey[50],
+                    outline: 'none',
+                    '@media (hover: none)': {
+                        backgroundColor: 'initial',
+                        outline: 'initial'
                     }
-                }}
-                {...props}>
-                {icon && (
-                    <Box
-                        sx={{
-                            px: 2,
-                            '& circle': {
-                                fill: (theme) =>
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.primaryDark[700]
-                                        : theme.palette.grey[100]
-                            }
-                        }}>
-                        {icon}
-                    </Box>
-                )}
-                <div>
-                    <Typography color="text.primary" variant="body2" fontWeight={700}>
-                        {name}
-                    </Typography>
-                    <Typography color="text.secondary" variant="body2">
-                        {description}
-                    </Typography>
-                </div>
-            </Box>
-        );
-    }
-);
+                }
+            }}
+            {...props}>
+            {icon && (
+                <Box
+                    sx={{
+                        px: 2,
+                        '& circle': {
+                            fill: (theme) =>
+                                theme.palette.mode === 'dark' ? theme.palette.primaryDark[700] : theme.palette.grey[100]
+                        }
+                    }}>
+                    {icon}
+                </Box>
+            )}
+            <div>
+                <Typography color="text.primary" variant="body2" fontWeight={700}>
+                    {name}
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                    {description}
+                </Typography>
+            </div>
+        </Box>
+    );
+});
 
 export default function HeaderNavBar() {
     const { locale } = useRouter();
     const t = transition(navigation, locale as ILanguages);
 
     const [subMenuOpen, setSubMenuOpen] = React.useState<null | 'courses'>(null);
-    const [subMenuIndex, setSubMenuIndex] = React.useState<number | null>(null);
     const coursesMenuRef = React.useRef<HTMLAnchorElement | null>(null);
-    React.useEffect(() => {
-        if (typeof subMenuIndex === 'number') {
-            document.getElementById(COURSES_IDS[subMenuIndex])?.focus();
-        }
-    }, [subMenuIndex]);
 
-    const setSubMenuOpenDebounced = React.useMemo(
-        () => debounce(setSubMenuOpen, 40),
-        [setSubMenuOpen]
-    );
+    const setSubMenuOpenDebounced = React.useMemo(() => debounce(setSubMenuOpen, 40), [setSubMenuOpen]);
 
     const setSubMenuOpenUndebounce = React.useMemo(
         () => (value: typeof subMenuOpen) => {
@@ -163,7 +144,7 @@ export default function HeaderNavBar() {
                     onMouseLeave={() => setSubMenuOpenDebounced(null)}
                     onBlur={() => setSubMenuOpenUndebounce(null)}>
                     <Link
-                        href={ROUTES.directions}
+                        href={routes.directions}
                         tabIndex={0}
                         role={'menuitem'}
                         ref={coursesMenuRef}
@@ -188,14 +169,8 @@ export default function HeaderNavBar() {
                                     sx={(theme) => ({
                                         minWidth: 498,
                                         overflow: 'hidden',
-                                        borderColor:
-                                            theme.palette.mode === 'dark'
-                                                ? 'primaryDark.700'
-                                                : 'grey.200',
-                                        bgcolor:
-                                            theme.palette.mode === 'dark'
-                                                ? 'primaryDark.900'
-                                                : 'background.paper',
+                                        borderColor: theme.palette.mode === 'dark' ? 'primaryDark.700' : 'grey.200',
+                                        bgcolor: theme.palette.mode === 'dark' ? 'primaryDark.900' : 'background.paper',
                                         boxShadow: `0px 4px 20px ${
                                             theme.palette.mode === 'dark'
                                                 ? alpha(theme.palette.background.paper, 0.72)
@@ -208,10 +183,7 @@ export default function HeaderNavBar() {
                                         },
                                         '& li:not(:last-of-type)': {
                                             borderBottom: '1px solid',
-                                            borderColor:
-                                                theme.palette.mode === 'dark'
-                                                    ? 'primaryDark.700'
-                                                    : 'grey.100'
+                                            borderColor: theme.palette.mode === 'dark' ? 'primaryDark.700' : 'grey.100'
                                         },
                                         '& a': { textDecoration: 'none' }
                                     })}>
@@ -235,7 +207,7 @@ export default function HeaderNavBar() {
                     </Popper>
                 </li>
                 <li role="none">
-                    <Link role="menuitem" href={ROUTES.blog}>
+                    <Link role="menuitem" href={routes.blog}>
                         {t.blog.title}
                     </Link>
                 </li>

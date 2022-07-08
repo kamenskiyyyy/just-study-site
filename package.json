@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "dev": "TZ='UTC' next dev",
-        "build": "next build && npm run postbuild",
+        "dev": "next dev",
+        "build": "next build && yarn run postbuild",
         "postbuild": "next-sitemap --config=next-sitemap.config.js",
         "start": "next start -p 3000",
         "lint": "next lint",
@@ -30,7 +30,10 @@
         "next-sitemap": "3.1.10",
         "nextjs-progressbar": "0.0.14",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "react-hook-form": "^7.33.1",
+        "react-hook-form-mui": "^4.1.0",
+        "sharp": "^0.30.7"
     },
     "devDependencies": {
         "@types/node": "18.0.0",

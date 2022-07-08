@@ -7,41 +7,36 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import Link from '@shared/ui/Link';
-import ROUTES from '@src/routes';
+import routes from '@src/routes';
 import SvgHamburgerMenu from 'icons/SvgHamburgerMenu';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
-import { navigation } from '../../../../translations/navigation';
+import { navigation } from '../../../translations/navigation';
 import { ILanguages } from '@src/modules/constants';
 import { COURSES_PATHS } from '@shared/ui/Header/HeaderNavBar';
 
-const Anchor = styled('a')<{ component?: React.ElementType; noLinkStyle?: boolean }>(
-    ({ theme }) => ({
-        ...theme.typography.body2,
-        fontWeight: 700,
-        textDecoration: 'none',
-        border: 'none',
-        width: '100%',
-        backgroundColor: 'transparent',
-        color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary,
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(1),
-        borderRadius: theme.spacing(1),
-        transition: theme.transitions.create('background'),
-        '&:hover, &:focus-visible': {
-            backgroundColor:
-                theme.palette.mode === 'dark'
-                    ? theme.palette.primaryDark[700]
-                    : theme.palette.grey[100],
-            // Reset on touch devices, it doesn't add specificity
-            '@media (hover: none)': {
-                backgroundColor: 'transparent'
-            }
+const Anchor = styled('a')<{ component?: React.ElementType; noLinkStyle?: boolean }>(({ theme }) => ({
+    ...theme.typography.body2,
+    fontWeight: 700,
+    textDecoration: 'none',
+    border: 'none',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.text.secondary,
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(1),
+    borderRadius: theme.spacing(1),
+    transition: theme.transitions.create('background'),
+    '&:hover, &:focus-visible': {
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primaryDark[700] : theme.palette.grey[100],
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+            backgroundColor: 'transparent'
         }
-    })
-);
+    }
+}));
 
 const UList = styled('ul')({
     listStyleType: 'none',
@@ -84,10 +79,7 @@ export default function HeaderNavDropdown() {
             </IconButton>
             <ClickAwayListener
                 onClickAway={(event) => {
-                    if (
-                        hambugerRef.current &&
-                        !hambugerRef.current.contains(event.target as Node)
-                    ) {
+                    if (hambugerRef.current && !hambugerRef.current.contains(event.target as Node)) {
                         setOpen(false);
                     }
                 }}>
@@ -100,9 +92,7 @@ export default function HeaderNavDropdown() {
                         right: 0,
                         boxShadow: (theme) =>
                             `0px 4px 20px ${
-                                theme.palette.mode === 'dark'
-                                    ? 'rgba(0, 0, 0, 0.5)'
-                                    : 'rgba(170, 180, 190, 0.3)'
+                                theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(170, 180, 190, 0.3)'
                             }`,
                         bgcolor: 'background.paper'
                     }}>
@@ -115,19 +105,14 @@ export default function HeaderNavDropdown() {
                         }}>
                         <UList>
                             <li>
-                                <Anchor
-                                    as={Link}
-                                    href={ROUTES.directions}
-                                    sx={{ justifyContent: 'space-between' }}>
+                                <Anchor as={Link} href={routes.directions} sx={{ justifyContent: 'space-between' }}>
                                     {t.directions.title}
                                     <KeyboardArrowDownRounded
                                         color="primary"
                                         onClick={() => setProductsOpen((bool) => !bool)}
                                         sx={{
                                             transition: '0.3s',
-                                            transform: productsOpen
-                                                ? 'rotate(-180deg)'
-                                                : 'rotate(0)'
+                                            transform: productsOpen ? 'rotate(-180deg)' : 'rotate(0)'
                                         }}
                                     />
                                 </Anchor>
@@ -136,9 +121,7 @@ export default function HeaderNavDropdown() {
                                         sx={{
                                             borderLeft: '1px solid',
                                             borderColor: (theme) =>
-                                                theme.palette.mode === 'dark'
-                                                    ? 'primaryDark.700'
-                                                    : 'grey.100',
+                                                theme.palette.mode === 'dark' ? 'primaryDark.700' : 'grey.100',
                                             pl: 1,
                                             pb: 1,
                                             ml: 1
@@ -154,9 +137,7 @@ export default function HeaderNavDropdown() {
                                                         alignItems: 'initial'
                                                     }}>
                                                     <div>{title}</div>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary">
+                                                    <Typography variant="body2" color="text.secondary">
                                                         {desc}
                                                     </Typography>
                                                 </Anchor>
@@ -166,7 +147,7 @@ export default function HeaderNavDropdown() {
                                 </Collapse>
                             </li>
                             <li>
-                                <Anchor href={ROUTES.blog} as={Link} noLinkStyle>
+                                <Anchor href={routes.blog} as={Link} noLinkStyle>
                                     {t.blog.title}
                                 </Anchor>
                             </li>

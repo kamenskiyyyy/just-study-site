@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withEffectorReactAliases } = require('effector-next/tools');
 
 const enhance = withEffectorReactAliases();
@@ -10,5 +11,11 @@ module.exports = enhance({
     },
     typescript: {
         ignoreBuildErrors: true
+    },
+    eslint: {
+        ignoreDuringBuilds: true
+    },
+    images: {
+        formats: ['image/avif', 'image/webp']
     }
 });

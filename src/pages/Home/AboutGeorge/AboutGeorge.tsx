@@ -5,7 +5,7 @@ import { ILanguages } from '@src/modules/constants';
 import { Box, Container, Typography } from '@mui/material';
 import georgeImage from './george.png';
 import Image from 'next/image';
-import { aboutGeorge } from '../../../../translations/aboutGeorge';
+import { aboutGeorge } from '@translations/aboutGeorge';
 import { useTheme } from '@mui/material/styles';
 
 export const AboutGeorge: FC = () => {
@@ -21,12 +21,7 @@ export const AboutGeorge: FC = () => {
                 gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
                 gap={{ xs: 2, md: 8 }}
                 alignItems={'center'}>
-                <Image
-                    placeholder={'blur'}
-                    src={georgeImage}
-                    loading={'lazy'}
-                    alt={'George photo'}
-                />
+                <Image placeholder={'blur'} src={georgeImage} loading={'lazy'} alt={'George photo'} />
                 <Box display={'flex'} flexDirection={'column'} justifyItems={'left'}>
                     <Box
                         ml={0}
@@ -44,7 +39,7 @@ export const AboutGeorge: FC = () => {
                     <Typography variant={'h2'} fontWeight={'bold'}>
                         {t.title2}
                     </Typography>
-                    <Typography mt={1} fontSize={24}>
+                    <Typography mt={1} variant={'h5'}>
                         {t.about}
                     </Typography>
                 </Box>
