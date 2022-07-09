@@ -17,5 +17,14 @@ module.exports = enhance({
     },
     images: {
         formats: ['image/avif', 'image/webp']
+    },
+    async redirects() {
+        return [
+            {
+                source: '/shop',
+                destination: '/directions',
+                permanent: true
+            }
+        ];
     }
 });

@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { ILanguages } from '@src/modules/constants';
-import { Box, Container, Typography } from '@mui/material';
-import georgeImage from './george.png';
+import { Box, Card, Container, Typography } from '@mui/material';
+import georgeImage from './george.jpeg';
 import Image from 'next/image';
 import { aboutGeorge } from '@translations/aboutGeorge';
 import { useTheme } from '@mui/material/styles';
@@ -21,8 +21,16 @@ export const AboutGeorge: FC = () => {
                 gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
                 gap={{ xs: 2, md: 8 }}
                 alignItems={'center'}>
-                <Image placeholder={'blur'} src={georgeImage} loading={'lazy'} alt={'George photo'} />
-                <Box display={'flex'} flexDirection={'column'} justifyItems={'left'}>
+                <Card sx={{ width: '100%' }}>
+                    <Image
+                        placeholder={'blur'}
+                        src={georgeImage}
+                        loading={'lazy'}
+                        alt={'George photo'}
+                        layout={'responsive'}
+                    />
+                </Card>
+                <Box my={3} display={'flex'} flexDirection={'column'} justifyItems={'left'}>
                     <Box
                         ml={0}
                         mb={3}

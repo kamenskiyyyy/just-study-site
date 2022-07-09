@@ -23,10 +23,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     });
 
     const fields: ISitemapField[] = data.pages.map(
-        (page: { language: any; slug: any; lastModification: unknown }) => {
+        (page: { language: string; slug: string; lastModification: string }) => {
             return {
                 loc: `${FRONTEND_URL}/${page.language}/${page.slug}`,
-                lastmod: format(new Date(page.lastModification as unknown as string), 'yyyy-MM-dd')
+                lastmod: format(new Date(page.lastModification), 'yyyy-MM-dd')
             };
         }
     );

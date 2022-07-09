@@ -36,15 +36,19 @@ export const Advantages: FC = () => {
                                 key={index}
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-                                    gap: { xs: 1, md: 2 }
+                                    gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' },
+                                    gap: { xs: 1, md: 0 },
+                                    alignItems: 'center'
                                 }}>
-                                <Image
-                                    src={images[index]}
-                                    placeholder={'blur'}
-                                    loading={'lazy'}
-                                    layout={'responsive'}
-                                />
+                                <Box width={'100%'} p={3}>
+                                    <Image
+                                        src={images[index]}
+                                        placeholder={'blur'}
+                                        loading={'lazy'}
+                                        alt={`advantage ${title}`}
+                                    />
+                                </Box>
+
                                 <Box
                                     pb={{ xs: 2, md: 4 }}
                                     pt={{ xs: 0, md: 4 }}

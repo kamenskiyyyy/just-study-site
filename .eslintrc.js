@@ -19,6 +19,7 @@ module.exports = {
         node: true
     },
     extends: [
+        'next',
         'eslint:recommended',
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
@@ -32,6 +33,9 @@ module.exports = {
         'react/prop-types': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         'simple-import-sort/sort': 'off',
+        'react/no-unescaped-entities': 'off',
+        '@next/next/no-page-custom-font': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
         'jsx-a11y/anchor-is-valid': [
             'error',
             {

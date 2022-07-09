@@ -11,15 +11,14 @@ const enhance = withFork({ debug: false });
 class MyDocument extends Document {
     render() {
         return (
-            <Html style={{ height: '100%' }}>
+            <Html>
                 <Head>
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="icon" href="/favicon.ico" />
                     <link rel="manifest" href="/site.webmanifest" />
-                    <link
-                        rel="stylesheet"
-                        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-                    />
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+                    <style data-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"></style>
+                    <title>Just Study</title>
                     {(this.props as any).emotionStyleTags}
                 </Head>
                 <body style={{ height: '100%' }}>
