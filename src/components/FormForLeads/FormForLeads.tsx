@@ -17,7 +17,7 @@ export const FormForLeads: FC = () => {
     return (
         <Box bgcolor={theme.palette.primary.main}>
             <Container maxWidth={'xl'}>
-                <Box p={4}>
+                <Box py={{ xs: 1, md: 4 }} px={{ xs: 0, md: 4 }}>
                     <Card
                         sx={{
                             backgroundColor:

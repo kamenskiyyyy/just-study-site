@@ -3,11 +3,7 @@ import type { NextPage } from 'next';
 import { HomePage } from '@src/pages/Home/HomePage';
 
 const Home: NextPage = () => {
-    return (
-        // <Container maxWidth="lg">
-        <HomePage />
-        // </Container>
-    );
+    return <HomePage />;
 };
 
 export default Home;
