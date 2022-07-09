@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -8,12 +9,13 @@ import client from '../apolloClient';
 import BrandingProvider from '@src/BrandingProvider';
 import { withHydrate } from 'effector-next';
 import { useStore } from 'effector-react';
-import { $theme } from '../model/theme';
+import { $theme, setTheme } from '../model/theme';
 import AppFooter from '@src/layouts/AppFooter';
 import AppHeader from '@src/layouts/AppHeader';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { homePage } from '@translations/homePage';
+import { useMediaQuery } from '@mui/material';
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
@@ -27,6 +29,15 @@ function MyApp(props: MyAppProps) {
     const appTheme = useStore($theme);
     const { locale } = useRouter();
     const t = transition(homePage, locale);
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    useEffect(() => {
+        if (prefersDarkMode) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }, [prefersDarkMode]);
 
     return (
         <ApolloProvider client={client}>

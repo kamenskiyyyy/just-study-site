@@ -45,17 +45,17 @@ declare module '@mui/material/styles/createTypography' {
 const defaultTheme = createTheme();
 
 export const blue = {
-    50: '#F0F7FF',
-    100: '#C2E0FF',
-    200: '#99CCF3',
-    300: '#66B2FF',
-    400: '#3399FF',
-    main: '#007FFF',
-    500: '#007FFF',
-    600: '#0072E5', // vs blueDark 900: WCAG 4.6 AAA (large), APCA 36 Not for reading text
-    700: '#0059B2',
-    800: '#004C99',
-    900: '#003A75'
+    50: '#d5e1ff',
+    100: '#abc1ff',
+    200: '#7e9bff',
+    300: '#4f71ff',
+    400: '#2750C5',
+    main: '#2750C5',
+    500: '#1937FF',
+    600: '#1228e6', // vs blueDark 900: WCAG 4.6 AAA (large), APCA 36 Not for reading text
+    700: '#0c1acc',
+    800: '#070fb3',
+    900: '#030799'
 };
 export const blueDark = {
     50: '#E2EDF8',
@@ -67,7 +67,7 @@ export const blueDark = {
     500: '#1E4976',
     600: '#173A5E',
     700: '#132F4C', // contrast 13.64:1
-    800: '#001E3C',
+    800: '#0A1929',
     900: '#0A1929'
 };
 const grey = {
@@ -140,17 +140,17 @@ export const getDesignTokens = (mode: 'light' | 'dark') =>
             }),
             grey,
             error: {
-                50: '#FFF0F1',
-                100: '#FFDBDE',
-                200: '#FFBDC2',
-                300: '#FF99A2',
-                400: '#FF7A86',
-                500: '#FF505F',
-                main: '#EB0014', // contrast 4.63:1
-                600: '#EB0014',
-                700: '#C70011',
-                800: '#94000D',
-                900: '#570007'
+                50: '#ffdfe5',
+                100: '#fdbdc8',
+                200: '#fa96a4',
+                300: '#f46b7c',
+                400: '#ef5060',
+                500: '#E83241',
+                main: '#cd242f', // contrast 4.63:1
+                600: '#cd242f',
+                700: '#b2181f',
+                800: '#990e12',
+                900: '#800608'
             },
             success: {
                 50: '#E9FBF0',
@@ -290,7 +290,7 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
                         marginLeft: theme.spacing(-1)
                     },
                     containedPrimary: {
-                        backgroundColor: theme.palette.primary[500],
+                        backgroundColor: theme.palette.primary.main,
                         color: '#fff',
                         borderRadius: 5
                     }
