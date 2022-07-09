@@ -28,7 +28,7 @@ export const Advantages: FC = () => {
                         mt={2}
                         sx={{
                             display: 'grid',
-                            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+                            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
                             gap: { xs: 1, md: 3 }
                         }}>
                         {t.cards.map(({ title, desc }: { title: string; desc: string }, index: number) => (

@@ -18,7 +18,6 @@ class MyDocument extends Document {
                     <link rel="manifest" href="/site.webmanifest" />
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
                     <style data-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"></style>
-                    <title>Just Study</title>
                     {(this.props as any).emotionStyleTags}
                 </Head>
                 <body style={{ height: '100%' }}>

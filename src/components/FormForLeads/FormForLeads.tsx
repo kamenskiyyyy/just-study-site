@@ -27,7 +27,7 @@ export const FormForLeads: FC = () => {
                             <Box py={3} px={{ xs: 2, md: 8 }}>
                                 <Typography variant={'h2'}>{t.title}</Typography>
                                 <List sx={{ my: 3 }}>
-                                    {t.list.map((text, index) => (
+                                    {t.list.map((text: string, index: number) => (
                                         <ListItem disablePadding sx={{ py: 1 }} key={index}>
                                             <IconImage type={formLeadsListIcons[index]} size={'m'} mr={1} />
                                             <ListItemText
