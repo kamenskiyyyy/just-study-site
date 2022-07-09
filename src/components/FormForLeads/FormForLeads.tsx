@@ -17,7 +17,7 @@ export const FormForLeads: FC = () => {
     return (
         <Box bgcolor={theme.palette.primary.main}>
             <Container maxWidth={'xl'}>
-                <Box py={{ xs: 1, md: 4 }} px={{ xs: 0, md: 4 }}>
+                <Box py={4} px={{ xs: 0, md: 4 }}>
                     <Card
                         sx={{
                             backgroundColor:
@@ -25,9 +25,7 @@ export const FormForLeads: FC = () => {
                         }}>
                         <Box display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} alignItems={'center'}>
                             <Box py={3} px={{ xs: 2, md: 8 }}>
-                                <Typography variant={'h2'} fontWeight={'bold'}>
-                                    {t.title}
-                                </Typography>
+                                <Typography variant={'h2'}>{t.title}</Typography>
                                 <List sx={{ my: 3 }}>
                                     {t.list.map((text, index) => (
                                         <ListItem disablePadding sx={{ py: 1 }} key={index}>
@@ -40,7 +38,7 @@ export const FormForLeads: FC = () => {
                                     ))}
                                 </List>
                             </Box>
-                            <Card style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+                            <Card style={{ display: 'flex', alignItems: 'center', height: '100%', borderRadius: 20 }}>
                                 <Box py={3} px={2} width={'100%'}>
                                     <Typography variant={'h6'} mb={2}>
                                         {t.contacts.title}

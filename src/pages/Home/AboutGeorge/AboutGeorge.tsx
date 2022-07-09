@@ -33,12 +33,8 @@ export const AboutGeorge: FC = () => {
                         width={94}
                         bgcolor={theme.palette.primary.main}
                     />
-                    <Typography variant={'h2'} fontWeight={'bold'}>
-                        {t.title}
-                    </Typography>
-                    <Typography variant={'h2'} fontWeight={'bold'}>
-                        {t.title2}
-                    </Typography>
+                    <Typography variant={'h2'}>{t.title}</Typography>
+                    <Typography variant={'h2'}>{t.title2}</Typography>
                     <Typography mt={1} variant={'h5'}>
                         {t.about}
                     </Typography>

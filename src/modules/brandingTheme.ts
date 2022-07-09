@@ -185,7 +185,7 @@ export const getDesignTokens = (mode: 'light' | 'dark') =>
             }
         },
         shape: {
-            borderRadius: 5
+            borderRadius: 20
         },
         spacing: 10,
         typography: {
@@ -293,7 +293,8 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
                     },
                     containedPrimary: {
                         backgroundColor: theme.palette.primary[500],
-                        color: '#fff'
+                        color: '#fff',
+                        borderRadius: 5
                     }
                 },
                 variants: [
@@ -764,6 +765,13 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
             MuiCssBaseline: {
                 defaultProps: {
                     enableColorScheme: true
+                }
+            },
+            MuiOutlinedInput: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 5
+                    }
                 }
             }
         }

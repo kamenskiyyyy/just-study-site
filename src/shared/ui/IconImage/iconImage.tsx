@@ -44,7 +44,7 @@ export const IconImage: FC<IIconImage> = ({ size = 'm', type, ...boxProps }) => 
     const src = typeOfImageIcon(type);
     return (
         <Box {...boxProps}>
-            <Image width={width} height={height} src={src} alt={`icon ${type}`} loading={'lazy'} />
+            <Image width={width} height={height} src={src} alt={`icon ${type}`} loading={'lazy'} layout={'fixed'} />
         </Box>
     );
 };
