@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Avatar, Button, Container, Dialog, DialogContent, IconButton, Stack, Typography } from '@mui/material';
@@ -11,12 +11,23 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { reviews } from '@translations/reviews';
 import { CardReview, Stepper, TruncateText } from './styles';
-import { allReviews } from '@components/Reviews/mock';
 import { settings } from '@components/Reviews/settings';
+import { stringAvatar } from '@src/lib/textAvatar';
 
-type IReview = typeof allReviews[0];
+export interface IReview {
+    id: number;
+    desc: string;
+    student: {
+        name: string;
+        avatar?: {
+            image: {
+                url: string;
+            };
+        };
+    };
+}
 
-export const Reviews = () => {
+export const Reviews: FC<{ allReviews: IReview[] }> = ({ allReviews }) => {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = allReviews.length;
@@ -39,6 +50,8 @@ export const Reviews = () => {
 
     const handleClose = () => setShowReview(null);
 
+    if (allReviews.length === 0) return null;
+
     return (
         <>
             <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['800'] : theme.palette.grey['100']}>
@@ -52,7 +65,7 @@ export const Reviews = () => {
                             {...settings}
                             afterChange={(currentSlide) => setActiveStep(currentSlide)}>
                             {allReviews.map((review: IReview, index: number) => {
-                                const { photo, name, profession, desc } = review;
+                                const { student, desc } = review;
                                 return (
                                     <Box p={1} key={index}>
                                         <CardReview
@@ -65,16 +78,24 @@ export const Reviews = () => {
                                                 gridTemplateColumns={{ md: '1fr', lg: '80px 1fr' }}
                                                 gap={2}
                                                 alignItems={'center'}>
-                                                <Avatar
-                                                    src={photo}
-                                                    alt={'photo student'}
-                                                    sx={{ width: 80, height: 80 }}
-                                                />
+                                                {student.avatar ? (
+                                                    <Avatar
+                                                        src={student.avatar.image.url}
+                                                        alt={'photo student'}
+                                                        sx={{ width: 80, height: 80 }}
+                                                    />
+                                                ) : (
+                                                    <Avatar
+                                                        {...stringAvatar(student.name)}
+                                                        alt={'photo student'}
+                                                        sx={{ width: 80, height: 80 }}
+                                                    />
+                                                )}
                                                 <Box>
                                                     <Typography variant={'h6'} fontWeight={'bold'}>
-                                                        {name}
+                                                        {student.name}
                                                     </Typography>
-                                                    <Typography>{profession}</Typography>
+                                                    {/*<Typography>{profession}</Typography>*/}
                                                 </Box>
                                             </Box>
                                             <TruncateText
@@ -120,12 +141,24 @@ export const Reviews = () => {
                         gridTemplateColumns={{ xd: '1fr', sm: '80px 1fr' }}
                         gap={2}
                         alignItems={'center'}>
-                        <Avatar src={showReview?.photo} alt={'photo student'} sx={{ width: 80, height: 80 }} />
+                        {showReview && showReview?.student.avatar ? (
+                            <Avatar
+                                src={showReview.student.avatar.image.url}
+                                alt={'photo student'}
+                                sx={{ width: 80, height: 80 }}
+                            />
+                        ) : (
+                            <Avatar
+                                {...stringAvatar(showReview?.student.name || 'Диана Знайкина')}
+                                alt={'photo student'}
+                                sx={{ width: 80, height: 80 }}
+                            />
+                        )}
                         <Box>
                             <Typography variant={'h6'} fontWeight={'bold'}>
-                                {showReview?.name}
+                                {showReview?.student.name}
                             </Typography>
-                            <Typography>{showReview?.profession}</Typography>
+                            {/*<Typography>{showReview?.profession}</Typography>*/}
                         </Box>
                         <IconButton
                             aria-label="close"

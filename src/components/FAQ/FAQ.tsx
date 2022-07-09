@@ -4,11 +4,14 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Container, Ty
 import { useTheme } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/system';
-import { mockFAQ } from '@components/FAQ/mock';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import IconButton from '@mui/material/IconButton';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Stack from '@mui/material/Stack';
+import { useRouter } from 'next/router';
+import { transition } from '@src/lib/transition';
+import { ILanguages } from '@src/modules/constants';
+import { faq } from '@translations/faq';
 
 export const StyledAccordion = styled(Accordion)`
     background: transparent;
@@ -21,10 +24,13 @@ export const StyledAccordion = styled(Accordion)`
 `;
 
 const Help = () => {
+    const { locale } = useRouter();
+    const t = transition(faq, locale as ILanguages);
+
     return (
         <>
             <Typography mb={2} variant={'h6'}>
-                Не нашли ответа на свой вопрос? Напишите нам в чат Телеграм или Instagram
+                {t.help}
             </Typography>
             <Stack spacing={2} direction="row">
                 <IconButton
@@ -50,8 +56,18 @@ const Help = () => {
     );
 };
 
-export const FAQ: FC = () => {
+export interface IFaq {
+    id: number;
+    title: string;
+    desc: string;
+}
+
+export const FAQ: FC<{ faqData: IFaq[] }> = ({ faqData }) => {
+    const { locale } = useRouter();
+    const t = transition(faq, locale as ILanguages);
     const theme = useTheme();
+
+    if (faqData.length === 0) return null;
 
     return (
         <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['800'] : theme.palette.grey['100']}>
@@ -64,7 +80,7 @@ export const FAQ: FC = () => {
                     gap={{ xs: 0, md: 4 }}>
                     <Box>
                         <Typography my={2} variant={'h2'}>
-                            Ответы на популярные вопросы
+                            {t.title}
                         </Typography>
                         <Box sx={{ display: { xs: 'none', md: 'initial' } }}>
                             <Help />
@@ -72,7 +88,7 @@ export const FAQ: FC = () => {
                     </Box>
 
                     <Box>
-                        {mockFAQ.map(({ title, desc }, index) => (
+                        {faqData.map(({ title, desc }, index) => (
                             <StyledAccordion key={index} defaultExpanded={index === 0}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon fontSize={'large'} />}
