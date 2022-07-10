@@ -13,26 +13,14 @@ import { reviews } from '@translations/reviews';
 import { CardReview, Stepper, TruncateText } from './styles';
 import { settings } from '@components/Reviews/settings';
 import { stringAvatar } from '@src/lib/textAvatar';
+import { ProductReview } from '@src/lib/apollo/types';
 
-export interface IReview {
-    id: number;
-    desc: string;
-    student: {
-        name: string;
-        avatar?: {
-            image: {
-                url: string;
-            };
-        };
-    };
-}
-
-export const Reviews: FC<{ allReviews: IReview[] }> = ({ allReviews }) => {
+export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allReviews }) => {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = allReviews.length;
     let slider = useRef<Slider>();
-    const [showReview, setShowReview] = useState<IReview | null>(null);
+    const [showReview, setShowReview] = useState<ProductReview | null>(null);
     const { locale } = useRouter();
     const t = transition(reviews, locale);
 
@@ -64,7 +52,7 @@ export const Reviews: FC<{ allReviews: IReview[] }> = ({ allReviews }) => {
                             ref={(c) => (slider = c)}
                             {...settings}
                             afterChange={(currentSlide) => setActiveStep(currentSlide)}>
-                            {allReviews.map((review: IReview, index: number) => {
+                            {allReviews.map((review, index: number) => {
                                 const { student, desc } = review;
                                 return (
                                     <Box p={1} key={index}>
@@ -78,22 +66,22 @@ export const Reviews: FC<{ allReviews: IReview[] }> = ({ allReviews }) => {
                                                 gridTemplateColumns={{ md: '1fr', lg: '80px 1fr' }}
                                                 gap={2}
                                                 alignItems={'center'}>
-                                                {student.avatar ? (
+                                                {student?.avatar ? (
                                                     <Avatar
-                                                        src={student.avatar.image.url}
+                                                        src={student?.avatar?.image?.url}
                                                         alt={'photo student'}
                                                         sx={{ width: 80, height: 80 }}
                                                     />
                                                 ) : (
                                                     <Avatar
-                                                        {...stringAvatar(student.name)}
+                                                        {...stringAvatar(student?.name as string)}
                                                         alt={'photo student'}
                                                         sx={{ width: 80, height: 80 }}
                                                     />
                                                 )}
                                                 <Box>
                                                     <Typography variant={'h6'} fontWeight={'bold'}>
-                                                        {student.name}
+                                                        {student?.name}
                                                     </Typography>
                                                     {/*<Typography>{profession}</Typography>*/}
                                                 </Box>
@@ -141,22 +129,22 @@ export const Reviews: FC<{ allReviews: IReview[] }> = ({ allReviews }) => {
                         gridTemplateColumns={{ xd: '1fr', sm: '80px 1fr' }}
                         gap={2}
                         alignItems={'center'}>
-                        {showReview && showReview?.student.avatar ? (
+                        {showReview && showReview?.student?.avatar ? (
                             <Avatar
-                                src={showReview.student.avatar.image.url}
+                                src={showReview?.student?.avatar?.image?.url}
                                 alt={'photo student'}
                                 sx={{ width: 80, height: 80 }}
                             />
                         ) : (
                             <Avatar
-                                {...stringAvatar(showReview?.student.name || 'Диана Знайкина')}
+                                {...stringAvatar(showReview?.student?.name || 'Диана Знайкина')}
                                 alt={'photo student'}
                                 sx={{ width: 80, height: 80 }}
                             />
                         )}
                         <Box>
                             <Typography variant={'h6'} fontWeight={'bold'}>
-                                {showReview?.student.name}
+                                {showReview?.student?.name}
                             </Typography>
                             {/*<Typography>{showReview?.profession}</Typography>*/}
                         </Box>

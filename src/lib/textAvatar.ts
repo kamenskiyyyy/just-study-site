@@ -1,6 +1,7 @@
 import theme from '@src/theme';
 
-export function stringAvatar(name: string) {
+export function stringAvatar(name?: string) {
+    if (!name) name = 'Example Name';
     return {
         sx: {
             bgcolor: theme.palette.primary.main

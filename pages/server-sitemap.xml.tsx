@@ -1,7 +1,7 @@
 import { getServerSideSitemap } from 'next-sitemap';
 import { GetServerSideProps } from 'next';
 import { ISitemapField } from 'next-sitemap/dist/@types/interface';
-import client from '../apolloClient';
+import client from '@src/lib/apollo/apolloClient';
 import { FRONTEND_URL } from '../config';
 import { gql } from '@apollo/client';
 import format from 'date-fns/format';

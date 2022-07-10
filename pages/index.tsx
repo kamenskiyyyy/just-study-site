@@ -6,10 +6,16 @@ import { FormForLeads } from '@components/FormForLeads/FormForLeads';
 import { Advantages } from '@components/Advantages/Advantages';
 import { Reviews } from '@components/Reviews/Reviews';
 import { FAQ } from '@components/FAQ/FAQ';
-import client from '../apolloClient';
+import client from '@src/lib/apollo/apolloClient';
 import { gql } from '@apollo/client';
+import { Faq, ProductReview } from '@src/lib/apollo/types';
 
-const Home: NextPage = (props) => {
+interface IQueryHomePage {
+    faqs: Faq[];
+    productReviews: ProductReview[];
+}
+
+const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
     return (
         <>
             <AboutGeorge />
@@ -24,7 +30,7 @@ const Home: NextPage = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const lang = ctx.locale;
-    const { data } = await client.query({
+    const { data } = await client.query<IQueryHomePage>({
         query: gql`
             query ($lang: String!) {
                 faqs(where: { statusView: { equals: "show" }, language: { equals: $lang } }) {

@@ -1,0 +1,11 @@
+overwrite: true
+schema: http://localhost:8000/api/graphql
+generates:
+  ./src/lib/apollo/schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/lib/apollo/types.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - typescript

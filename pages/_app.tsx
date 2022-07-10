@@ -5,7 +5,7 @@ import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../src/createEmotionCache';
 import { ApolloProvider } from '@apollo/client';
-import client from '../apolloClient';
+import client from '@src/lib/apollo/apolloClient';
 import BrandingProvider from '@src/BrandingProvider';
 import { withHydrate } from 'effector-next';
 import { useStore } from 'effector-react';

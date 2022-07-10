@@ -9,6 +9,7 @@ import { transition } from '@src/lib/transition';
 import { ILanguages } from '@src/modules/constants';
 import { faq } from '@translations/faq';
 import { Help } from '@components/FAQ/Help';
+import { Faq } from '@src/lib/apollo/types';
 
 export const StyledAccordion = styled(Accordion)`
     background: transparent;
@@ -20,13 +21,7 @@ export const StyledAccordion = styled(Accordion)`
     }
 `;
 
-export interface IFaq {
-    id: number;
-    title: string;
-    desc: string;
-}
-
-export const FAQ: FC<{ faqData: IFaq[] }> = ({ faqData }) => {
+export const FAQ: FC<{ faqData: Faq[] }> = ({ faqData }) => {
     const { locale } = useRouter();
     const t = transition(faq, locale as ILanguages);
     const theme = useTheme();

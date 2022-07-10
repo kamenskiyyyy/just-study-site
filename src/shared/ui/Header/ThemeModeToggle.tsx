@@ -21,11 +21,7 @@ export default function ThemeModeToggle() {
     return (
         <Tooltip title={checked ? 'Turn on the light' : 'Turn off the light'}>
             <IconButton color="primary" disableTouchRipple onClick={handleChangeTheme}>
-                {checked ? (
-                    <LightModeOutlined fontSize="small" />
-                ) : (
-                    <DarkModeOutlined fontSize="small" />
-                )}
+                {checked ? <LightModeOutlined fontSize="small" /> : <DarkModeOutlined fontSize="small" />}
             </IconButton>
         </Tooltip>
     );

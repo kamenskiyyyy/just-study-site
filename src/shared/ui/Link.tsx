@@ -15,25 +15,26 @@ interface NextLinkComposedProps
     linkAs?: NextLinkProps['as'];
 }
 
-export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(
-    function NextLinkComposed(props, ref) {
-        const { to, linkAs, replace, scroll, shallow, prefetch, locale, ...other } = props;
+export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(function NextLinkComposed(
+    props,
+    ref
+) {
+    const { to, linkAs, replace, scroll, shallow, prefetch, locale, ...other } = props;
 
-        return (
-            <NextLink
-                href={to}
-                prefetch={prefetch}
-                as={linkAs}
-                replace={replace}
-                scroll={scroll}
-                shallow={shallow}
-                passHref
-                locale={locale}>
-                <Anchor ref={ref} {...other} />
-            </NextLink>
-        );
-    }
-);
+    return (
+        <NextLink
+            href={to}
+            prefetch={prefetch}
+            as={linkAs}
+            replace={replace}
+            scroll={scroll}
+            shallow={shallow}
+            passHref
+            locale={locale}>
+            <Anchor ref={ref} {...other} />
+        </NextLink>
+    );
+});
 
 export type LinkProps = {
     activeClassName?: boolean;
@@ -68,8 +69,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
         active: router.pathname === pathname && activeClassName
     });
 
-    const isExternal =
-        typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0);
+    const isExternal = typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0);
 
     if (isExternal) {
         if (noLinkStyle) {
@@ -94,15 +94,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
         return <NextLinkComposed className={className} ref={ref} {...nextjsProps} {...other} />;
     }
 
-    return (
-        <MuiLink
-            component={NextLinkComposed}
-            className={className}
-            ref={ref}
-            {...nextjsProps}
-            {...other}
-        />
-    );
+    return <MuiLink component={NextLinkComposed} className={className} ref={ref} {...nextjsProps} {...other} />;
 });
 
 export default Link;
