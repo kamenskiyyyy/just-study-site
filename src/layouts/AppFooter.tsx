@@ -106,7 +106,7 @@ export default function AppFooter() {
                     justifyContent: { sm: 'space-between' }
                 }}>
                 <Typography color="text.secondary" variant="body2">
-                    Copyright © {new Date().getFullYear()} Just Study.
+                    © {new Date().getFullYear()} Just Study
                 </Typography>
                 <Box sx={{ py: { xs: 2, sm: 0 } }}>
                     <Stack spacing={2} direction="row">
@@ -122,7 +122,7 @@ export default function AppFooter() {
                         <IconButton
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://t.me/goshline"
+                            href="https://t.me/juststudy_help_bot"
                             aria-label="telegram"
                             title="Telegram"
                             size="small">

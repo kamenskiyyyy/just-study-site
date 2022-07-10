@@ -4,14 +4,11 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Container, Ty
 import { useTheme } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/system';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import IconButton from '@mui/material/IconButton';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { ILanguages } from '@src/modules/constants';
 import { faq } from '@translations/faq';
+import { Help } from '@components/FAQ/Help';
 
 export const StyledAccordion = styled(Accordion)`
     background: transparent;
@@ -22,39 +19,6 @@ export const StyledAccordion = styled(Accordion)`
         padding: 0;
     }
 `;
-
-const Help = () => {
-    const { locale } = useRouter();
-    const t = transition(faq, locale as ILanguages);
-
-    return (
-        <>
-            <Typography mb={2} variant={'h6'}>
-                {t.help}
-            </Typography>
-            <Stack spacing={2} direction="row">
-                <IconButton
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.instagram.com/goshanchico/"
-                    aria-label="instagram"
-                    title="Instagram"
-                    size="small">
-                    <InstagramIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://t.me/goshline"
-                    aria-label="telegram"
-                    title="Telegram"
-                    size="small">
-                    <TelegramIcon fontSize="small" />
-                </IconButton>
-            </Stack>
-        </>
-    );
-};
 
 export interface IFaq {
     id: number;
