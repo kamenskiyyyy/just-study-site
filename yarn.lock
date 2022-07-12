@@ -4731,10 +4731,10 @@ react-focus-lock@^2.7.1:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-hook-form-mui@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/react-hook-form-mui/-/react-hook-form-mui-4.1.0.tgz"
-  integrity sha512-MYGBMX3TaVMax7SpiOu+mvTS2a6VepSMQN7I660PExVrF+m6WldPwamiO2yp6YSIIiTM0M1SX5ujlJYZv6hxQA==
+react-hook-form-mui@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form-mui/-/react-hook-form-mui-5.1.0.tgz#2025a5eab14c61bfbf9e704c90a78f3cc7e0a93a"
+  integrity sha512-fRBk9l7IuMfWLsK4IHEhoN7eVJuGpzpQV4zqdOv+gcda2zxJ1zidrshcf2SVRP1tebOx4hki/wayxkLjuW1Hdw==
 
 react-hook-form@^7.33.1:
   version "7.33.1"
