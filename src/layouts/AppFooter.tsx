@@ -16,7 +16,7 @@ import { navigation } from '@translations/navigation';
 import { COURSES_PATHS } from '@shared/ui/Header/HeaderNavBar';
 import routes from '@src/routes';
 
-export const INFO_PATH = [routes.home, routes.home, routes.home];
+export const INFO_PATH = [routes.terms, routes.privacy, routes.faq];
 
 export default function AppFooter() {
     const { locale, asPath } = useRouter();
