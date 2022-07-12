@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.FRONTEND_URL,
+    siteUrl: 'https://juststudy.online',
     changefreq: 'daily',
     priority: 0.7,
     autoLastmod: true,
