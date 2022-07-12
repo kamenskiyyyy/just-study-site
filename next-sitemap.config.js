@@ -22,6 +22,6 @@ module.exports = {
         }
     ],
     robotsTxtOptions: {
-        additionalSitemaps: [process.env.FRONTEND_URL + '/server-sitemap.xml']
+        additionalSitemaps: ['https://juststudy.online' + '/server-sitemap.xml']
     }
 };
