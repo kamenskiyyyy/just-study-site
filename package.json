@@ -10,7 +10,8 @@
         "lint": "next lint",
         "eslint": "eslint --fix .",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-        "generate": "graphql-codegen"
+        "generate": "graphql-codegen",
+        "deploy-config": "scp -r ./ecosystem.config.js juststudy@51.250.90.183:/home/juststudy/just-study-site"
     },
     "dependencies": {
         "@apollo/client": "3.6.9",
