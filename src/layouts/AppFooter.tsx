@@ -95,10 +95,13 @@ export default function AppFooter() {
                     alignItems: { sm: 'center' },
                     justifyContent: { sm: 'space-between' }
                 }}>
-                <ChangeLanguage />
-                <Typography color="text.secondary" variant="body2">
-                    © {new Date().getFullYear()} Just Study
-                </Typography>
+                <Stack gap={2} direction={'row'} alignItems={'center'}>
+                    <ChangeLanguage />
+                    <Typography color="text.secondary" variant="body2">
+                        © {new Date().getFullYear()} Just Study
+                    </Typography>
+                </Stack>
+
                 <Box sx={{ py: { xs: 2, sm: 0 } }}>
                     <Stack spacing={2} direction="row">
                         <IconButton

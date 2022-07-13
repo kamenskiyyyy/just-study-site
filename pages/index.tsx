@@ -8,21 +8,25 @@ import { Reviews } from '@components/Reviews/Reviews';
 import { FAQ } from '@components/FAQ/FAQ';
 import client from '@src/lib/apollo/apolloClient';
 import { gql } from '@apollo/client';
-import { Faq, ProductReview } from '@src/lib/apollo/types';
+import { Faq, Post, ProductReview } from '@src/lib/apollo/types';
+import { LastPosts } from '@components/LastPosts/LastPosts';
 
 interface IQueryHomePage {
     faqs: Faq[];
     productReviews: ProductReview[];
+    posts: Post[];
 }
 
 const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
+    const { productReviews, posts, faqs } = props.data;
     return (
         <>
             <AboutGeorge />
             <FormForLeads />
             <Advantages />
-            <Reviews allReviews={props.data.productReviews} />
-            <FAQ faqData={props.data.faqs} />
+            <Reviews allReviews={productReviews} />
+            <LastPosts posts={posts} />
+            <FAQ faqData={faqs} />
             <FormForLeads />
         </>
     );
@@ -48,6 +52,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                                 url
                             }
                         }
+                    }
+                }
+                posts(where: { statusView: { equals: "show" }, language: { equals: $lang } }, take: 4) {
+                    id
+                    title
+                    cover {
+                        url
+                        width
+                        height
                     }
                 }
             }

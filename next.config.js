@@ -17,7 +17,7 @@ module.exports = enhance({
     },
     images: {
         formats: ['image/avif', 'image/webp'],
-        domains: ['storage.yandexcloud.net']
+        domains: ['storage.yandexcloud.net', 'sitejuststudy.storage.yandexcloud.net']
     },
     async redirects() {
         return [

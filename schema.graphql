@@ -463,6 +463,8 @@ type Mutation {
   createPages(data: [PageCreateInput!]!): [Page]
   createPayment(data: PaymentCreateInput!): Payment
   createPayments(data: [PaymentCreateInput!]!): [Payment]
+  createPost(data: PostCreateInput!): Post
+  createPosts(data: [PostCreateInput!]!): [Post]
   createProduct(data: ProductCreateInput!): Product
   createProductReview(data: ProductReviewCreateInput!): ProductReview
   createProductReviews(data: [ProductReviewCreateInput!]!): [ProductReview]
@@ -495,6 +497,8 @@ type Mutation {
   deletePages(where: [PageWhereUniqueInput!]!): [Page]
   deletePayment(where: PaymentWhereUniqueInput!): Payment
   deletePayments(where: [PaymentWhereUniqueInput!]!): [Payment]
+  deletePost(where: PostWhereUniqueInput!): Post
+  deletePosts(where: [PostWhereUniqueInput!]!): [Post]
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteProductReview(where: ProductReviewWhereUniqueInput!): ProductReview
   deleteProductReviews(where: [ProductReviewWhereUniqueInput!]!): [ProductReview]
@@ -528,6 +532,8 @@ type Mutation {
   updatePages(data: [PageUpdateArgs!]!): [Page]
   updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
   updatePayments(data: [PaymentUpdateArgs!]!): [Payment]
+  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updatePosts(data: [PostUpdateArgs!]!): [Post]
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateProductReview(data: ProductReviewUpdateInput!, where: ProductReviewWhereUniqueInput!): ProductReview
   updateProductReviews(data: [ProductReviewUpdateArgs!]!): [ProductReview]
@@ -864,6 +870,85 @@ input PaymentWhereUniqueInput {
   id: ID
 }
 
+type Post {
+  author: User
+  content: Post_content_Document
+  cover: ImageFieldOutput
+  createdAt: DateTime
+  description: String
+  id: ID!
+  language: String
+  lastModification: DateTime
+  statusView: String
+  tag(orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagCount(where: TagWhereInput! = {}): Int
+  title: String
+}
+
+input PostCreateInput {
+  author: UserRelateToOneForCreateInput
+  content: JSON
+  cover: ImageFieldInput
+  createdAt: DateTime
+  description: String
+  language: String
+  lastModification: DateTime
+  statusView: String
+  tag: TagRelateToManyForCreateInput
+  title: String
+}
+
+input PostOrderByInput {
+  createdAt: OrderDirection
+  description: OrderDirection
+  id: OrderDirection
+  language: OrderDirection
+  lastModification: OrderDirection
+  statusView: OrderDirection
+  title: OrderDirection
+}
+
+input PostUpdateArgs {
+  data: PostUpdateInput!
+  where: PostWhereUniqueInput!
+}
+
+input PostUpdateInput {
+  author: UserRelateToOneForUpdateInput
+  content: JSON
+  cover: ImageFieldInput
+  createdAt: DateTime
+  description: String
+  language: String
+  lastModification: DateTime
+  statusView: String
+  tag: TagRelateToManyForUpdateInput
+  title: String
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  author: UserWhereInput
+  createdAt: DateTimeFilter
+  description: StringFilter
+  id: IDFilter
+  language: StringFilter
+  lastModification: DateTimeFilter
+  statusView: StringFilter
+  tag: TagManyRelationFilter
+  title: StringFilter
+}
+
+input PostWhereUniqueInput {
+  id: ID
+}
+
+type Post_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
 type Product {
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
   categoriesCount(where: CategoryWhereInput! = {}): Int
@@ -1053,6 +1138,9 @@ type Query {
   payment(where: PaymentWhereUniqueInput!): Payment
   payments(orderBy: [PaymentOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PaymentWhereInput! = {}): [Payment!]
   paymentsCount(where: PaymentWhereInput! = {}): Int
+  post(where: PostWhereUniqueInput!): Post
+  posts(orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
   product(where: ProductWhereUniqueInput!): Product
   productReview(where: ProductReviewWhereUniqueInput!): ProductReview
   productReviews(orderBy: [ProductReviewOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductReviewWhereInput! = {}): [ProductReview!]
