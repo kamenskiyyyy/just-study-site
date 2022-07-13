@@ -8,12 +8,12 @@ import Typography from '@mui/material/Typography';
 import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
-import SvgHamburgerMenu from 'icons/SvgHamburgerMenu';
+import SvgHamburgerMenu from '@src/icons/SvgHamburgerMenu';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
-import { navigation } from '../../../translations/navigation';
+import { navigation } from '@translations/navigation';
 import { ILanguages } from '@src/modules/constants';
-import { COURSES_PATHS } from '@shared/ui/Header/HeaderNavBar';
+import { COURSES_PATHS } from '@components/Header/HeaderNavBar';
 
 const Anchor = styled('a')<{ component?: React.ElementType; noLinkStyle?: boolean }>(({ theme }) => ({
     ...theme.typography.body2,

@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import SvgJustStudyLogo from '@src/icons/SvgJustStudyLogo';
-import HeaderNavBar from '@shared/ui/Header/HeaderNavBar';
-import HeaderNavDropdown from '@shared/ui/Header/HeaderNavDropdown';
-import ThemeModeToggle from '@shared/ui/Header/ThemeModeToggle';
+import HeaderNavBar from '@shared/../components/Header/HeaderNavBar';
+import HeaderNavDropdown from '@shared/../components/Header/HeaderNavDropdown';
+import ThemeModeToggle from '@shared/../components/Header/ThemeModeToggle';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
 

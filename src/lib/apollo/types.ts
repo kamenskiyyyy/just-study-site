@@ -12,6 +12,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  Decimal: any;
   JSON: any;
   Upload: any;
 };
@@ -261,7 +262,7 @@ export type CreateInitialUserInput = {
   email?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
 };
 
@@ -285,6 +286,17 @@ export type DateTimeNullableFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<DateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type DecimalFilter = {
+  equals?: InputMaybe<Scalars['Decimal']>;
+  gt?: InputMaybe<Scalars['Decimal']>;
+  gte?: InputMaybe<Scalars['Decimal']>;
+  in?: InputMaybe<Array<Scalars['Decimal']>>;
+  lt?: InputMaybe<Scalars['Decimal']>;
+  lte?: InputMaybe<Scalars['Decimal']>;
+  not?: InputMaybe<DecimalFilter>;
+  notIn?: InputMaybe<Array<Scalars['Decimal']>>;
 };
 
 export type Faq = {
@@ -1375,7 +1387,6 @@ export type PageWhereInput = {
 
 export type PageWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
-  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type Page_Content_Document = {
@@ -2475,7 +2486,7 @@ export type User = {
   levelStudent?: Maybe<UserLevelStudentType>;
   name?: Maybe<Scalars['String']>;
   password?: Maybe<PasswordState>;
-  phone?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['Decimal']>;
   role?: Maybe<UserRoleType>;
   source?: Maybe<Array<SourceClient>>;
   sourceCount?: Maybe<Scalars['Int']>;
@@ -2519,7 +2530,7 @@ export type UserCreateInput = {
   levelStudent?: InputMaybe<UserLevelStudentType>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
   source?: InputMaybe<SourceClientRelateToManyForCreateInput>;
   statusClient?: InputMaybe<UserStatusClientType>;
@@ -2829,7 +2840,7 @@ export type UserUpdateInput = {
   levelStudent?: InputMaybe<UserLevelStudentType>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
   source?: InputMaybe<SourceClientRelateToManyForUpdateInput>;
   statusClient?: InputMaybe<UserStatusClientType>;
@@ -2850,7 +2861,7 @@ export type UserWhereInput = {
   levelStudent?: InputMaybe<UserLevelStudentTypeNullableFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<PasswordFilter>;
-  phone?: InputMaybe<StringFilter>;
+  phone?: InputMaybe<DecimalFilter>;
   role?: InputMaybe<UserRoleTypeNullableFilter>;
   source?: InputMaybe<SourceClientManyRelationFilter>;
   statusClient?: InputMaybe<UserStatusClientTypeNullableFilter>;

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
 import { FC } from 'react';
+import { gql } from '@apollo/client';
 
 interface ILidForm {
     name: string;
@@ -14,11 +15,20 @@ interface ILidForm {
     email: string;
 }
 
+const MUTATION_NEW_LEAD = gql`
+    mutation MUTATION_NEW_LEAD($data: UserCreateInput!) {
+        createUser(data: $data) {
+            id
+        }
+    }
+`;
+
 export const Form: FC = () => {
     const { locale } = useRouter();
     const t = transition(formLeadsList, locale);
     const formContext = useForm<ILidForm>();
     const { handleSubmit } = formContext;
+    // const [] = useMutation()
 
     const onSubmit = handleSubmit((e) => {
         console.log(e);

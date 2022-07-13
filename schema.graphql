@@ -201,7 +201,7 @@ input CreateInitialUserInput {
   email: String
   name: String
   password: String
-  phone: String
+  phone: Decimal
   role: UserRoleType
 }
 
@@ -227,6 +227,19 @@ input DateTimeNullableFilter {
   lte: DateTime
   not: DateTimeNullableFilter
   notIn: [DateTime!]
+}
+
+scalar Decimal
+
+input DecimalFilter {
+  equals: Decimal
+  gt: Decimal
+  gte: Decimal
+  in: [Decimal!]
+  lt: Decimal
+  lte: Decimal
+  not: DecimalFilter
+  notIn: [Decimal!]
 }
 
 type Faq {
@@ -737,7 +750,6 @@ input PageWhereInput {
 
 input PageWhereUniqueInput {
   id: ID
-  slug: String
 }
 
 type Page_content_Document {
@@ -1458,7 +1470,7 @@ type User {
   levelStudent: UserLevelStudentType
   name: String
   password: PasswordState
-  phone: String
+  phone: Decimal
   role: UserRoleType
   source(orderBy: [SourceClientOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SourceClientWhereInput! = {}): [SourceClient!]
   sourceCount(where: SourceClientWhereInput! = {}): Int
@@ -1487,7 +1499,7 @@ input UserCreateInput {
   levelStudent: UserLevelStudentType
   name: String
   password: String
-  phone: String
+  phone: Decimal
   role: UserRoleType
   source: SourceClientRelateToManyForCreateInput
   statusClient: UserStatusClientType
@@ -1795,7 +1807,7 @@ input UserUpdateInput {
   levelStudent: UserLevelStudentType
   name: String
   password: String
-  phone: String
+  phone: Decimal
   role: UserRoleType
   source: SourceClientRelateToManyForUpdateInput
   statusClient: UserStatusClientType
@@ -1816,7 +1828,7 @@ input UserWhereInput {
   levelStudent: UserLevelStudentTypeNullableFilter
   name: StringFilter
   password: PasswordFilter
-  phone: StringFilter
+  phone: DecimalFilter
   role: UserRoleTypeNullableFilter
   source: SourceClientManyRelationFilter
   statusClient: UserStatusClientTypeNullableFilter

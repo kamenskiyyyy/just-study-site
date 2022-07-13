@@ -14,6 +14,7 @@ import { CardReview, Stepper, TruncateText } from './styles';
 import { settings } from '@components/Reviews/settings';
 import { stringAvatar } from '@src/lib/textAvatar';
 import { ProductReview } from '@src/lib/apollo/types';
+import { formatNameStudent } from '@src/lib/formatNameStudent';
 
 export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allReviews }) => {
     const theme = useTheme();
@@ -81,7 +82,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                                                 )}
                                                 <Box>
                                                     <Typography variant={'h6'} fontWeight={'bold'}>
-                                                        {student?.name}
+                                                        {formatNameStudent(student?.name as string)}
                                                     </Typography>
                                                     {/*<Typography>{profession}</Typography>*/}
                                                 </Box>
@@ -144,7 +145,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                         )}
                         <Box>
                             <Typography variant={'h6'} fontWeight={'bold'}>
-                                {showReview?.student?.name}
+                                {formatNameStudent(showReview?.student?.name as string)}
                             </Typography>
                             {/*<Typography>{showReview?.profession}</Typography>*/}
                         </Box>
