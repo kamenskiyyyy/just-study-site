@@ -16,13 +16,11 @@ import { navigation } from '@translations/navigation';
 import { COURSES_PATHS } from '@shared/../components/Header/HeaderNavBar';
 import routes from '@src/routes';
 import { ChangeLanguage } from '@shared/ui/ChangeLanguage';
-import { useTheme } from '@mui/material/styles';
 
 export const INFO_PATH = [routes.terms, routes.privacy, routes.faq];
 
 export default function AppFooter() {
-    const { locale, asPath } = useRouter();
-    const theme = useTheme();
+    const { locale } = useRouter();
     const t = transition(footer, locale as ILanguages);
     const t_nav = transition(navigation, locale as ILanguages);
 
