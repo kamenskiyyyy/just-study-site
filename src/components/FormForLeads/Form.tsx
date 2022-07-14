@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Alert, Box, Typography } from '@mui/material';
 import { FormContainer, TextFieldElement } from 'react-hook-form-mui';
 import { useForm } from 'react-hook-form';
 import Link from '@shared/ui/Link';
@@ -7,11 +7,12 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
 import { FC } from 'react';
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface ILidForm {
     name: string;
-    phone: number;
+    phone: string;
     email: string;
 }
 
@@ -24,14 +25,18 @@ const MUTATION_NEW_LEAD = gql`
 `;
 
 export const Form: FC = () => {
-    const { locale } = useRouter();
+    const { locale, push } = useRouter();
     const t = transition(formLeadsList, locale);
     const formContext = useForm<ILidForm>();
     const { handleSubmit } = formContext;
-    // const [] = useMutation()
+    const [createLid, { loading, error }] = useMutation(MUTATION_NEW_LEAD);
 
-    const onSubmit = handleSubmit((e) => {
-        console.log(e);
+    const onSubmit = handleSubmit(async (data) => {
+        createLid({ variables: { data } }).then((res) => {
+            if (res.data) {
+                push(routes.success);
+            }
+        });
     });
 
     return (
@@ -44,13 +49,26 @@ export const Form: FC = () => {
                             label={t.contacts.nameInput}
                             required
                             autoComplete={'given-name'}
+                            disabled={loading}
                         />
-                        <TextFieldElement name={'phone'} label={t.contacts.phoneInput} required autoComplete={'tel'} />
+                        <TextFieldElement
+                            name={'phone'}
+                            label={t.contacts.phoneInput}
+                            required
+                            autoComplete={'tel'}
+                            disabled={loading}
+                        />
                     </Box>
-                    <TextFieldElement name={'email'} label={t.contacts.emailInput} autoComplete={'email'} />
-                    <Button variant="contained" type={'submit'}>
+                    <TextFieldElement
+                        name={'email'}
+                        label={t.contacts.emailInput}
+                        autoComplete={'email'}
+                        disabled={loading}
+                    />
+                    {error && <Alert severity="error">{t.error}</Alert>}
+                    <LoadingButton loading={loading} variant="contained" type={'submit'}>
                         {t.contacts.submitButton}
-                    </Button>
+                    </LoadingButton>
                     <Box>
                         <Typography variant={'body2'}>{t.contacts.infoBottom}</Typography>
                         <Link href={routes.privacy} variant={'body2'} color={'inherit'}>

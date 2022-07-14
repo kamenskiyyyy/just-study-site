@@ -8,6 +8,7 @@ const routes = {
     directions_aviation: '/directions/aviation',
     directions_business: '/directions/business',
     blog: '/blog',
+    success: '/success',
     productCore: '/core/',
     productAdvanced: '/x/',
     productTemplates: '/templates/',
