@@ -43,14 +43,7 @@ export const LastPosts: FC<{ posts: Post[] }> = ({ posts }) => {
                         <Stack gap={1} sx={{ cursor: 'pointer' }} onClick={() => push(`${routes.blog}/${id}`)}>
                             <Card sx={{ minHeight: 270, position: 'relative' }}>
                                 {cover && (
-                                    <Image
-                                        src={cover.url}
-                                        width={cover.width}
-                                        height={cover.height}
-                                        loading={'lazy'}
-                                        layout={'fill'}
-                                        objectFit={'cover'}
-                                    />
+                                    <Image src={cover.url} loading={'lazy'} layout={'fill'} objectFit={'cover'} />
                                 )}
                             </Card>
                             <Typography fontSize={20} fontWeight={'bold'} p={2}>

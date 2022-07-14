@@ -1,16 +1,19 @@
 import { FC } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Card, Container, Typography } from '@mui/material';
-import archery from './picture/Archery-bro 1.png';
-import multitasking from './picture/Multitasking-bro 2.png';
-import friends from './picture/Online friends-bro 2.png';
-import watch from './picture/Wristwatch-bro 1.png';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { advantages } from '@translations/advantages';
+import platform from './picture/platform.png';
+import table from './picture/table.png';
+import chat from './picture/chat.png';
+import student from './picture/student.png';
+import Flicking from '@egjs/react-flicking';
+import Image from 'next/image';
+import '@egjs/react-flicking/dist/flicking.css';
 
-const images = [archery, watch, friends, multitasking];
+const images = [platform, student, chat, table];
+const directions = ['column-reverse', 'column', 'column-reverse', 'column'];
 
 export const Advantages: FC = () => {
     const theme = useTheme();
@@ -18,54 +21,56 @@ export const Advantages: FC = () => {
     const t = transition(advantages, locale);
 
     return (
-        <Box bgcolor={theme.palette.primary.main}>
+        <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}>
             <Container maxWidth={'xl'}>
                 <Box py={4} px={{ xs: 0, md: 4 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
-                    <Typography variant={'h2'} color={theme.palette.grey['50']}>
-                        {t.title}
-                    </Typography>
-                    <Box
-                        mt={2}
-                        sx={{
-                            display: 'grid',
-                            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                            gap: { xs: 1, md: 3 }
-                        }}>
-                        {t.cards.map(({ title, desc }: { title: string; desc: string }, index: number) => (
-                            <Card
-                                key={index}
-                                sx={{
-                                    display: 'grid',
-                                    gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' },
-                                    gap: { xs: 1, md: 0 },
-                                    alignItems: 'center'
-                                }}>
-                                <Box width={'100%'} p={3}>
-                                    <Image
-                                        src={images[index]}
-                                        placeholder={'blur'}
-                                        loading={'lazy'}
-                                        alt={`advantage ${title}`}
-                                    />
-                                </Box>
-
-                                <Box
-                                    pb={{ xs: 2, md: 4 }}
-                                    pt={{ xs: 0, md: 4 }}
-                                    px={{ xs: 2, md: 4 }}
-                                    display={'flex'}
-                                    flexDirection={'column'}
-                                    justifyContent={'center'}>
-                                    <Typography variant={'h4'} color={theme.palette.primary.main}>
-                                        {title}
-                                    </Typography>
-                                    <Typography variant={'h6'}>{desc}</Typography>
-                                </Box>
-                            </Card>
-                        ))}
-                    </Box>
+                    <Typography variant={'h2'}>{t.title}</Typography>
                 </Box>
             </Container>
+            <Flicking
+                moveType="freeScroll"
+                align={{ camera: '15%', panel: '40px' }}
+                inputType={['touch', 'mouse', 'scroll']}
+                preventClickOnDrag>
+                {t.cards.map(({ title, desc }: { title: string; desc: string }, index: number) => (
+                    <Card
+                        key={index}
+                        sx={{
+                            m: 2,
+                            height: { xs: 430, sm: 481, lg: 634 },
+                            width: { xs: 300, sm: 355, lg: 468 },
+                            display: 'flex',
+                            flexDirection: directions[index]
+                        }}>
+                        <Box p={2} position={'relative'} width={'100%'} maxHeight={'73%'}>
+                            <Image
+                                src={images[index]}
+                                placeholder={'blur'}
+                                loading={'lazy'}
+                                alt={`${title}`}
+                                layout={'responsive'}
+                                objectFit={'contain'}
+                            />
+                        </Box>
+
+                        <Box
+                            // pb={{ xs: 2, md: 4 }}
+                            // pt={{ xs: 0, md: 4 }}
+                            px={{ xs: 2, md: 2 }}
+                            display={'flex'}
+                            flexDirection={'column'}
+                            justifyContent={'center'}>
+                            <Typography
+                                fontSize={{ md: 20, lg: 26 }}
+                                fontWeight={'bold'}
+                                color={theme.palette.primary.main}>
+                                {title}
+                            </Typography>
+                            <Typography fontSize={{ md: 18, lg: 22 }}>{desc}</Typography>
+                        </Box>
+                    </Card>
+                ))}
+            </Flicking>
         </Box>
     );
 };

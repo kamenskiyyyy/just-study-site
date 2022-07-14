@@ -10,6 +10,7 @@ import client from '@src/lib/apollo/apolloClient';
 import { gql } from '@apollo/client';
 import { Faq, Post, ProductReview } from '@src/lib/apollo/types';
 import { LastPosts } from '@components/LastPosts/LastPosts';
+import { Head } from '@src/modules/components/Head';
 
 interface IQueryHomePage {
     faqs: Faq[];
@@ -21,6 +22,7 @@ const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
     const { productReviews, posts, faqs } = props.data;
     return (
         <>
+            <Head title={'Just Study'} description={'Главная страница'} />
             <AboutGeorge />
             <FormForLeads />
             <Advantages />
