@@ -11,6 +11,11 @@ import { gql } from '@apollo/client';
 import { Faq, Post, ProductReview } from '@src/lib/apollo/types';
 import { LastPosts } from '@components/LastPosts/LastPosts';
 import { Head } from '@src/modules/components/Head';
+import { MainBanner } from '@src/pages/Home/MainBanner/MainBanner';
+import { useRouter } from 'next/router';
+import { transition } from '@src/lib/transition';
+import { homePage } from '@translations/homePage';
+import { ILanguages } from '@src/modules/constants';
 
 interface IQueryHomePage {
     faqs: Faq[];
@@ -20,9 +25,12 @@ interface IQueryHomePage {
 
 const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
     const { productReviews, posts, faqs } = props.data;
+    const { locale } = useRouter();
+    const t = transition(homePage, locale as ILanguages);
     return (
         <>
-            <Head title={'Just Study'} description={'Главная страница'} />
+            <Head title={t.title} description={t.description} />
+            <MainBanner />
             <AboutGeorge />
             <FormForLeads />
             <Advantages />

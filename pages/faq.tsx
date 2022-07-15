@@ -6,6 +6,11 @@ import client from '@src/lib/apollo/apolloClient';
 import { gql } from '@apollo/client';
 import { Faq } from '@src/lib/apollo/types';
 import { useTheme } from '@mui/material/styles';
+import { Head } from '@src/modules/components/Head';
+import { useRouter } from 'next/router';
+import { transition } from '@src/lib/transition';
+import { faq } from '@translations/faq';
+import { ILanguages } from '@src/modules/constants';
 
 interface IFaqPage {
     faqs: Faq[];
@@ -13,13 +18,18 @@ interface IFaqPage {
 
 const FaqPage: NextPage<{ data: IFaqPage }> = (props) => {
     const theme = useTheme();
+    const { locale } = useRouter();
+    const t = transition(faq, locale as ILanguages);
 
     return (
-        <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['800'] : theme.palette.grey['100']}>
-            <Container maxWidth={'xl'}>
-                <FAQ faqData={props.data.faqs} />
-            </Container>
-        </Box>
+        <>
+            <Head title={t.title} description={t.description} />
+            <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['800'] : theme.palette.grey['100']}>
+                <Container maxWidth={'xl'}>
+                    <FAQ faqData={props.data.faqs} />
+                </Container>
+            </Box>
+        </>
     );
 };
 

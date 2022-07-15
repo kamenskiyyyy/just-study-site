@@ -20,21 +20,19 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = allReviews.length;
-    const slider = useRef<Slider>();
+    const slider = useRef<Slider | null>(null);
     const [showReview, setShowReview] = useState<ProductReview | null>(null);
     const { locale } = useRouter();
     const t = transition(reviews, locale);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        // @ts-ignore
-        slider.slickNext();
+        slider.current?.slickNext();
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        // @ts-ignore
-        slider.slickPrev();
+        slider.current?.slickPrev();
     };
 
     const handleClose = () => setShowReview(null);
@@ -49,10 +47,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                         <Typography my={3} variant={'h2'}>
                             {t.title}
                         </Typography>
-                        <Slider
-                            ref={(c) => (slider = c)}
-                            {...settings}
-                            afterChange={(currentSlide) => setActiveStep(currentSlide)}>
+                        <Slider ref={slider} {...settings} afterChange={(currentSlide) => setActiveStep(currentSlide)}>
                             {allReviews.map((review, index: number) => {
                                 const { student, desc } = review;
                                 return (

@@ -15,7 +15,7 @@ export const FormForLeads: FC = () => {
     const t = transition(formLeadsList, locale);
 
     return (
-        <Box bgcolor={theme.palette.primary.main}>
+        <Box bgcolor={theme.palette.primary.main} id="form-lead">
             <Container maxWidth={'xl'}>
                 <Box py={4} px={{ xs: 0, md: 4 }}>
                     <Card

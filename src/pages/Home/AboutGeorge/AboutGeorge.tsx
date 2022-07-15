@@ -16,7 +16,8 @@ export const AboutGeorge: FC = () => {
     return (
         <Container maxWidth="xl">
             <Box
-                p={{ xs: 1, md: 4 }}
+                py={4}
+                px={{ xs: 1, md: 4 }}
                 display={'grid'}
                 gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
                 gap={{ xs: 2, md: 8 }}

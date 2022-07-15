@@ -10,6 +10,8 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { blogPage } from '@translations/blogPage';
 import { FormForLeads } from '@components/FormForLeads/FormForLeads';
+import { Head } from '@src/modules/components/Head';
+import * as React from 'react';
 
 interface IQueryBlogPage {
     posts: Post[];
@@ -24,6 +26,7 @@ const BlogPage: NextPage<{ data: IQueryBlogPage }> = ({ data }) => {
 
     return (
         <>
+            <Head title={t.title} description={t.description} />
             <Box
                 bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}
                 px={{ xs: 0.5, md: 6 }}

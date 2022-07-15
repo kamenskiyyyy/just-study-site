@@ -12,6 +12,8 @@ import { post } from '@translations/post';
 import { localeDate } from '@src/lib/localeDate';
 import { format } from 'date-fns';
 import { FormForLeads } from '@components/FormForLeads/FormForLeads';
+import { Head } from '@src/modules/components/Head';
+import * as React from 'react';
 
 const PostBlogPage: NextPage<{ data: Post }> = ({ data }) => {
     const { title, content, description, cover, author, createdAt } = data;
@@ -25,6 +27,7 @@ const PostBlogPage: NextPage<{ data: Post }> = ({ data }) => {
 
     return (
         <>
+            <Head title={title as string} description={description as string} />
             <Box
                 bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}
                 px={{ xs: 0.5, md: 6 }}
