@@ -10,7 +10,7 @@ import { FC } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-interface ILidForm {
+export interface ILidForm {
     name: string;
     phone: string;
     email: string;

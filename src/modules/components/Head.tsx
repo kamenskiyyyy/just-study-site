@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 interface IHead {
     card?: string;
     title: string;
-    description: string;
+    description?: string;
     disableAlternateLocale?: boolean;
     largeCard?: boolean;
 }
@@ -16,7 +16,7 @@ const HOST = 'https://juststudy.online';
 export const Head: FC<IHead> = (props) => {
     const {
         card = '/static/social-previews/default.png',
-        description,
+        description = 'absent',
         disableAlternateLocale = false,
         largeCard = true,
         title
