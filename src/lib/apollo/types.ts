@@ -12,6 +12,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  Decimal: any;
   JSON: any;
   Upload: any;
 };
@@ -261,7 +262,7 @@ export type CreateInitialUserInput = {
   email?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
 };
 
@@ -285,6 +286,17 @@ export type DateTimeNullableFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<DateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type DecimalFilter = {
+  equals?: InputMaybe<Scalars['Decimal']>;
+  gt?: InputMaybe<Scalars['Decimal']>;
+  gte?: InputMaybe<Scalars['Decimal']>;
+  in?: InputMaybe<Array<Scalars['Decimal']>>;
+  lt?: InputMaybe<Scalars['Decimal']>;
+  lte?: InputMaybe<Scalars['Decimal']>;
+  not?: InputMaybe<DecimalFilter>;
+  notIn?: InputMaybe<Array<Scalars['Decimal']>>;
 };
 
 export type Faq = {
@@ -537,6 +549,8 @@ export type Mutation = {
   createPages?: Maybe<Array<Maybe<Page>>>;
   createPayment?: Maybe<Payment>;
   createPayments?: Maybe<Array<Maybe<Payment>>>;
+  createPost?: Maybe<Post>;
+  createPosts?: Maybe<Array<Maybe<Post>>>;
   createProduct?: Maybe<Product>;
   createProductReview?: Maybe<ProductReview>;
   createProductReviews?: Maybe<Array<Maybe<ProductReview>>>;
@@ -569,6 +583,8 @@ export type Mutation = {
   deletePages?: Maybe<Array<Maybe<Page>>>;
   deletePayment?: Maybe<Payment>;
   deletePayments?: Maybe<Array<Maybe<Payment>>>;
+  deletePost?: Maybe<Post>;
+  deletePosts?: Maybe<Array<Maybe<Post>>>;
   deleteProduct?: Maybe<Product>;
   deleteProductReview?: Maybe<ProductReview>;
   deleteProductReviews?: Maybe<Array<Maybe<ProductReview>>>;
@@ -602,6 +618,8 @@ export type Mutation = {
   updatePages?: Maybe<Array<Maybe<Page>>>;
   updatePayment?: Maybe<Payment>;
   updatePayments?: Maybe<Array<Maybe<Payment>>>;
+  updatePost?: Maybe<Post>;
+  updatePosts?: Maybe<Array<Maybe<Post>>>;
   updateProduct?: Maybe<Product>;
   updateProductReview?: Maybe<ProductReview>;
   updateProductReviews?: Maybe<Array<Maybe<ProductReview>>>;
@@ -691,6 +709,16 @@ export type MutationCreatePaymentArgs = {
 
 export type MutationCreatePaymentsArgs = {
   data: Array<PaymentCreateInput>;
+};
+
+
+export type MutationCreatePostArgs = {
+  data: PostCreateInput;
+};
+
+
+export type MutationCreatePostsArgs = {
+  data: Array<PostCreateInput>;
 };
 
 
@@ -851,6 +879,16 @@ export type MutationDeletePaymentArgs = {
 
 export type MutationDeletePaymentsArgs = {
   where: Array<PaymentWhereUniqueInput>;
+};
+
+
+export type MutationDeletePostArgs = {
+  where: PostWhereUniqueInput;
+};
+
+
+export type MutationDeletePostsArgs = {
+  where: Array<PostWhereUniqueInput>;
 };
 
 
@@ -1018,6 +1056,17 @@ export type MutationUpdatePaymentArgs = {
 
 export type MutationUpdatePaymentsArgs = {
   data: Array<PaymentUpdateArgs>;
+};
+
+
+export type MutationUpdatePostArgs = {
+  data: PostUpdateInput;
+  where: PostWhereUniqueInput;
+};
+
+
+export type MutationUpdatePostsArgs = {
+  data: Array<PostUpdateArgs>;
 };
 
 
@@ -1375,7 +1424,6 @@ export type PageWhereInput = {
 
 export type PageWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
-  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type Page_Content_Document = {
@@ -1496,6 +1544,105 @@ export type PaymentWhereInput = {
 
 export type PaymentWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type Post = {
+  __typename?: 'Post';
+  author?: Maybe<User>;
+  content?: Maybe<Post_Content_Document>;
+  cover?: Maybe<ImageFieldOutput>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  language?: Maybe<Scalars['String']>;
+  lastModification?: Maybe<Scalars['DateTime']>;
+  statusView?: Maybe<Scalars['String']>;
+  tag?: Maybe<Array<Tag>>;
+  tagCount?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+
+export type PostTagArgs = {
+  orderBy?: Array<TagOrderByInput>;
+  skip?: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+  where?: TagWhereInput;
+};
+
+
+export type PostTagCountArgs = {
+  where?: TagWhereInput;
+};
+
+export type PostCreateInput = {
+  author?: InputMaybe<UserRelateToOneForCreateInput>;
+  content?: InputMaybe<Scalars['JSON']>;
+  cover?: InputMaybe<ImageFieldInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']>;
+  lastModification?: InputMaybe<Scalars['DateTime']>;
+  statusView?: InputMaybe<Scalars['String']>;
+  tag?: InputMaybe<TagRelateToManyForCreateInput>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type PostOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  description?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  language?: InputMaybe<OrderDirection>;
+  lastModification?: InputMaybe<OrderDirection>;
+  statusView?: InputMaybe<OrderDirection>;
+  title?: InputMaybe<OrderDirection>;
+};
+
+export type PostUpdateArgs = {
+  data: PostUpdateInput;
+  where: PostWhereUniqueInput;
+};
+
+export type PostUpdateInput = {
+  author?: InputMaybe<UserRelateToOneForUpdateInput>;
+  content?: InputMaybe<Scalars['JSON']>;
+  cover?: InputMaybe<ImageFieldInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']>;
+  lastModification?: InputMaybe<Scalars['DateTime']>;
+  statusView?: InputMaybe<Scalars['String']>;
+  tag?: InputMaybe<TagRelateToManyForUpdateInput>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type PostWhereInput = {
+  AND?: InputMaybe<Array<PostWhereInput>>;
+  NOT?: InputMaybe<Array<PostWhereInput>>;
+  OR?: InputMaybe<Array<PostWhereInput>>;
+  author?: InputMaybe<UserWhereInput>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  language?: InputMaybe<StringFilter>;
+  lastModification?: InputMaybe<DateTimeFilter>;
+  statusView?: InputMaybe<StringFilter>;
+  tag?: InputMaybe<TagManyRelationFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export type PostWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+export type Post_Content_Document = {
+  __typename?: 'Post_content_Document';
+  document: Scalars['JSON'];
+};
+
+
+export type Post_Content_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean'];
 };
 
 export type Product = {
@@ -1729,6 +1876,9 @@ export type Query = {
   payment?: Maybe<Payment>;
   payments?: Maybe<Array<Payment>>;
   paymentsCount?: Maybe<Scalars['Int']>;
+  post?: Maybe<Post>;
+  posts?: Maybe<Array<Post>>;
+  postsCount?: Maybe<Scalars['Int']>;
   product?: Maybe<Product>;
   productReview?: Maybe<ProductReview>;
   productReviews?: Maybe<Array<ProductReview>>;
@@ -1882,6 +2032,24 @@ export type QueryPaymentsArgs = {
 
 export type QueryPaymentsCountArgs = {
   where?: PaymentWhereInput;
+};
+
+
+export type QueryPostArgs = {
+  where: PostWhereUniqueInput;
+};
+
+
+export type QueryPostsArgs = {
+  orderBy?: Array<PostOrderByInput>;
+  skip?: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+  where?: PostWhereInput;
+};
+
+
+export type QueryPostsCountArgs = {
+  where?: PostWhereInput;
 };
 
 
@@ -2475,7 +2643,7 @@ export type User = {
   levelStudent?: Maybe<UserLevelStudentType>;
   name?: Maybe<Scalars['String']>;
   password?: Maybe<PasswordState>;
-  phone?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['Decimal']>;
   role?: Maybe<UserRoleType>;
   source?: Maybe<Array<SourceClient>>;
   sourceCount?: Maybe<Scalars['Int']>;
@@ -2519,7 +2687,7 @@ export type UserCreateInput = {
   levelStudent?: InputMaybe<UserLevelStudentType>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
   source?: InputMaybe<SourceClientRelateToManyForCreateInput>;
   statusClient?: InputMaybe<UserStatusClientType>;
@@ -2829,7 +2997,7 @@ export type UserUpdateInput = {
   levelStudent?: InputMaybe<UserLevelStudentType>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['Decimal']>;
   role?: InputMaybe<UserRoleType>;
   source?: InputMaybe<SourceClientRelateToManyForUpdateInput>;
   statusClient?: InputMaybe<UserStatusClientType>;
@@ -2850,7 +3018,7 @@ export type UserWhereInput = {
   levelStudent?: InputMaybe<UserLevelStudentTypeNullableFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<PasswordFilter>;
-  phone?: InputMaybe<StringFilter>;
+  phone?: InputMaybe<DecimalFilter>;
   role?: InputMaybe<UserRoleTypeNullableFilter>;
   source?: InputMaybe<SourceClientManyRelationFilter>;
   statusClient?: InputMaybe<UserStatusClientTypeNullableFilter>;

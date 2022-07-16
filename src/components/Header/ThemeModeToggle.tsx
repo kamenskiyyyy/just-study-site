@@ -4,7 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DarkModeOutlined from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlined from '@mui/icons-material/LightModeOutlined';
 import { useStore } from 'effector-react';
-import { $theme, setTheme } from '../../../../model/theme';
+import { $theme, setTheme } from '../../../model/theme';
 
 export default function ThemeModeToggle() {
     const theme = useStore($theme);

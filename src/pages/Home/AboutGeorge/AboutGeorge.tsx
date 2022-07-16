@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { ILanguages } from '@src/modules/constants';
 import { Box, Card, Container, Typography } from '@mui/material';
-import georgeImage from './george.jpeg';
+import georgeImage from './photo_2022-07-16 20.48.56.jpeg';
 import Image from 'next/image';
 import { aboutGeorge } from '@translations/aboutGeorge';
 import { useTheme } from '@mui/material/styles';
@@ -16,12 +16,13 @@ export const AboutGeorge: FC = () => {
     return (
         <Container maxWidth="xl">
             <Box
-                p={{ xs: 1, md: 4 }}
+                py={4}
+                px={{ xs: 1, md: 4 }}
                 display={'grid'}
                 gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
                 gap={{ xs: 2, md: 8 }}
                 alignItems={'center'}>
-                <Card sx={{ width: '100%' }}>
+                <Card sx={{ width: '70%', m: 'auto' }}>
                     <Image
                         placeholder={'blur'}
                         src={georgeImage}

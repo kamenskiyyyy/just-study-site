@@ -149,6 +149,7 @@ export default function HeaderNavBar() {
                         role={'menuitem'}
                         ref={coursesMenuRef}
                         id="courses-menu"
+                        fontWeight={'bold'}
                         aria-haspopup
                         aria-expanded={subMenuOpen === 'courses' ? 'true' : 'false'}>
                         {t.directions.title}

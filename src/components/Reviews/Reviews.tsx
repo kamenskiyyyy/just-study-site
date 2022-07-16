@@ -4,36 +4,35 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Avatar, Button, Container, Dialog, DialogContent, IconButton, Stack, Typography } from '@mui/material';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { reviews } from '@translations/reviews';
 import { CardReview, Stepper, TruncateText } from './styles';
-import { settings } from '@components/Reviews/settings';
 import { stringAvatar } from '@src/lib/textAvatar';
 import { ProductReview } from '@src/lib/apollo/types';
+import { formatNameStudent } from '@src/lib/formatNameStudent';
+import { settings } from './settings';
+import 'slick-carousel/slick/slick.css';
 
 export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allReviews }) => {
     const theme = useTheme();
     const [activeStep, setActiveStep] = React.useState(0);
     const maxSteps = allReviews.length;
-    let slider = useRef<Slider>();
+    const slider = useRef<Slider | null>(null);
     const [showReview, setShowReview] = useState<ProductReview | null>(null);
     const { locale } = useRouter();
     const t = transition(reviews, locale);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        // @ts-ignore
-        slider.slickNext();
+        slider.current?.slickNext();
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        // @ts-ignore
-        slider.slickPrev();
+        slider.current?.slickPrev();
     };
 
     const handleClose = () => setShowReview(null);
@@ -48,10 +47,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                         <Typography my={3} variant={'h2'}>
                             {t.title}
                         </Typography>
-                        <Slider
-                            ref={(c) => (slider = c)}
-                            {...settings}
-                            afterChange={(currentSlide) => setActiveStep(currentSlide)}>
+                        <Slider ref={slider} {...settings} afterChange={(currentSlide) => setActiveStep(currentSlide)}>
                             {allReviews.map((review, index: number) => {
                                 const { student, desc } = review;
                                 return (
@@ -81,7 +77,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                                                 )}
                                                 <Box>
                                                     <Typography variant={'h6'} fontWeight={'bold'}>
-                                                        {student?.name}
+                                                        {formatNameStudent(student?.name as string)}
                                                     </Typography>
                                                     {/*<Typography>{profession}</Typography>*/}
                                                 </Box>
@@ -144,7 +140,7 @@ export const Reviews: FC<{ allReviews: Required<ProductReview[]> }> = ({ allRevi
                         )}
                         <Box>
                             <Typography variant={'h6'} fontWeight={'bold'}>
-                                {showReview?.student?.name}
+                                {formatNameStudent(showReview?.student?.name as string)}
                             </Typography>
                             {/*<Typography>{showReview?.profession}</Typography>*/}
                         </Box>

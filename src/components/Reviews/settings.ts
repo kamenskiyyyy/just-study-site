@@ -2,7 +2,6 @@ import { Settings } from 'react-slick';
 
 export const settings: Settings = {
     dots: false,
-    infinite: true,
     arrows: false,
     swipeToSlide: true,
     speed: 500,
@@ -14,8 +13,7 @@ export const settings: Settings = {
             breakpoint: 1414,
             settings: {
                 slidesToShow: 3,
-                slidesToScroll: 1,
-                infinite: true
+                slidesToScroll: 1
             }
         },
         {

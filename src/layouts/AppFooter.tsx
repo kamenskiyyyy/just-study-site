@@ -8,18 +8,19 @@ import Link from '@shared/ui/Link';
 import SvgJustStudyLogo from '@src/icons/SvgJustStudyLogo';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
-import { ILanguages, LANGUAGES_LABEL } from '@src/modules/constants';
+import { ILanguages } from '@src/modules/constants';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { footer } from '@translations/footer';
 import { navigation } from '@translations/navigation';
-import { COURSES_PATHS } from '@shared/ui/Header/HeaderNavBar';
+import { COURSES_PATHS } from '@shared/../components/Header/HeaderNavBar';
 import routes from '@src/routes';
+import { ChangeLanguage } from '@shared/ui/ChangeLanguage';
 
-export const INFO_PATH = [routes.home, routes.home, routes.home];
+export const INFO_PATH = [routes.terms, routes.privacy, routes.faq];
 
 export default function AppFooter() {
-    const { locale, asPath } = useRouter();
+    const { locale } = useRouter();
     const t = transition(footer, locale as ILanguages);
     const t_nav = transition(navigation, locale as ILanguages);
 
@@ -60,7 +61,7 @@ export default function AppFooter() {
                 <Box
                     sx={{
                         display: 'grid',
-                        gridTemplateColumns: { xs: '1fr 1fr', md: '1fr 1fr 1fr' },
+                        gridTemplateColumns: { xs: '1fr 1fr', md: '1fr 1fr' },
                         gridAutoColumns: '1fr',
                         gap: 2
                     }}>
@@ -71,17 +72,6 @@ export default function AppFooter() {
                         {t_nav.directions.children.map(({ title }, index) => (
                             <Link href={COURSES_PATHS[index]} key={index}>
                                 {title}
-                            </Link>
-                        ))}
-                    </Box>
-
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography fontWeight="bold" variant="body2">
-                            {t.languages}
-                        </Typography>
-                        {LANGUAGES_LABEL.map(({ code, text }) => (
-                            <Link key={code} href={asPath} locale={code}>
-                                {text}
                             </Link>
                         ))}
                     </Box>
@@ -105,9 +95,13 @@ export default function AppFooter() {
                     alignItems: { sm: 'center' },
                     justifyContent: { sm: 'space-between' }
                 }}>
-                <Typography color="text.secondary" variant="body2">
-                    © {new Date().getFullYear()} Just Study
-                </Typography>
+                <Stack gap={2} direction={'row'} alignItems={'center'}>
+                    <ChangeLanguage />
+                    <Typography color="text.secondary" variant="body2">
+                        © {new Date().getFullYear()} Just Study
+                    </Typography>
+                </Stack>
+
                 <Box sx={{ py: { xs: 2, sm: 0 } }}>
                     <Stack spacing={2} direction="row">
                         <IconButton

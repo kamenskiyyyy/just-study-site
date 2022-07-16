@@ -6,7 +6,7 @@ module.exports = {
     autoLastmod: true,
     generateRobotsTxt: true,
     generateIndexSitemap: true,
-    exclude: ['/profile', '/server-sitemap.xml', '/marketing'],
+    exclude: ['/profile', '/server-sitemap.xml', '/marketing', '/success', '/checkout'],
     alternateRefs: [
         {
             href: process.env.FRONTEND_URL + '/en',

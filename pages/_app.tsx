@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -10,17 +10,21 @@ import BrandingProvider from '@src/BrandingProvider';
 import { withHydrate } from 'effector-next';
 import { useStore } from 'effector-react';
 import { $theme, setTheme } from '../model/theme';
-import AppFooter from '@src/layouts/AppFooter';
-import AppHeader from '@src/layouts/AppHeader';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { homePage } from '@translations/homePage';
 import { useMediaQuery } from '@mui/material';
+import { NextPageWithLayout } from '@shared/types/page';
+import '@src/styles.scss';
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
 
-interface MyAppProps extends AppProps {
+type AppPropsWithLayout = AppProps & {
+    Component: NextPageWithLayout;
+};
+
+interface MyAppProps extends AppPropsWithLayout {
     emotionCache?: EmotionCache;
 }
 
@@ -30,6 +34,8 @@ function MyApp(props: MyAppProps) {
     const { locale } = useRouter();
     const t = transition(homePage, locale);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const getLayout = Component.getLayout ?? ((page) => page);
+    const Layout = Component.layout ?? Fragment;
 
     useEffect(() => {
         if (prefersDarkMode) {
@@ -47,9 +53,7 @@ function MyApp(props: MyAppProps) {
                     <meta name="viewport" content="initial-scale=1, width=device-width" />
                 </Head>
                 <BrandingProvider mode={appTheme}>
-                    <AppHeader />
-                    <Component {...pageProps} />
-                    <AppFooter />
+                    <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
                 </BrandingProvider>
             </CacheProvider>
         </ApolloProvider>
