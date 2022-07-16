@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "@apollo/client": "3.6.9",
-        "@egjs/react-flicking": "^4.9.0",
+        "@egjs/react-flicking": "4.9.1",
         "@emotion/cache": "11.9.3",
         "@emotion/react": "11.9.3",
         "@emotion/server": "11.4.0",
