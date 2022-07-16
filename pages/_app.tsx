@@ -15,7 +15,7 @@ import { transition } from '@src/lib/transition';
 import { homePage } from '@translations/homePage';
 import { useMediaQuery } from '@mui/material';
 import { NextPageWithLayout } from '@shared/types/page';
-import '@src/styles.scss';
+import '@src/styles.css';
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
