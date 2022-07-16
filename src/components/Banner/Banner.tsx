@@ -7,20 +7,23 @@ interface IBanner {
     desc: ReactNode | string;
     picture: ReactNode;
     buttonText: string;
+    alignPicture?: 'left' | 'right';
 }
 
-export const Banner: FC<IBanner> = ({ title, desc, picture, buttonText }) => {
+export const Banner: FC<IBanner> = ({ title, desc, picture, buttonText, alignPicture = 'right' }) => {
     const theme = useTheme();
+
+    const gridTemplateColumns =
+        alignPicture === 'right'
+            ? { xs: '1fr', md: '1fr 40%', lg: '1fr 30%' }
+            : { xs: '1fr', md: '40% 1fr ', lg: '30% 1fr ' };
 
     return (
         <Box bgcolor={theme.palette.primary.main}>
             <Container maxWidth={'xl'}>
                 <Box py={4} px={{ xs: 0, md: 4 }}>
-                    <Box
-                        display={'grid'}
-                        gridTemplateColumns={{ xs: '1fr', md: '1fr 40%', lg: '1fr 30%' }}
-                        gap={4}
-                        alignItems={'center'}>
+                    <Box display={'grid'} gridTemplateColumns={gridTemplateColumns} gap={4} alignItems={'center'}>
+                        {alignPicture === 'left' && picture}
                         <Stack direction={'column'} gap={2} alignItems={'flex-start'}>
                             <Typography variant={'h1'} color={'white'}>
                                 {title}
@@ -30,7 +33,7 @@ export const Banner: FC<IBanner> = ({ title, desc, picture, buttonText }) => {
                                 {buttonText}
                             </Button>
                         </Stack>
-                        {picture}
+                        {alignPicture === 'right' && picture}
                     </Box>
                 </Box>
             </Container>

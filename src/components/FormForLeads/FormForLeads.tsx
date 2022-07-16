@@ -6,10 +6,16 @@ import { useRouter } from 'next/router';
 import { formLeadsList } from '@translations/formLeadsList';
 import { IconImage, TTypeIcon } from '@shared/ui/IconImage/iconImage';
 import { Form } from './Form';
+import { IDataAboutUser } from '../../../pages';
 
 const formLeadsListIcons: TTypeIcon[] = ['fire', 'giftbox', 'high-voltage', 'open-book', 'alarm-clock'];
 
-export const FormForLeads: FC = () => {
+export interface IForm {
+    data?: IDataAboutUser;
+    redirect?: boolean;
+}
+
+export const FormForLeads: FC<IForm> = ({ data, redirect = true }) => {
     const theme = useTheme();
     const { locale } = useRouter();
     const t = transition(formLeadsList, locale);
@@ -40,10 +46,7 @@ export const FormForLeads: FC = () => {
                             </Box>
                             <Card style={{ display: 'flex', alignItems: 'center', height: '100%', borderRadius: 20 }}>
                                 <Box py={3} px={2} width={'100%'}>
-                                    <Typography variant={'h6'} mb={2}>
-                                        {t.contacts.title}
-                                    </Typography>
-                                    <Form />
+                                    <Form data={data} redirect={redirect} />
                                 </Box>
                             </Card>
                         </Box>

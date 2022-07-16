@@ -24,7 +24,13 @@ interface IQueryHomePage {
     posts: Post[];
 }
 
-const Home: NextPageWithLayout<{ data: IQueryHomePage }> = (props) => {
+export interface IDataAboutUser {
+    query: any;
+    resolvedUrl: string;
+    locale: string;
+}
+
+const Home: NextPageWithLayout<{ data: IQueryHomePage; dataAboutUser: IDataAboutUser }> = (props) => {
     const { productReviews, posts, faqs } = props.data;
     const { locale } = useRouter();
     const t = transition(homePage, locale as ILanguages);
@@ -33,12 +39,12 @@ const Home: NextPageWithLayout<{ data: IQueryHomePage }> = (props) => {
             <Head title={t.title} description={t.description} />
             <MainBanner />
             <AboutGeorge />
-            <FormForLeads />
+            <FormForLeads data={props.dataAboutUser} />
             <Advantages />
             <Reviews allReviews={productReviews} />
             <LastPosts posts={posts} />
             <FAQ faqData={faqs} />
-            <FormForLeads />
+            <FormForLeads data={props.dataAboutUser} />
         </>
     );
 };
@@ -83,9 +89,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         variables: { lang }
     });
 
+    const dataAboutUser: IDataAboutUser = {
+        query: ctx.query,
+        locale: ctx.locale || '',
+        resolvedUrl: ctx.resolvedUrl
+    };
+
     return {
         props: {
-            data
+            data,
+            dataAboutUser
         }
     };
 };
