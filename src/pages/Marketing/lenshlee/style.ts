@@ -2,8 +2,8 @@ import { Box, styled } from '@mui/system';
 
 export const InstagramAvatar = styled(Box)`
     margin: auto;
-    width: 270px;
-    height: 270px;
+    width: 170px;
+    height: 170px;
     overflow: hidden;
     border: 6px solid transparent;
     border-radius: 50%;

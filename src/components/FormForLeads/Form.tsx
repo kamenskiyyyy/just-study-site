@@ -78,7 +78,7 @@ export const Form: FC<IForm> = ({ data, redirect }) => {
                             name={'name'}
                             label={t.contacts.nameInput}
                             required
-                            autoComplete={'given-name'}
+                            autoComplete={'name'}
                             disabled={loading}
                         />
                         <TextFieldElement
