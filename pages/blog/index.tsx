@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { Box, Card, Container, Stack, Typography } from '@mui/material';
 import { gql } from '@apollo/client';
 import client from '@src/lib/apollo/apolloClient';
@@ -12,13 +12,15 @@ import { blogPage } from '@translations/blogPage';
 import { FormForLeads } from '@components/FormForLeads/FormForLeads';
 import { Head } from '@src/modules/components/Head';
 import * as React from 'react';
+import { NextPageWithLayout } from '@shared/types/page';
+import { MainLayout } from '@src/layouts/MainLayout';
 
 interface IQueryBlogPage {
     posts: Post[];
     tags: Tag[];
 }
 
-const BlogPage: NextPage<{ data: IQueryBlogPage }> = ({ data }) => {
+const BlogPage: NextPageWithLayout<{ data: IQueryBlogPage }> = ({ data }) => {
     const { tags, posts } = data;
     const theme = useTheme();
     const { push, locale } = useRouter();
@@ -73,6 +75,10 @@ const BlogPage: NextPage<{ data: IQueryBlogPage }> = ({ data }) => {
             <FormForLeads />
         </>
     );
+};
+
+BlogPage.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 const QUERY_BLOG_PAGE = gql`

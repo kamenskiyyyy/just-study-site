@@ -1,14 +1,16 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { Box, Card, Container, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { gql } from '@apollo/client';
 import client from '@src/lib/apollo/apolloClient';
-import { Page } from '@src/lib/apollo/types';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
 import { Head } from '@src/modules/components/Head';
 import * as React from 'react';
+import { NextPageWithLayout } from '@shared/types/page';
+import { Page } from '@src/lib/apollo/types';
+import { MainLayout } from '@src/layouts/MainLayout';
 
-const CMSPage: NextPage<{ data: Page }> = ({ data }) => {
+const CMSPage: NextPageWithLayout<{ data: Page }> = ({ data }) => {
     const { title, content, description } = data;
     const theme = useTheme();
 
@@ -34,6 +36,10 @@ const CMSPage: NextPage<{ data: Page }> = ({ data }) => {
     );
 };
 
+CMSPage.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
+};
+
 const QUERY_PAGE = gql`
     query ($slug: String!, $lang: String!) {
         pages(where: { slug: { equals: $slug }, language: { equals: $lang } }) {
@@ -50,7 +56,7 @@ const QUERY_PAGE = gql`
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const slug = ctx.query.slug;
     const lang = ctx.locale;
-    const { data } = await client.query<{ pages: Page[] }>({
+    const { data } = await client.query<{ pages: NextPageWithLayout[] }>({
         query: QUERY_PAGE,
         variables: { slug, lang }
     });

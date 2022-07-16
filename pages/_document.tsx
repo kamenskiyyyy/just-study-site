@@ -4,7 +4,6 @@ import createEmotionServer from '@emotion/server/create-instance';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import { withFork } from 'effector-next';
-import { Box } from '@mui/material';
 
 const enhance = withFork({ debug: false });
 
@@ -20,11 +19,9 @@ class MyDocument extends Document {
                     <style data-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"></style>
                     {(this.props as any).emotionStyleTags}
                 </Head>
-                <body style={{ height: '100%' }}>
-                    <Box display={'flex'} minHeight={'100%'} flexDirection={'column'}>
-                        <Main />
-                        <NextScript />
-                    </Box>
+                <body>
+                    <Main />
+                    <NextScript />
                 </body>
             </Html>
         );

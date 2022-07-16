@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
 import client from '@src/lib/apollo/apolloClient';
 import { Post } from '@src/lib/apollo/types';
@@ -14,8 +14,10 @@ import { format } from 'date-fns';
 import { FormForLeads } from '@components/FormForLeads/FormForLeads';
 import { Head } from '@src/modules/components/Head';
 import * as React from 'react';
+import { NextPageWithLayout } from '@shared/types/page';
+import { MainLayout } from '@src/layouts/MainLayout';
 
-const PostBlogPage: NextPage<{ data: Post }> = ({ data }) => {
+const PostBlogPage: NextPageWithLayout<{ data: Post }> = ({ data }) => {
     const { title, content, description, cover, author, createdAt } = data;
     const { locale } = useRouter();
     const t = transition(post, locale);
@@ -65,6 +67,10 @@ const PostBlogPage: NextPage<{ data: Post }> = ({ data }) => {
             <FormForLeads />
         </>
     );
+};
+
+PostBlogPage.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 const QUERY_POST = gql`

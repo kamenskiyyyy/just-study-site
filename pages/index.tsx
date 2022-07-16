@@ -1,5 +1,4 @@
 import * as React from 'react';
-import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import { AboutGeorge } from '@src/pages/Home/AboutGeorge/AboutGeorge';
 import { FormForLeads } from '@components/FormForLeads/FormForLeads';
@@ -16,6 +15,8 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { homePage } from '@translations/homePage';
 import { ILanguages } from '@src/modules/constants';
+import { MainLayout } from '@src/layouts/MainLayout';
+import { NextPageWithLayout } from '@shared/types/page';
 
 interface IQueryHomePage {
     faqs: Faq[];
@@ -23,7 +24,7 @@ interface IQueryHomePage {
     posts: Post[];
 }
 
-const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
+const Home: NextPageWithLayout<{ data: IQueryHomePage }> = (props) => {
     const { productReviews, posts, faqs } = props.data;
     const { locale } = useRouter();
     const t = transition(homePage, locale as ILanguages);
@@ -40,6 +41,10 @@ const Home: NextPage<{ data: IQueryHomePage }> = (props) => {
             <FormForLeads />
         </>
     );
+};
+
+Home.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

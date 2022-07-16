@@ -1,4 +1,3 @@
-import { NextPage } from 'next';
 import { Head } from '@src/modules/components/Head';
 import { Box, Button, Card, Container, Stack, Typography } from '@mui/material';
 import * as React from 'react';
@@ -15,6 +14,8 @@ import { formLeadsList } from '@translations/formLeadsList';
 import { useForm } from 'react-hook-form';
 import routes from '@src/routes';
 import Link from '@shared/ui/Link';
+import { NextPageWithLayout } from '@shared/types/page';
+import { MainLayout } from '@src/layouts/MainLayout';
 
 interface ILidForm {
     firstName: string;
@@ -24,7 +25,7 @@ interface ILidForm {
     agree: [];
 }
 
-const Checkout: NextPage = () => {
+const Checkout: NextPageWithLayout = () => {
     const theme = useTheme();
     const { locale } = useRouter();
     const t = transition(checkoutPage, locale);
@@ -152,6 +153,10 @@ const Checkout: NextPage = () => {
             </Box>
         </>
     );
+};
+
+Checkout.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 export default Checkout;

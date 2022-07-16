@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { Box, Container } from '@mui/material';
 import { FAQ } from '@components/FAQ/FAQ';
 import * as React from 'react';
@@ -11,12 +11,14 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { faq } from '@translations/faq';
 import { ILanguages } from '@src/modules/constants';
+import { NextPageWithLayout } from '@shared/types/page';
+import { MainLayout } from '@src/layouts/MainLayout';
 
 interface IFaqPage {
     faqs: Faq[];
 }
 
-const FaqPage: NextPage<{ data: IFaqPage }> = (props) => {
+const FaqPage: NextPageWithLayout<{ data: IFaqPage }> = (props) => {
     const theme = useTheme();
     const { locale } = useRouter();
     const t = transition(faq, locale as ILanguages);
@@ -31,6 +33,10 @@ const FaqPage: NextPage<{ data: IFaqPage }> = (props) => {
             </Box>
         </>
     );
+};
+
+FaqPage.getLayout = function getLayout(page) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 const QUERY_FAQS = gql`

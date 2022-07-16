@@ -5,7 +5,6 @@ import Collapse from '@mui/material/Collapse';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
 import SvgHamburgerMenu from '@src/icons/SvgHamburgerMenu';
@@ -105,16 +104,12 @@ export default function HeaderNavDropdown() {
                         }}>
                         <UList>
                             <li>
-                                <Anchor as={Link} href={routes.directions} sx={{ justifyContent: 'space-between' }}>
+                                <Anchor
+                                    as={Link}
+                                    onClick={() => setOpen(false)}
+                                    href={routes.directions}
+                                    sx={{ justifyContent: 'space-between', fontWeight: 'bold' }}>
                                     {t.directions.title}
-                                    <KeyboardArrowDownRounded
-                                        color="primary"
-                                        onClick={() => setProductsOpen((bool) => !bool)}
-                                        sx={{
-                                            transition: '0.3s',
-                                            transform: productsOpen ? 'rotate(-180deg)' : 'rotate(0)'
-                                        }}
-                                    />
                                 </Anchor>
                                 <Collapse in={productsOpen}>
                                     <UList
@@ -131,6 +126,7 @@ export default function HeaderNavDropdown() {
                                                 <Anchor
                                                     href={COURSES_PATHS[index]}
                                                     as={Link}
+                                                    onClick={() => setOpen(false)}
                                                     noLinkStyle
                                                     sx={{
                                                         flexDirection: 'column',
@@ -147,7 +143,7 @@ export default function HeaderNavDropdown() {
                                 </Collapse>
                             </li>
                             <li>
-                                <Anchor href={routes.blog} as={Link} noLinkStyle>
+                                <Anchor href={routes.blog} as={Link} noLinkStyle onClick={() => setOpen(false)}>
                                     {t.blog.title}
                                 </Anchor>
                             </li>
