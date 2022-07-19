@@ -60,13 +60,73 @@ input AvatarUserWhereUniqueInput {
 
 type Cart {
   id: ID!
+  items(orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  itemsCount(where: CartItemWhereInput! = {}): Int
   lastModification: DateTime
   quantityPayments: Int
-  services(orderBy: [ServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ServiceWhereInput! = {}): [Service!]
-  servicesCount(where: ServiceWhereInput! = {}): Int
-  subscriptions(orderBy: [SubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SubscriptionWhereInput! = {}): [Subscription!]
-  subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
+  summa: Int
   user: User
+}
+
+type CartItem {
+  cart: Cart
+  id: ID!
+  originalPrice: Int
+  price: Int
+  service: Service
+  subscription: Subscription
+}
+
+input CartItemCreateInput {
+  cart: CartRelateToOneForCreateInput
+  price: Int
+  service: ServiceRelateToOneForCreateInput
+  subscription: SubscriptionRelateToOneForCreateInput
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  none: CartItemWhereInput
+  some: CartItemWhereInput
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  price: OrderDirection
+}
+
+input CartItemRelateToManyForUpdateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+}
+
+input CartItemUpdateArgs {
+  data: CartItemUpdateInput!
+  where: CartItemWhereUniqueInput!
+}
+
+input CartItemUpdateInput {
+  cart: CartRelateToOneForUpdateInput
+  price: Int
+  service: ServiceRelateToOneForUpdateInput
+  subscription: SubscriptionRelateToOneForUpdateInput
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  cart: CartWhereInput
+  id: IDFilter
+  price: IntNullableFilter
+  service: ServiceWhereInput
+  subscription: SubscriptionWhereInput
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
 }
 
 input CartOrderByInput {
@@ -75,16 +135,24 @@ input CartOrderByInput {
   quantityPayments: OrderDirection
 }
 
+input CartRelateToOneForCreateInput {
+  connect: CartWhereUniqueInput
+}
+
+input CartRelateToOneForUpdateInput {
+  connect: CartWhereUniqueInput
+  disconnect: Boolean
+}
+
 input CartUpdateArgs {
   data: CartUpdateInput!
   where: CartWhereUniqueInput!
 }
 
 input CartUpdateInput {
+  items: CartItemRelateToManyForUpdateInput
   lastModification: DateTime
   quantityPayments: Int
-  services: ServiceRelateToManyForUpdateInput
-  subscriptions: SubscriptionRelateToManyForUpdateInput
   user: UserRelateToOneForUpdateInput
 }
 
@@ -93,10 +161,9 @@ input CartWhereInput {
   NOT: [CartWhereInput!]
   OR: [CartWhereInput!]
   id: IDFilter
+  items: CartItemManyRelationFilter
   lastModification: DateTimeFilter
   quantityPayments: IntNullableFilter
-  services: ServiceManyRelationFilter
-  subscriptions: SubscriptionManyRelationFilter
   user: UserWhereInput
 }
 
@@ -459,6 +526,8 @@ type Mutation {
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createAvatarUser(data: AvatarUserCreateInput!): AvatarUser
   createAvatarUsers(data: [AvatarUserCreateInput!]!): [AvatarUser]
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
   createCategories(data: [CategoryCreateInput!]!): [Category]
   createCategory(data: CategoryCreateInput!): Category
   createFaq(data: FaqCreateInput!): Faq
@@ -493,6 +562,8 @@ type Mutation {
   deleteAvatarUser(where: AvatarUserWhereUniqueInput!): AvatarUser
   deleteAvatarUsers(where: [AvatarUserWhereUniqueInput!]!): [AvatarUser]
   deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
   deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
   deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
   deleteCategory(where: CategoryWhereUniqueInput!): Category
@@ -530,6 +601,8 @@ type Mutation {
   updateAvatarUser(data: AvatarUserUpdateInput!, where: AvatarUserWhereUniqueInput!): AvatarUser
   updateAvatarUsers(data: [AvatarUserUpdateArgs!]!): [AvatarUser]
   updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
+  updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
   updateCarts(data: [CartUpdateArgs!]!): [Cart]
   updateCategories(data: [CategoryUpdateArgs!]!): [Category]
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
@@ -1129,6 +1202,9 @@ type Query {
   avatarUsers(orderBy: [AvatarUserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AvatarUserWhereInput! = {}): [AvatarUser!]
   avatarUsersCount(where: AvatarUserWhereInput! = {}): Int
   cart(where: CartWhereUniqueInput!): Cart
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItems(orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
   carts(orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
   cartsCount(where: CartWhereInput! = {}): Int
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
@@ -1200,7 +1276,7 @@ type Service {
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
   categoriesCount(where: CategoryWhereInput! = {}): Int
   createdAt: DateTime
-  description: String
+  description: Service_description_Document
   id: ID!
   items(orderBy: [UserServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserServiceWhereInput! = {}): [UserService!]
   itemsCount(where: UserServiceWhereInput! = {}): Int
@@ -1214,7 +1290,7 @@ type Service {
 input ServiceCreateInput {
   categories: CategoryRelateToManyForCreateInput
   createdAt: DateTime
-  description: String
+  description: JSON
   items: UserServiceRelateToManyForCreateInput
   language: String
   lastModification: DateTime
@@ -1231,7 +1307,6 @@ input ServiceManyRelationFilter {
 
 input ServiceOrderByInput {
   createdAt: OrderDirection
-  description: OrderDirection
   id: OrderDirection
   language: OrderDirection
   lastModification: OrderDirection
@@ -1271,7 +1346,7 @@ input ServiceUpdateArgs {
 input ServiceUpdateInput {
   categories: CategoryRelateToManyForUpdateInput
   createdAt: DateTime
-  description: String
+  description: JSON
   items: UserServiceRelateToManyForUpdateInput
   language: String
   lastModification: DateTime
@@ -1286,7 +1361,6 @@ input ServiceWhereInput {
   OR: [ServiceWhereInput!]
   categories: CategoryManyRelationFilter
   createdAt: DateTimeFilter
-  description: StringFilter
   id: IDFilter
   items: UserServiceManyRelationFilter
   language: StringFilter
@@ -1298,6 +1372,10 @@ input ServiceWhereInput {
 
 input ServiceWhereUniqueInput {
   id: ID
+}
+
+type Service_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type SourceClient {
@@ -1394,6 +1472,7 @@ input StringFilter {
 
 type Subscription {
   createdAt: DateTime
+  description: Subscription_description_Document
   id: ID!
   items(orderBy: [UserSubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserSubscriptionWhereInput! = {}): [UserSubscription!]
   itemsCount(where: UserSubscriptionWhereInput! = {}): Int
@@ -1408,6 +1487,7 @@ type Subscription {
 
 input SubscriptionCreateInput {
   createdAt: DateTime
+  description: JSON
   items: UserSubscriptionRelateToManyForCreateInput
   language: String
   lastModification: DateTime
@@ -1466,6 +1546,7 @@ input SubscriptionUpdateArgs {
 
 input SubscriptionUpdateInput {
   createdAt: DateTime
+  description: JSON
   items: UserSubscriptionRelateToManyForUpdateInput
   language: String
   lastModification: DateTime
@@ -1494,6 +1575,10 @@ input SubscriptionWhereInput {
 
 input SubscriptionWhereUniqueInput {
   id: ID
+}
+
+type Subscription_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Tag {
@@ -1569,6 +1654,7 @@ scalar Upload
 
 type User {
   avatar: AvatarUser
+  cart: Cart
   comment: String
   createdAt: DateTime
   email: String
@@ -1603,6 +1689,7 @@ type UserAuthenticationWithPasswordSuccess {
 
 input UserCreateInput {
   avatar: AvatarUserRelateToOneForCreateInput
+  cart: CartRelateToOneForCreateInput
   comment: String
   createdAt: DateTime
   email: String
@@ -1918,6 +2005,7 @@ input UserUpdateArgs {
 
 input UserUpdateInput {
   avatar: AvatarUserRelateToOneForUpdateInput
+  cart: CartRelateToOneForUpdateInput
   comment: String
   createdAt: DateTime
   email: String
@@ -1942,6 +2030,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   avatar: AvatarUserWhereInput
+  cart: CartWhereInput
   comment: StringFilter
   createdAt: DateTimeFilter
   email: StringFilter

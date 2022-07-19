@@ -15,6 +15,28 @@ export const CURRENT_USER_QUERY = gql`
                         url
                     }
                 }
+                cart {
+                    id
+                    summa
+                    itemsCount
+                    quantityPayments
+                    items {
+                        subscription {
+                            name
+                            description {
+                                document(hydrateRelationships: true)
+                            }
+                        }
+                        service {
+                            name
+                            description {
+                                document(hydrateRelationships: true)
+                            }
+                        }
+                        price
+                        originalPrice
+                    }
+                }
             }
         }
     }

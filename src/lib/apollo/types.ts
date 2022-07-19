@@ -81,39 +81,87 @@ export type AvatarUserWhereUniqueInput = {
 export type Cart = {
   __typename?: 'Cart';
   id: Scalars['ID'];
+  items?: Maybe<Array<CartItem>>;
+  itemsCount?: Maybe<Scalars['Int']>;
   lastModification?: Maybe<Scalars['DateTime']>;
   quantityPayments?: Maybe<Scalars['Int']>;
-  services?: Maybe<Array<Service>>;
-  servicesCount?: Maybe<Scalars['Int']>;
-  subscriptions?: Maybe<Array<Subscription>>;
-  subscriptionsCount?: Maybe<Scalars['Int']>;
+  summa?: Maybe<Scalars['Int']>;
   user?: Maybe<User>;
 };
 
 
-export type CartServicesArgs = {
-  orderBy?: Array<ServiceOrderByInput>;
+export type CartItemsArgs = {
+  orderBy?: Array<CartItemOrderByInput>;
   skip?: Scalars['Int'];
   take?: InputMaybe<Scalars['Int']>;
-  where?: ServiceWhereInput;
+  where?: CartItemWhereInput;
 };
 
 
-export type CartServicesCountArgs = {
-  where?: ServiceWhereInput;
+export type CartItemsCountArgs = {
+  where?: CartItemWhereInput;
 };
 
-
-export type CartSubscriptionsArgs = {
-  orderBy?: Array<SubscriptionOrderByInput>;
-  skip?: Scalars['Int'];
-  take?: InputMaybe<Scalars['Int']>;
-  where?: SubscriptionWhereInput;
+export type CartItem = {
+  __typename?: 'CartItem';
+  cart?: Maybe<Cart>;
+  id: Scalars['ID'];
+  originalPrice?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Int']>;
+  service?: Maybe<Service>;
+  subscription?: Maybe<Subscription>;
 };
 
+export type CartItemCreateInput = {
+  cart?: InputMaybe<CartRelateToOneForCreateInput>;
+  price?: InputMaybe<Scalars['Int']>;
+  service?: InputMaybe<ServiceRelateToOneForCreateInput>;
+  subscription?: InputMaybe<SubscriptionRelateToOneForCreateInput>;
+};
 
-export type CartSubscriptionsCountArgs = {
-  where?: SubscriptionWhereInput;
+export type CartItemManyRelationFilter = {
+  every?: InputMaybe<CartItemWhereInput>;
+  none?: InputMaybe<CartItemWhereInput>;
+  some?: InputMaybe<CartItemWhereInput>;
+};
+
+export type CartItemOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  price?: InputMaybe<OrderDirection>;
+};
+
+export type CartItemRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartItemCreateInput>>;
+  disconnect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  set?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+};
+
+export type CartItemUpdateArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+export type CartItemUpdateInput = {
+  cart?: InputMaybe<CartRelateToOneForUpdateInput>;
+  price?: InputMaybe<Scalars['Int']>;
+  service?: InputMaybe<ServiceRelateToOneForUpdateInput>;
+  subscription?: InputMaybe<SubscriptionRelateToOneForUpdateInput>;
+};
+
+export type CartItemWhereInput = {
+  AND?: InputMaybe<Array<CartItemWhereInput>>;
+  NOT?: InputMaybe<Array<CartItemWhereInput>>;
+  OR?: InputMaybe<Array<CartItemWhereInput>>;
+  cart?: InputMaybe<CartWhereInput>;
+  id?: InputMaybe<IdFilter>;
+  price?: InputMaybe<IntNullableFilter>;
+  service?: InputMaybe<ServiceWhereInput>;
+  subscription?: InputMaybe<SubscriptionWhereInput>;
+};
+
+export type CartItemWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type CartOrderByInput = {
@@ -122,16 +170,24 @@ export type CartOrderByInput = {
   quantityPayments?: InputMaybe<OrderDirection>;
 };
 
+export type CartRelateToOneForCreateInput = {
+  connect?: InputMaybe<CartWhereUniqueInput>;
+};
+
+export type CartRelateToOneForUpdateInput = {
+  connect?: InputMaybe<CartWhereUniqueInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type CartUpdateArgs = {
   data: CartUpdateInput;
   where: CartWhereUniqueInput;
 };
 
 export type CartUpdateInput = {
+  items?: InputMaybe<CartItemRelateToManyForUpdateInput>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   quantityPayments?: InputMaybe<Scalars['Int']>;
-  services?: InputMaybe<ServiceRelateToManyForUpdateInput>;
-  subscriptions?: InputMaybe<SubscriptionRelateToManyForUpdateInput>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
@@ -140,10 +196,9 @@ export type CartWhereInput = {
   NOT?: InputMaybe<Array<CartWhereInput>>;
   OR?: InputMaybe<Array<CartWhereInput>>;
   id?: InputMaybe<IdFilter>;
+  items?: InputMaybe<CartItemManyRelationFilter>;
   lastModification?: InputMaybe<DateTimeFilter>;
   quantityPayments?: InputMaybe<IntNullableFilter>;
-  services?: InputMaybe<ServiceManyRelationFilter>;
-  subscriptions?: InputMaybe<SubscriptionManyRelationFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
 
@@ -545,6 +600,8 @@ export type Mutation = {
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
   createAvatarUser?: Maybe<AvatarUser>;
   createAvatarUsers?: Maybe<Array<Maybe<AvatarUser>>>;
+  createCartItem?: Maybe<CartItem>;
+  createCartItems?: Maybe<Array<Maybe<CartItem>>>;
   createCategories?: Maybe<Array<Maybe<Category>>>;
   createCategory?: Maybe<Category>;
   createFaq?: Maybe<Faq>;
@@ -579,6 +636,8 @@ export type Mutation = {
   deleteAvatarUser?: Maybe<AvatarUser>;
   deleteAvatarUsers?: Maybe<Array<Maybe<AvatarUser>>>;
   deleteCart?: Maybe<Cart>;
+  deleteCartItem?: Maybe<CartItem>;
+  deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
   deleteCarts?: Maybe<Array<Maybe<Cart>>>;
   deleteCategories?: Maybe<Array<Maybe<Category>>>;
   deleteCategory?: Maybe<Category>;
@@ -616,6 +675,8 @@ export type Mutation = {
   updateAvatarUser?: Maybe<AvatarUser>;
   updateAvatarUsers?: Maybe<Array<Maybe<AvatarUser>>>;
   updateCart?: Maybe<Cart>;
+  updateCartItem?: Maybe<CartItem>;
+  updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
   updateCarts?: Maybe<Array<Maybe<Cart>>>;
   updateCategories?: Maybe<Array<Maybe<Category>>>;
   updateCategory?: Maybe<Category>;
@@ -668,6 +729,16 @@ export type MutationCreateAvatarUserArgs = {
 
 export type MutationCreateAvatarUsersArgs = {
   data: Array<AvatarUserCreateInput>;
+};
+
+
+export type MutationCreateCartItemArgs = {
+  data: CartItemCreateInput;
+};
+
+
+export type MutationCreateCartItemsArgs = {
+  data: Array<CartItemCreateInput>;
 };
 
 
@@ -838,6 +909,16 @@ export type MutationDeleteAvatarUsersArgs = {
 
 export type MutationDeleteCartArgs = {
   where: CartWhereUniqueInput;
+};
+
+
+export type MutationDeleteCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type MutationDeleteCartItemsArgs = {
+  where: Array<CartItemWhereUniqueInput>;
 };
 
 
@@ -1021,6 +1102,17 @@ export type MutationUpdateAvatarUsersArgs = {
 export type MutationUpdateCartArgs = {
   data: CartUpdateInput;
   where: CartWhereUniqueInput;
+};
+
+
+export type MutationUpdateCartItemArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type MutationUpdateCartItemsArgs = {
+  data: Array<CartItemUpdateArgs>;
 };
 
 
@@ -1883,6 +1975,9 @@ export type Query = {
   avatarUsers?: Maybe<Array<AvatarUser>>;
   avatarUsersCount?: Maybe<Scalars['Int']>;
   cart?: Maybe<Cart>;
+  cartItem?: Maybe<CartItem>;
+  cartItems?: Maybe<Array<CartItem>>;
+  cartItemsCount?: Maybe<Scalars['Int']>;
   carts?: Maybe<Array<Cart>>;
   cartsCount?: Maybe<Scalars['Int']>;
   categories?: Maybe<Array<Category>>;
@@ -1954,6 +2049,24 @@ export type QueryAvatarUsersCountArgs = {
 
 export type QueryCartArgs = {
   where: CartWhereUniqueInput;
+};
+
+
+export type QueryCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type QueryCartItemsArgs = {
+  orderBy?: Array<CartItemOrderByInput>;
+  skip?: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+  where?: CartItemWhereInput;
+};
+
+
+export type QueryCartItemsCountArgs = {
+  where?: CartItemWhereInput;
 };
 
 
@@ -2263,7 +2376,7 @@ export type Service = {
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Service_Description_Document>;
   id: Scalars['ID'];
   items?: Maybe<Array<UserService>>;
   itemsCount?: Maybe<Scalars['Int']>;
@@ -2303,7 +2416,7 @@ export type ServiceItemsCountArgs = {
 export type ServiceCreateInput = {
   categories?: InputMaybe<CategoryRelateToManyForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['JSON']>;
   items?: InputMaybe<UserServiceRelateToManyForCreateInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
@@ -2320,7 +2433,6 @@ export type ServiceManyRelationFilter = {
 
 export type ServiceOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
-  description?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   language?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
@@ -2360,7 +2472,7 @@ export type ServiceUpdateArgs = {
 export type ServiceUpdateInput = {
   categories?: InputMaybe<CategoryRelateToManyForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['JSON']>;
   items?: InputMaybe<UserServiceRelateToManyForUpdateInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
@@ -2375,7 +2487,6 @@ export type ServiceWhereInput = {
   OR?: InputMaybe<Array<ServiceWhereInput>>;
   categories?: InputMaybe<CategoryManyRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<UserServiceManyRelationFilter>;
   language?: InputMaybe<StringFilter>;
@@ -2387,6 +2498,16 @@ export type ServiceWhereInput = {
 
 export type ServiceWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type Service_Description_Document = {
+  __typename?: 'Service_description_Document';
+  document: Scalars['JSON'];
+};
+
+
+export type Service_Description_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean'];
 };
 
 export type SourceClient = {
@@ -2485,6 +2606,7 @@ export type StringFilter = {
 export type Subscription = {
   __typename?: 'Subscription';
   createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Subscription_Description_Document>;
   id: Scalars['ID'];
   items?: Maybe<Array<UserSubscription>>;
   itemsCount?: Maybe<Scalars['Int']>;
@@ -2512,6 +2634,7 @@ export type SubscriptionItemsCountArgs = {
 
 export type SubscriptionCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['JSON']>;
   items?: InputMaybe<UserSubscriptionRelateToManyForCreateInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
@@ -2570,6 +2693,7 @@ export type SubscriptionUpdateArgs = {
 
 export type SubscriptionUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['JSON']>;
   items?: InputMaybe<UserSubscriptionRelateToManyForUpdateInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
@@ -2598,6 +2722,16 @@ export type SubscriptionWhereInput = {
 
 export type SubscriptionWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type Subscription_Description_Document = {
+  __typename?: 'Subscription_description_Document';
+  document: Scalars['JSON'];
+};
+
+
+export type Subscription_Description_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean'];
 };
 
 export type Tag = {
@@ -2672,6 +2806,7 @@ export type TagWhereUniqueInput = {
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<AvatarUser>;
+  cart?: Maybe<Cart>;
   comment?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email?: Maybe<Scalars['String']>;
@@ -2721,6 +2856,7 @@ export type UserAuthenticationWithPasswordSuccess = {
 
 export type UserCreateInput = {
   avatar?: InputMaybe<AvatarUserRelateToOneForCreateInput>;
+  cart?: InputMaybe<CartRelateToOneForCreateInput>;
   comment?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3038,6 +3174,7 @@ export type UserUpdateArgs = {
 
 export type UserUpdateInput = {
   avatar?: InputMaybe<AvatarUserRelateToOneForUpdateInput>;
+  cart?: InputMaybe<CartRelateToOneForUpdateInput>;
   comment?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3062,6 +3199,7 @@ export type UserWhereInput = {
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   avatar?: InputMaybe<AvatarUserWhereInput>;
+  cart?: InputMaybe<CartWhereInput>;
   comment?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
