@@ -34,6 +34,7 @@ const Home: NextPageWithLayout<{ data: IQueryHomePage; dataAboutUser: IDataAbout
     const { productReviews, posts, faqs } = props.data;
     const { locale } = useRouter();
     const t = transition(homePage, locale as ILanguages);
+
     return (
         <>
             <Head title={t.title} description={t.description} />
