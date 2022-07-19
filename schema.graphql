@@ -448,7 +448,14 @@ type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!
 }
 
+enum MagicLinkRedemptionErrorCode {
+  FAILURE
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
 type Mutation {
+  authWithEmail(email: String!): String
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createAvatarUser(data: AvatarUserCreateInput!): AvatarUser
   createAvatarUsers(data: [AvatarUserCreateInput!]!): [AvatarUser]
@@ -518,6 +525,8 @@ type Mutation {
   deleteUserSubscriptions(where: [UserSubscriptionWhereUniqueInput!]!): [UserSubscription]
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
   endSession: Boolean!
+  redeemUserMagicAuthToken(email: String!, token: String!): RedeemUserMagicAuthTokenResult!
+  sendUserMagicAuthLink(email: String!): Boolean!
   updateAvatarUser(data: AvatarUserUpdateInput!, where: AvatarUserWhereUniqueInput!): AvatarUser
   updateAvatarUsers(data: [AvatarUserUpdateArgs!]!): [AvatarUser]
   updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
@@ -1175,6 +1184,18 @@ enum QueryMode {
   insensitive
 }
 
+type RedeemUserMagicAuthTokenFailure {
+  code: MagicLinkRedemptionErrorCode!
+  message: String!
+}
+
+union RedeemUserMagicAuthTokenResult = RedeemUserMagicAuthTokenFailure | RedeemUserMagicAuthTokenSuccess
+
+type RedeemUserMagicAuthTokenSuccess {
+  item: User!
+  token: String!
+}
+
 type Service {
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
   categoriesCount(where: CategoryWhereInput! = {}): Int
@@ -1556,6 +1577,10 @@ type User {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: PasswordState
+  magicLinkToken: String
   name: String
   password: PasswordState
   phone: Decimal
@@ -1585,6 +1610,10 @@ input UserCreateInput {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: String
+  magicLinkToken: String
   name: String
   password: String
   phone: Decimal
@@ -1617,6 +1646,9 @@ input UserOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   levelStudent: OrderDirection
+  magicAuthIssuedAt: OrderDirection
+  magicAuthRedeemedAt: OrderDirection
+  magicLinkToken: OrderDirection
   name: OrderDirection
   phone: OrderDirection
   role: OrderDirection
@@ -1893,6 +1925,10 @@ input UserUpdateInput {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: String
+  magicLinkToken: String
   name: String
   password: String
   phone: Decimal
@@ -1914,6 +1950,10 @@ input UserWhereInput {
   language: StringFilter
   lastModification: DateTimeFilter
   levelStudent: UserLevelStudentTypeNullableFilter
+  magicAuthIssuedAt: DateTimeNullableFilter
+  magicAuthRedeemedAt: DateTimeNullableFilter
+  magicAuthToken: PasswordFilter
+  magicLinkToken: StringFilter
   name: StringFilter
   password: PasswordFilter
   phone: DecimalFilter

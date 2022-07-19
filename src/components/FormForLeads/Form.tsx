@@ -40,6 +40,7 @@ export const Form: FC<IForm> = ({ data, redirect }) => {
     const theme = useTheme();
 
     const onSubmit = handleSubmit(async (data) => {
+        localStorage.setItem('email', data.email);
         createLid({ variables: { data } }).then((res) => {
             if (res.data) {
                 if (redirect) {

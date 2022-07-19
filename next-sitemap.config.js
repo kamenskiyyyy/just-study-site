@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: 'https://juststudy.online',
+    siteUrl: process.env.NEXT_PUBLIC_FRONTEND_URL,
     changefreq: 'daily',
     priority: 0.7,
     autoLastmod: true,
@@ -22,6 +22,6 @@ module.exports = {
         }
     ],
     robotsTxtOptions: {
-        additionalSitemaps: ['https://juststudy.online' + '/server-sitemap.xml']
+        additionalSitemaps: [process.env.NEXT_PUBLIC_FRONTEND_URL + '/server-sitemap.xml']
     }
 };

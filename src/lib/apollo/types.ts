@@ -533,8 +533,15 @@ export type KeystoneMeta = {
   adminMeta: KeystoneAdminMeta;
 };
 
+export enum MagicLinkRedemptionErrorCode {
+  Failure = 'FAILURE',
+  TokenExpired = 'TOKEN_EXPIRED',
+  TokenRedeemed = 'TOKEN_REDEEMED'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
+  authWithEmail?: Maybe<Scalars['String']>;
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
   createAvatarUser?: Maybe<AvatarUser>;
   createAvatarUsers?: Maybe<Array<Maybe<AvatarUser>>>;
@@ -604,6 +611,8 @@ export type Mutation = {
   deleteUserSubscriptions?: Maybe<Array<Maybe<UserSubscription>>>;
   deleteUsers?: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean'];
+  redeemUserMagicAuthToken: RedeemUserMagicAuthTokenResult;
+  sendUserMagicAuthLink: Scalars['Boolean'];
   updateAvatarUser?: Maybe<AvatarUser>;
   updateAvatarUsers?: Maybe<Array<Maybe<AvatarUser>>>;
   updateCart?: Maybe<Cart>;
@@ -638,6 +647,11 @@ export type Mutation = {
   updateUserSubscription?: Maybe<UserSubscription>;
   updateUserSubscriptions?: Maybe<Array<Maybe<UserSubscription>>>;
   updateUsers?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type MutationAuthWithEmailArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -979,6 +993,17 @@ export type MutationDeleteUserSubscriptionsArgs = {
 
 export type MutationDeleteUsersArgs = {
   where: Array<UserWhereUniqueInput>;
+};
+
+
+export type MutationRedeemUserMagicAuthTokenArgs = {
+  email: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
+export type MutationSendUserMagicAuthLinkArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -2219,6 +2244,20 @@ export enum QueryMode {
   Insensitive = 'insensitive'
 }
 
+export type RedeemUserMagicAuthTokenFailure = {
+  __typename?: 'RedeemUserMagicAuthTokenFailure';
+  code: MagicLinkRedemptionErrorCode;
+  message: Scalars['String'];
+};
+
+export type RedeemUserMagicAuthTokenResult = RedeemUserMagicAuthTokenFailure | RedeemUserMagicAuthTokenSuccess;
+
+export type RedeemUserMagicAuthTokenSuccess = {
+  __typename?: 'RedeemUserMagicAuthTokenSuccess';
+  item: User;
+  token: Scalars['String'];
+};
+
 export type Service = {
   __typename?: 'Service';
   categories?: Maybe<Array<Category>>;
@@ -2641,6 +2680,10 @@ export type User = {
   language?: Maybe<Scalars['String']>;
   lastModification?: Maybe<Scalars['DateTime']>;
   levelStudent?: Maybe<UserLevelStudentType>;
+  magicAuthIssuedAt?: Maybe<Scalars['DateTime']>;
+  magicAuthRedeemedAt?: Maybe<Scalars['DateTime']>;
+  magicAuthToken?: Maybe<PasswordState>;
+  magicLinkToken?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   password?: Maybe<PasswordState>;
   phone?: Maybe<Scalars['Decimal']>;
@@ -2685,6 +2728,10 @@ export type UserCreateInput = {
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   levelStudent?: InputMaybe<UserLevelStudentType>;
+  magicAuthIssuedAt?: InputMaybe<Scalars['DateTime']>;
+  magicAuthRedeemedAt?: InputMaybe<Scalars['DateTime']>;
+  magicAuthToken?: InputMaybe<Scalars['String']>;
+  magicLinkToken?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['Decimal']>;
@@ -2717,6 +2764,9 @@ export type UserOrderByInput = {
   language?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
   levelStudent?: InputMaybe<OrderDirection>;
+  magicAuthIssuedAt?: InputMaybe<OrderDirection>;
+  magicAuthRedeemedAt?: InputMaybe<OrderDirection>;
+  magicLinkToken?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   phone?: InputMaybe<OrderDirection>;
   role?: InputMaybe<OrderDirection>;
@@ -2995,6 +3045,10 @@ export type UserUpdateInput = {
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   levelStudent?: InputMaybe<UserLevelStudentType>;
+  magicAuthIssuedAt?: InputMaybe<Scalars['DateTime']>;
+  magicAuthRedeemedAt?: InputMaybe<Scalars['DateTime']>;
+  magicAuthToken?: InputMaybe<Scalars['String']>;
+  magicLinkToken?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['Decimal']>;
@@ -3016,6 +3070,10 @@ export type UserWhereInput = {
   language?: InputMaybe<StringFilter>;
   lastModification?: InputMaybe<DateTimeFilter>;
   levelStudent?: InputMaybe<UserLevelStudentTypeNullableFilter>;
+  magicAuthIssuedAt?: InputMaybe<DateTimeNullableFilter>;
+  magicAuthRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
+  magicAuthToken?: InputMaybe<PasswordFilter>;
+  magicLinkToken?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<PasswordFilter>;
   phone?: InputMaybe<DecimalFilter>;
