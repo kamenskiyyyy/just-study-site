@@ -22,14 +22,14 @@ export const navigation = {
         directions: {
             title: 'Courses',
             children: [
-                { title: 'General', desc: 'Английский для всех' },
+                { title: 'General English', desc: 'English that is used everywhere' },
                 {
-                    title: 'Aviation',
-                    desc: 'Английский для пилотов, бортпроводников, диспетчеров'
+                    title: 'Aviation English',
+                    desc: 'For pilots, ATCs, cabin crew and ground staff'
                 },
                 {
-                    title: 'Business',
-                    desc: 'Английский для предпринимателей и бизнесменов'
+                    title: 'Business English',
+                    desc: 'For entrepreneurs, freelancers and those who need English for their work'
                 }
             ]
         },

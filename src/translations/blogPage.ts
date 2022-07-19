@@ -1,7 +1,7 @@
 export const blogPage = {
     ru: {
-        title: 'Новости блога',
-        description: 'Рассказываем лайфхаки в обучении, полезные советы и т.д.',
-        linkMore: 'Смотреть все статьи'
+        title: 'Blog',
+        description: "We're sharing our best tips to study productively",
+        linkMore: 'All articles'
     }
 };

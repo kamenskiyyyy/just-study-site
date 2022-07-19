@@ -11,5 +11,18 @@ export const mainBlock = {
             'Для IT 👨‍💻',
             'Для работы 💼️'
         ]
+    },
+    en: {
+        title: 'Just Study Online English',
+        buttonText: 'Get started',
+        cards: [
+            'For traveling 🏝',
+            'For communication 👋🏻',
+            'For you ❤️',
+            'For aviation personnel ✈️',
+            'For medical workers 💉️',
+            'For IT specialists 👨‍💻',
+            'For career 💼️'
+        ]
     }
 };

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
-import { checkoutPage } from '@translations/checkoutPage';
+import { cartPage } from '@translations/cartPage';
 import Divider from '@mui/material/Divider';
 import image from '@src/pages/Checkout/unsplash_ZYgY7I4tMeU.png';
 import Image from 'next/image';
@@ -25,10 +25,10 @@ interface ILidForm {
     agree: [];
 }
 
-const Checkout: NextPageWithLayout = () => {
+const Cart: NextPageWithLayout = () => {
     const theme = useTheme();
     const { locale } = useRouter();
-    const t = transition(checkoutPage, locale);
+    const t = transition(cartPage, locale);
     const t_contact = transition(formLeadsList, locale);
     const formContext = useForm<ILidForm>();
     const { handleSubmit } = formContext;
@@ -155,8 +155,8 @@ const Checkout: NextPageWithLayout = () => {
     );
 };
 
-Checkout.getLayout = function getLayout(page) {
+Cart.getLayout = function getLayout(page) {
     return <MainLayout>{page}</MainLayout>;
 };
 
-export default Checkout;
+export default Cart;

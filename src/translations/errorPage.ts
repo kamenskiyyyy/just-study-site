@@ -5,6 +5,6 @@ export const errorPage = {
     },
     en: {
         title: 'Oops!',
-        description: "We can't seem to find the page you're looking for."
+        description: "We can't find the page you're looking for."
     }
 };
