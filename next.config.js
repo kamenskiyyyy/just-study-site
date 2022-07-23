@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable */
 const { withEffectorReactAliases } = require('effector-next/tools');
 
 const enhance = withEffectorReactAliases();
 module.exports = enhance({
+    compress: true,
     i18n: {
         locales: ['en', 'ru', 'es'],
         defaultLocale: 'en',

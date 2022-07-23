@@ -59,20 +59,100 @@ input AvatarUserWhereUniqueInput {
 }
 
 type Cart {
+  amount: Int
+  currency: String
   id: ID!
+  items(orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  itemsCount(where: CartItemWhereInput! = {}): Int
   lastModification: DateTime
   quantityPayments: Int
-  services(orderBy: [ServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ServiceWhereInput! = {}): [Service!]
-  servicesCount(where: ServiceWhereInput! = {}): Int
-  subscriptions(orderBy: [SubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SubscriptionWhereInput! = {}): [Subscription!]
-  subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
   user: User
 }
 
+input CartData {
+  currency: String!
+  email: String!
+  firstName: String!
+  language: String!
+  phone: Decimal!
+  secondName: String!
+}
+
+type CartItem {
+  cart: Cart
+  id: ID!
+  originalPrice: Int
+  price: Int
+  service: Service
+  subscription: Subscription
+}
+
+input CartItemCreateInput {
+  cart: CartRelateToOneForCreateInput
+  price: Int
+  service: ServiceRelateToOneForCreateInput
+  subscription: SubscriptionRelateToOneForCreateInput
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  none: CartItemWhereInput
+  some: CartItemWhereInput
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  price: OrderDirection
+}
+
+input CartItemRelateToManyForUpdateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+}
+
+input CartItemUpdateArgs {
+  data: CartItemUpdateInput!
+  where: CartItemWhereUniqueInput!
+}
+
+input CartItemUpdateInput {
+  cart: CartRelateToOneForUpdateInput
+  price: Int
+  service: ServiceRelateToOneForUpdateInput
+  subscription: SubscriptionRelateToOneForUpdateInput
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  cart: CartWhereInput
+  id: IDFilter
+  price: IntNullableFilter
+  service: ServiceWhereInput
+  subscription: SubscriptionWhereInput
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
 input CartOrderByInput {
+  currency: OrderDirection
   id: OrderDirection
   lastModification: OrderDirection
   quantityPayments: OrderDirection
+}
+
+input CartRelateToOneForCreateInput {
+  connect: CartWhereUniqueInput
+}
+
+input CartRelateToOneForUpdateInput {
+  connect: CartWhereUniqueInput
+  disconnect: Boolean
 }
 
 input CartUpdateArgs {
@@ -81,10 +161,10 @@ input CartUpdateArgs {
 }
 
 input CartUpdateInput {
+  currency: String
+  items: CartItemRelateToManyForUpdateInput
   lastModification: DateTime
   quantityPayments: Int
-  services: ServiceRelateToManyForUpdateInput
-  subscriptions: SubscriptionRelateToManyForUpdateInput
   user: UserRelateToOneForUpdateInput
 }
 
@@ -92,11 +172,11 @@ input CartWhereInput {
   AND: [CartWhereInput!]
   NOT: [CartWhereInput!]
   OR: [CartWhereInput!]
+  currency: StringFilter
   id: IDFilter
+  items: CartItemManyRelationFilter
   lastModification: DateTimeFilter
   quantityPayments: IntNullableFilter
-  services: ServiceManyRelationFilter
-  subscriptions: SubscriptionManyRelationFilter
   user: UserWhereInput
 }
 
@@ -448,10 +528,21 @@ type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!
 }
 
+enum MagicLinkRedemptionErrorCode {
+  FAILURE
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
 type Mutation {
+  authWithEmail(email: String!): String
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
+  cart(data: CartData!): PaytureResponse
+  checkout(currency: String!, userId: String!): PaytureResponse
   createAvatarUser(data: AvatarUserCreateInput!): AvatarUser
   createAvatarUsers(data: [AvatarUserCreateInput!]!): [AvatarUser]
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
   createCategories(data: [CategoryCreateInput!]!): [Category]
   createCategory(data: CategoryCreateInput!): Category
   createFaq(data: FaqCreateInput!): Faq
@@ -486,6 +577,8 @@ type Mutation {
   deleteAvatarUser(where: AvatarUserWhereUniqueInput!): AvatarUser
   deleteAvatarUsers(where: [AvatarUserWhereUniqueInput!]!): [AvatarUser]
   deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
   deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
   deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
   deleteCategory(where: CategoryWhereUniqueInput!): Category
@@ -518,9 +611,14 @@ type Mutation {
   deleteUserSubscriptions(where: [UserSubscriptionWhereUniqueInput!]!): [UserSubscription]
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
   endSession: Boolean!
+  payment(orderId: String!): PaytureResponse
+  redeemUserMagicAuthToken(email: String!, token: String!): RedeemUserMagicAuthTokenResult!
+  sendUserMagicAuthLink(email: String!): Boolean!
   updateAvatarUser(data: AvatarUserUpdateInput!, where: AvatarUserWhereUniqueInput!): AvatarUser
   updateAvatarUsers(data: [AvatarUserUpdateArgs!]!): [AvatarUser]
   updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
+  updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
   updateCarts(data: [CartUpdateArgs!]!): [Cart]
   updateCategories(data: [CategoryUpdateArgs!]!): [Category]
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
@@ -571,8 +669,8 @@ input NestedStringFilter {
 type Order {
   amount: Int
   createdAt: DateTime
+  currency: String
   dept: Int
-  employee: User
   id: ID!
   label: String
   lastModification: DateTime
@@ -581,25 +679,26 @@ type Order {
   payed: Int
   payments(orderBy: [PaymentOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PaymentWhereInput! = {}): [Payment!]
   paymentsCount(where: PaymentWhereInput! = {}): Int
-  services(orderBy: [ServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ServiceWhereInput! = {}): [Service!]
-  servicesCount(where: ServiceWhereInput! = {}): Int
+  services(orderBy: [UserServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserServiceWhereInput! = {}): [UserService!]
+  servicesCount(where: UserServiceWhereInput! = {}): Int
   status: OrderStatusType
   student: User
-  subscriptions(orderBy: [SubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SubscriptionWhereInput! = {}): [Subscription!]
-  subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
+  subscriptions(orderBy: [UserSubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserSubscriptionWhereInput! = {}): [UserSubscription!]
+  subscriptionsCount(where: UserSubscriptionWhereInput! = {}): Int
 }
 
 input OrderCreateInput {
   amount: Int
   createdAt: DateTime
-  employee: UserRelateToOneForCreateInput
+  currency: String
+  label: String
   lastModification: DateTime
   leftPayments: Int
   payments: PaymentRelateToManyForCreateInput
-  services: ServiceRelateToManyForCreateInput
+  services: UserServiceRelateToManyForCreateInput
   status: OrderStatusType
   student: UserRelateToOneForCreateInput
-  subscriptions: SubscriptionRelateToManyForCreateInput
+  subscriptions: UserSubscriptionRelateToManyForCreateInput
 }
 
 enum OrderDirection {
@@ -610,7 +709,9 @@ enum OrderDirection {
 input OrderOrderByInput {
   amount: OrderDirection
   createdAt: OrderDirection
+  currency: OrderDirection
   id: OrderDirection
+  label: OrderDirection
   lastModification: OrderDirection
   leftPayments: OrderDirection
   status: OrderDirection
@@ -650,14 +751,15 @@ input OrderUpdateArgs {
 input OrderUpdateInput {
   amount: Int
   createdAt: DateTime
-  employee: UserRelateToOneForUpdateInput
+  currency: String
+  label: String
   lastModification: DateTime
   leftPayments: Int
   payments: PaymentRelateToManyForUpdateInput
-  services: ServiceRelateToManyForUpdateInput
+  services: UserServiceRelateToManyForUpdateInput
   status: OrderStatusType
   student: UserRelateToOneForUpdateInput
-  subscriptions: SubscriptionRelateToManyForUpdateInput
+  subscriptions: UserSubscriptionRelateToManyForUpdateInput
 }
 
 input OrderWhereInput {
@@ -666,15 +768,16 @@ input OrderWhereInput {
   OR: [OrderWhereInput!]
   amount: IntNullableFilter
   createdAt: DateTimeFilter
-  employee: UserWhereInput
+  currency: StringFilter
   id: IDFilter
+  label: StringFilter
   lastModification: DateTimeFilter
   leftPayments: IntFilter
   payments: PaymentManyRelationFilter
-  services: ServiceManyRelationFilter
+  services: UserServiceManyRelationFilter
   status: OrderStatusTypeNullableFilter
   student: UserWhereInput
-  subscriptions: SubscriptionManyRelationFilter
+  subscriptions: UserSubscriptionManyRelationFilter
 }
 
 input OrderWhereUniqueInput {
@@ -771,26 +874,28 @@ type PasswordState {
 }
 
 type Payment {
+  amount: Int
   createdAt: DateTime
-  externalId: String
+  currency: String
   id: ID!
   lastModification: DateTime
   order: Order
   receiptId: String
+  sessionId: String
   status: PaymentStatusType
   student: User
-  sum: Int
 }
 
 input PaymentCreateInput {
+  amount: Int
   createdAt: DateTime
-  externalId: String
+  currency: String
   lastModification: DateTime
   order: OrderRelateToOneForCreateInput
   receiptId: String
+  sessionId: String
   status: PaymentStatusType
   student: UserRelateToOneForCreateInput
-  sum: Int
 }
 
 input PaymentManyRelationFilter {
@@ -800,13 +905,14 @@ input PaymentManyRelationFilter {
 }
 
 input PaymentOrderByInput {
+  amount: OrderDirection
   createdAt: OrderDirection
-  externalId: OrderDirection
+  currency: OrderDirection
   id: OrderDirection
   lastModification: OrderDirection
   receiptId: OrderDirection
+  sessionId: OrderDirection
   status: OrderDirection
-  sum: OrderDirection
 }
 
 input PaymentRelateToManyForCreateInput {
@@ -841,33 +947,46 @@ input PaymentUpdateArgs {
 }
 
 input PaymentUpdateInput {
+  amount: Int
   createdAt: DateTime
-  externalId: String
+  currency: String
   lastModification: DateTime
   order: OrderRelateToOneForUpdateInput
   receiptId: String
+  sessionId: String
   status: PaymentStatusType
   student: UserRelateToOneForUpdateInput
-  sum: Int
 }
 
 input PaymentWhereInput {
   AND: [PaymentWhereInput!]
   NOT: [PaymentWhereInput!]
   OR: [PaymentWhereInput!]
+  amount: IntNullableFilter
   createdAt: DateTimeFilter
-  externalId: StringFilter
+  currency: StringFilter
   id: IDFilter
   lastModification: DateTimeFilter
   order: OrderWhereInput
   receiptId: StringFilter
+  sessionId: StringFilter
   status: PaymentStatusTypeNullableFilter
   student: UserWhereInput
-  sum: IntNullableFilter
 }
 
 input PaymentWhereUniqueInput {
   id: ID
+}
+
+type PaytureResponse {
+  Amount: String
+  AttemptsCount: String
+  ErrCode: String
+  OrderId: String
+  RedirectUrl: String!
+  SessionId: String
+  SessionLifeTime: String
+  Success: String!
 }
 
 type Post {
@@ -1115,16 +1234,21 @@ input ProductWhereUniqueInput {
 }
 
 type Query {
+  againPayment(paymentId: String!): PaytureResponse
   authenticatedItem: AuthenticatedItem
   avatarUser(where: AvatarUserWhereUniqueInput!): AvatarUser
   avatarUsers(orderBy: [AvatarUserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AvatarUserWhereInput! = {}): [AvatarUser!]
   avatarUsersCount(where: AvatarUserWhereInput! = {}): Int
   cart(where: CartWhereUniqueInput!): Cart
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItems(orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
   carts(orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
   cartsCount(where: CartWhereInput! = {}): Int
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
   categoriesCount(where: CategoryWhereInput! = {}): Int
   category(where: CategoryWhereUniqueInput!): Category
+  checkPayment(paymentId: String!): Payment
   faq(where: FaqWhereUniqueInput!): Faq
   faqs(orderBy: [FaqOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FaqWhereInput! = {}): [Faq!]
   faqsCount(where: FaqWhereInput! = {}): Int
@@ -1175,14 +1299,25 @@ enum QueryMode {
   insensitive
 }
 
+type RedeemUserMagicAuthTokenFailure {
+  code: MagicLinkRedemptionErrorCode!
+  message: String!
+}
+
+union RedeemUserMagicAuthTokenResult = RedeemUserMagicAuthTokenFailure | RedeemUserMagicAuthTokenSuccess
+
+type RedeemUserMagicAuthTokenSuccess {
+  item: User!
+  token: String!
+}
+
 type Service {
   categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
   categoriesCount(where: CategoryWhereInput! = {}): Int
   createdAt: DateTime
-  description: String
+  description: Service_description_Document
   id: ID!
-  items(orderBy: [UserServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserServiceWhereInput! = {}): [UserService!]
-  itemsCount(where: UserServiceWhereInput! = {}): Int
+  label: String
   language: String
   lastModification: DateTime
   name: String
@@ -1193,8 +1328,7 @@ type Service {
 input ServiceCreateInput {
   categories: CategoryRelateToManyForCreateInput
   createdAt: DateTime
-  description: String
-  items: UserServiceRelateToManyForCreateInput
+  description: JSON
   language: String
   lastModification: DateTime
   name: String
@@ -1202,33 +1336,14 @@ input ServiceCreateInput {
   statusView: String
 }
 
-input ServiceManyRelationFilter {
-  every: ServiceWhereInput
-  none: ServiceWhereInput
-  some: ServiceWhereInput
-}
-
 input ServiceOrderByInput {
   createdAt: OrderDirection
-  description: OrderDirection
   id: OrderDirection
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
   price: OrderDirection
   statusView: OrderDirection
-}
-
-input ServiceRelateToManyForCreateInput {
-  connect: [ServiceWhereUniqueInput!]
-  create: [ServiceCreateInput!]
-}
-
-input ServiceRelateToManyForUpdateInput {
-  connect: [ServiceWhereUniqueInput!]
-  create: [ServiceCreateInput!]
-  disconnect: [ServiceWhereUniqueInput!]
-  set: [ServiceWhereUniqueInput!]
 }
 
 input ServiceRelateToOneForCreateInput {
@@ -1250,8 +1365,7 @@ input ServiceUpdateArgs {
 input ServiceUpdateInput {
   categories: CategoryRelateToManyForUpdateInput
   createdAt: DateTime
-  description: String
-  items: UserServiceRelateToManyForUpdateInput
+  description: JSON
   language: String
   lastModification: DateTime
   name: String
@@ -1265,9 +1379,7 @@ input ServiceWhereInput {
   OR: [ServiceWhereInput!]
   categories: CategoryManyRelationFilter
   createdAt: DateTimeFilter
-  description: StringFilter
   id: IDFilter
-  items: UserServiceManyRelationFilter
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
@@ -1277,6 +1389,10 @@ input ServiceWhereInput {
 
 input ServiceWhereUniqueInput {
   id: ID
+}
+
+type Service_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type SourceClient {
@@ -1373,9 +1489,9 @@ input StringFilter {
 
 type Subscription {
   createdAt: DateTime
+  description: Subscription_description_Document
   id: ID!
-  items(orderBy: [UserSubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserSubscriptionWhereInput! = {}): [UserSubscription!]
-  itemsCount(where: UserSubscriptionWhereInput! = {}): Int
+  label: String
   language: String
   lastModification: DateTime
   name: String
@@ -1387,7 +1503,7 @@ type Subscription {
 
 input SubscriptionCreateInput {
   createdAt: DateTime
-  items: UserSubscriptionRelateToManyForCreateInput
+  description: JSON
   language: String
   lastModification: DateTime
   name: String
@@ -1395,12 +1511,6 @@ input SubscriptionCreateInput {
   price: Int
   statusView: String
   visitCount: Int
-}
-
-input SubscriptionManyRelationFilter {
-  every: SubscriptionWhereInput
-  none: SubscriptionWhereInput
-  some: SubscriptionWhereInput
 }
 
 input SubscriptionOrderByInput {
@@ -1413,18 +1523,6 @@ input SubscriptionOrderByInput {
   price: OrderDirection
   statusView: OrderDirection
   visitCount: OrderDirection
-}
-
-input SubscriptionRelateToManyForCreateInput {
-  connect: [SubscriptionWhereUniqueInput!]
-  create: [SubscriptionCreateInput!]
-}
-
-input SubscriptionRelateToManyForUpdateInput {
-  connect: [SubscriptionWhereUniqueInput!]
-  create: [SubscriptionCreateInput!]
-  disconnect: [SubscriptionWhereUniqueInput!]
-  set: [SubscriptionWhereUniqueInput!]
 }
 
 input SubscriptionRelateToOneForCreateInput {
@@ -1445,7 +1543,7 @@ input SubscriptionUpdateArgs {
 
 input SubscriptionUpdateInput {
   createdAt: DateTime
-  items: UserSubscriptionRelateToManyForUpdateInput
+  description: JSON
   language: String
   lastModification: DateTime
   name: String
@@ -1461,7 +1559,6 @@ input SubscriptionWhereInput {
   OR: [SubscriptionWhereInput!]
   createdAt: DateTimeFilter
   id: IDFilter
-  items: UserSubscriptionManyRelationFilter
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
@@ -1473,6 +1570,10 @@ input SubscriptionWhereInput {
 
 input SubscriptionWhereUniqueInput {
   id: ID
+}
+
+type Subscription_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Tag {
@@ -1548,6 +1649,7 @@ scalar Upload
 
 type User {
   avatar: AvatarUser
+  cart: Cart
   comment: String
   createdAt: DateTime
   email: String
@@ -1556,6 +1658,10 @@ type User {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: PasswordState
+  magicLinkToken: String
   name: String
   password: PasswordState
   phone: Decimal
@@ -1578,6 +1684,7 @@ type UserAuthenticationWithPasswordSuccess {
 
 input UserCreateInput {
   avatar: AvatarUserRelateToOneForCreateInput
+  cart: CartRelateToOneForCreateInput
   comment: String
   createdAt: DateTime
   email: String
@@ -1585,6 +1692,10 @@ input UserCreateInput {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: String
+  magicLinkToken: String
   name: String
   password: String
   phone: Decimal
@@ -1617,6 +1728,9 @@ input UserOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   levelStudent: OrderDirection
+  magicAuthIssuedAt: OrderDirection
+  magicAuthRedeemedAt: OrderDirection
+  magicLinkToken: OrderDirection
   name: OrderDirection
   phone: OrderDirection
   role: OrderDirection
@@ -1655,9 +1769,9 @@ type UserService {
   manager: User
   name: String
   originalPrice: Int
-  pattern: Service
   payed: Int
   price: Int
+  status: String
   student: User
 }
 
@@ -1667,9 +1781,9 @@ input UserServiceCreateInput {
   manager: UserRelateToOneForCreateInput
   name: String
   originalPrice: Int
-  pattern: ServiceRelateToOneForCreateInput
   payed: Int
   price: Int
+  status: String
   student: UserRelateToOneForCreateInput
 }
 
@@ -1687,6 +1801,7 @@ input UserServiceOrderByInput {
   originalPrice: OrderDirection
   payed: OrderDirection
   price: OrderDirection
+  status: OrderDirection
 }
 
 input UserServiceRelateToManyForCreateInput {
@@ -1712,9 +1827,9 @@ input UserServiceUpdateInput {
   manager: UserRelateToOneForUpdateInput
   name: String
   originalPrice: Int
-  pattern: ServiceRelateToOneForUpdateInput
   payed: Int
   price: Int
+  status: String
   student: UserRelateToOneForUpdateInput
 }
 
@@ -1728,9 +1843,9 @@ input UserServiceWhereInput {
   manager: UserWhereInput
   name: StringFilter
   originalPrice: IntNullableFilter
-  pattern: ServiceWhereInput
   payed: IntNullableFilter
   price: IntNullableFilter
+  status: StringFilter
   student: UserWhereInput
 }
 
@@ -1767,7 +1882,6 @@ type UserSubscription {
   manager: User
   name: String
   originalPrice: Int
-  pattern: Subscription
   payed: Int
   period: Int
   price: Int
@@ -1785,7 +1899,6 @@ input UserSubscriptionCreateInput {
   manager: UserRelateToOneForCreateInput
   name: String
   originalPrice: Int
-  pattern: SubscriptionRelateToOneForCreateInput
   payed: Int
   period: Int
   price: Int
@@ -1842,7 +1955,6 @@ input UserSubscriptionUpdateInput {
   manager: UserRelateToOneForUpdateInput
   name: String
   originalPrice: Int
-  pattern: SubscriptionRelateToOneForUpdateInput
   payed: Int
   period: Int
   price: Int
@@ -1864,7 +1976,6 @@ input UserSubscriptionWhereInput {
   manager: UserWhereInput
   name: StringFilter
   originalPrice: IntNullableFilter
-  pattern: SubscriptionWhereInput
   payed: IntNullableFilter
   period: IntNullableFilter
   price: IntNullableFilter
@@ -1886,6 +1997,7 @@ input UserUpdateArgs {
 
 input UserUpdateInput {
   avatar: AvatarUserRelateToOneForUpdateInput
+  cart: CartRelateToOneForUpdateInput
   comment: String
   createdAt: DateTime
   email: String
@@ -1893,6 +2005,10 @@ input UserUpdateInput {
   language: String
   lastModification: DateTime
   levelStudent: UserLevelStudentType
+  magicAuthIssuedAt: DateTime
+  magicAuthRedeemedAt: DateTime
+  magicAuthToken: String
+  magicLinkToken: String
   name: String
   password: String
   phone: Decimal
@@ -1906,6 +2022,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   avatar: AvatarUserWhereInput
+  cart: CartWhereInput
   comment: StringFilter
   createdAt: DateTimeFilter
   email: StringFilter
@@ -1914,6 +2031,10 @@ input UserWhereInput {
   language: StringFilter
   lastModification: DateTimeFilter
   levelStudent: UserLevelStudentTypeNullableFilter
+  magicAuthIssuedAt: DateTimeNullableFilter
+  magicAuthRedeemedAt: DateTimeNullableFilter
+  magicAuthToken: PasswordFilter
+  magicLinkToken: StringFilter
   name: StringFilter
   password: PasswordFilter
   phone: DecimalFilter

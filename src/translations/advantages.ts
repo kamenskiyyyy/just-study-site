@@ -19,5 +19,26 @@ export const advantages = {
                 desc: 'Учите не только английский, но и приобретайте дополнительные навыки (переговоры, презентации, собеседования и другие)'
             }
         ]
+    },
+    en: {
+        title: 'Why is Just Study the best choice for you?',
+        cards: [
+            {
+                title: 'Choose the methodology you like',
+                desc: 'Online lessons 1 to 1 with a teacher, video-lessons and training activities on the platform, speaking clubs - all of that in one course!'
+            },
+            {
+                title: 'Study only what YOU need',
+                desc: "We'll create a personal programme and materials for your goals"
+            },
+            {
+                title: 'Choose yourself when you want to have a class',
+                desc: 'Personal mentor and 24/7 access to the chat where you can cancel the lesson and get extra help'
+            },
+            {
+                title: 'Get unique experience of studying',
+                desc: 'Not only study English but also get useful skills for your work and life (negotiations, presentations, job interviews and so on)'
+            }
+        ]
     }
 };

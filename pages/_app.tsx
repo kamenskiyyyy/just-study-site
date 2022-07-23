@@ -16,6 +16,7 @@ import { homePage } from '@translations/homePage';
 import { useMediaQuery } from '@mui/material';
 import { NextPageWithLayout } from '@shared/types/page';
 import '@src/styles.css';
+import { EmailAuth } from '@src/hooks/useEmailAuth';
 
 const clientSideEmotionCache = createEmotionCache();
 const enhance = withHydrate();
@@ -53,6 +54,7 @@ function MyApp(props: MyAppProps) {
                     <meta name="viewport" content="initial-scale=1, width=device-width" />
                 </Head>
                 <BrandingProvider mode={appTheme}>
+                    <EmailAuth />
                     <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
                 </BrandingProvider>
             </CacheProvider>
