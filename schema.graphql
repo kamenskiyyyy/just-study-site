@@ -74,7 +74,7 @@ input CartData {
   email: String!
   firstName: String!
   language: String!
-  phone: Int!
+  phone: Decimal!
   secondName: String!
 }
 

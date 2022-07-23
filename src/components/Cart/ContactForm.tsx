@@ -6,13 +6,13 @@ import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
 import { useRouter } from 'next/router';
 import { useFormContext } from 'react-hook-form';
-import { ILidForm } from '@components/Cart/Cart';
 import { PhoneField } from '@shared/fields/PhoneField';
+import { ICartForm } from '@components/Cart/types';
 
 export const ContactForm: FC = () => {
     const { locale } = useRouter();
     const t_contact = transition(formLeadsList, locale);
-    const { control } = useFormContext<ILidForm>();
+    const { control } = useFormContext<ICartForm>();
 
     return (
         <Stack gap={2}>

@@ -5,13 +5,13 @@ import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { cartPage } from '@translations/cartPage';
-import { NextPageWithLayout } from '@shared/types/page';
 import { MainLayout } from '@src/layouts/MainLayout';
 import { useUser } from '@src/hooks/useUser';
 import { Cart } from '@components/Cart/Cart';
 import dynamic from 'next/dynamic';
+import { NextPage } from 'next';
 
-const Checkout: NextPageWithLayout = () => {
+const Checkout: NextPage = () => {
     const theme = useTheme();
     const { locale } = useRouter();
     const t = transition(cartPage, locale);

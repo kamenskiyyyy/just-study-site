@@ -56,7 +56,7 @@ const QUERY_PAGE = gql`
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const slug = ctx.query.slug;
     const lang = ctx.locale;
-    const { data } = await client.query<{ pages: NextPageWithLayout[] }>({
+    const { data } = await client.query<{ pages: Page[] }>({
         query: QUERY_PAGE,
         variables: { slug, lang }
     });

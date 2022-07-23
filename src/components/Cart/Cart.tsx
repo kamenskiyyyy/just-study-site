@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 import { useUser } from '@src/hooks/useUser';
 import Divider from '@mui/material/Divider';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Alert, Box, Stack, Typography } from '@mui/material';
 import { currencyText } from '@src/lib/currency';
 import { CheckboxButtonGroup, FormContainer } from 'react-hook-form-mui';
 import { useRouter } from 'next/router';
@@ -16,29 +16,34 @@ import { ContactForm } from '@components/Cart/ContactForm';
 import { Currency } from '@shared/enums/currency.enum';
 import { CartItem } from '@components/Cart/CartItem';
 import { CartItem as CartItemProps } from '@src/lib/apollo/types';
-
-export interface ILidForm {
-    firstName: string;
-    secondName: string;
-    phone: number;
-    email: string;
-    agree: [];
-    currency: string;
-    language: string;
-}
+import { useMutation } from '@apollo/client';
+import { ICartForm } from '@components/Cart/types';
+import { MUTATION_CART } from '@components/Cart/graphql';
+import { LoadingButton } from '@mui/lab';
 
 export const Cart: FC = () => {
-    const { locale } = useRouter();
+    const { locale, push } = useRouter();
     const user = useUser();
     const userCart = user?.cart;
-    const formContext = useForm<ILidForm>({ defaultValues: { language: locale } });
+    const formContext = useForm<ICartForm>({ defaultValues: { language: locale } });
     const { handleSubmit, setValue } = formContext;
     const t = transition(cartPage, locale);
     const t_contact = transition(formLeadsList, locale);
+    const [sendCart, { loading, error, data }] = useMutation(MUTATION_CART);
 
-    const onSubmit = handleSubmit((data) => {
-        console.log(data);
+    const onSubmit = handleSubmit(async (data) => {
+        const { agree, ...formattedData } = data;
+        console.log('onSubmit', formattedData);
+        await sendCart({ variables: { data: formattedData } });
     });
+
+    useEffect(() => {
+        console.log('useMutation data', data);
+        console.log('useMutation error', error);
+        if (data?.cart.Success === 'True') {
+            push(data.cart.RedirectUrl);
+        }
+    }, [data, error, loading, push]);
 
     useEffect(() => {
         if (user) {
@@ -98,23 +103,26 @@ export const Cart: FC = () => {
                                 {user?.cart?.amount} {currencyText(locale)}
                             </Typography>
                         </Box>
+                        {error && <Alert severity="error">Произошла ошибка при оформлении оплаты</Alert>}
                         <Stack gap={2}>
                             {locale === 'ru' && (
-                                <Button
+                                <LoadingButton
                                     type={'submit'}
                                     variant={'contained'}
                                     size={'large'}
-                                    onClick={() => setValue('currency', Currency.RUB)}>
+                                    onClick={() => setValue('currency', Currency.RUB)}
+                                    loading={loading}>
                                     {t.submitButtonRUB}
-                                </Button>
+                                </LoadingButton>
                             )}
-                            <Button
+                            <LoadingButton
                                 type={'submit'}
                                 variant={'contained'}
                                 size={'large'}
-                                onClick={() => setValue('currency', Currency.USD)}>
+                                onClick={() => setValue('currency', Currency.USD)}
+                                loading={loading}>
                                 {t.submitButtonUSD}
-                            </Button>
+                            </LoadingButton>
                         </Stack>
                     </Stack>
                 </FormContainer>

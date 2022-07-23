@@ -108,7 +108,7 @@ export type CartData = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   language: Scalars['String'];
-  phone: Scalars['Int'];
+  phone: Scalars['Decimal'];
   secondName: Scalars['String'];
 };
 

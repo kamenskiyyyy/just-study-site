@@ -6,7 +6,7 @@ import { Box, Container, Typography } from '@mui/material';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
 import Image from 'next/image';
-import cat from '@src/pages/Errors/benjimemes_069.webp';
+import cat from '@src/pages/Errors/cat404.svg';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { errorPage } from '@translations/errorPage';
