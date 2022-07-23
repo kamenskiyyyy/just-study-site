@@ -6,12 +6,14 @@ import routes from '@src/routes';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
+import * as React from 'react';
 import { FC, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { IForm } from '@components/FormForLeads/FormForLeads';
 import { successPage } from '@translations/successPage';
 import { useTheme } from '@mui/material/styles';
+import { PhoneField } from '@shared/fields/PhoneField';
 
 export interface ILidForm {
     name: string;
@@ -33,7 +35,7 @@ export const Form: FC<IForm> = ({ data, redirect }) => {
     const t = transition(formLeadsList, locale);
     const comment = data && `Страница: ${data.resolvedUrl}, язык: ${data.locale}, query: ${JSON.stringify(data.query)}`;
     const formContext = useForm<ILidForm>({ defaultValues: { comment } });
-    const { handleSubmit } = formContext;
+    const { handleSubmit, control } = formContext;
     const [createLid, { loading, error }] = useMutation(MUTATION_NEW_LEAD);
     const [success, setSuccess] = useState(false);
     const t_success = transition(successPage, locale);
@@ -74,7 +76,11 @@ export const Form: FC<IForm> = ({ data, redirect }) => {
             </Typography>
             <FormContainer formContext={formContext} handleSubmit={onSubmit}>
                 <Box display={'grid'} gap={{ xs: 2, md: 3 }}>
-                    <Box display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap={{ xs: 2, md: 2 }}>
+                    <Box
+                        display={'grid'}
+                        gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}
+                        gap={{ xs: 2, md: 2 }}
+                        alignItems={'center'}>
                         <TextFieldElement
                             name={'name'}
                             label={t.contacts.nameInput}
@@ -82,13 +88,7 @@ export const Form: FC<IForm> = ({ data, redirect }) => {
                             autoComplete={'name'}
                             disabled={loading}
                         />
-                        <TextFieldElement
-                            name={'phone'}
-                            label={t.contacts.phoneInput}
-                            required
-                            autoComplete={'tel'}
-                            disabled={loading}
-                        />
+                        <PhoneField control={control} name={'phone'} specialLabel={t.contacts.phoneInput} />
                     </Box>
                     <TextFieldElement
                         name={'email'}

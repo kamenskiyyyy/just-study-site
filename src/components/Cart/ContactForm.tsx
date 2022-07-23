@@ -5,10 +5,14 @@ import { TextFieldElement } from 'react-hook-form-mui';
 import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
 import { useRouter } from 'next/router';
+import { useFormContext } from 'react-hook-form';
+import { ILidForm } from '@components/Cart/Cart';
+import { PhoneField } from '@shared/fields/PhoneField';
 
 export const ContactForm: FC = () => {
     const { locale } = useRouter();
     const t_contact = transition(formLeadsList, locale);
+    const { control } = useFormContext<ILidForm>();
 
     return (
         <Stack gap={2}>
@@ -27,7 +31,7 @@ export const ContactForm: FC = () => {
                 />
             </Box>
             <Box display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap={{ xs: 2, md: 2 }}>
-                <TextFieldElement name={'phone'} label={t_contact.contacts.phoneInput} required autoComplete={'tel'} />
+                <PhoneField control={control} name={'phone'} specialLabel={t_contact.contacts.phoneInput} />
                 <TextFieldElement
                     name={'email'}
                     required

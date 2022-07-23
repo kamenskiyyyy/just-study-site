@@ -17,10 +17,12 @@ export const CURRENT_USER_QUERY = gql`
                 }
                 cart {
                     id
-                    summa
+                    amount
+                    currency
                     itemsCount
                     quantityPayments
                     items {
+                        id
                         subscription {
                             name
                             description {

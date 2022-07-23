@@ -2,12 +2,9 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 import { useUser } from '@src/hooks/useUser';
 import Divider from '@mui/material/Divider';
-import { Box, Button, Card, Stack, Typography } from '@mui/material';
-import Image from 'next/image';
-import image from '@src/pages/Checkout/unsplash_ZYgY7I4tMeU.png';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { currencyText } from '@src/lib/currency';
 import { CheckboxButtonGroup, FormContainer } from 'react-hook-form-mui';
-import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { formLeadsList } from '@translations/formLeadsList';
@@ -16,21 +13,25 @@ import { cartPage } from '@translations/cartPage';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
 import { ContactForm } from '@components/Cart/ContactForm';
+import { Currency } from '@shared/enums/currency.enum';
+import { CartItem } from '@components/Cart/CartItem';
+import { CartItem as CartItemProps } from '@src/lib/apollo/types';
 
-interface ILidForm {
+export interface ILidForm {
     firstName: string;
     secondName: string;
-    phone: string;
+    phone: number;
     email: string;
     agree: [];
+    currency: string;
+    language: string;
 }
 
 export const Cart: FC = () => {
-    const theme = useTheme();
     const { locale } = useRouter();
     const user = useUser();
-    const formContext = useForm<ILidForm>();
-    console.log(user);
+    const userCart = user?.cart;
+    const formContext = useForm<ILidForm>({ defaultValues: { language: locale } });
     const { handleSubmit, setValue } = formContext;
     const t = transition(cartPage, locale);
     const t_contact = transition(formLeadsList, locale);
@@ -71,32 +72,12 @@ export const Cart: FC = () => {
         <Stack gap={3}>
             <Divider />
             <Stack gap={2}>
-                <Card
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: '30% 1fr',
-                        gap: 3,
-                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A100
-                    }}>
-                    <Box position={'relative'} borderRadius={'20%'}>
-                        <Image src={image} layout={'fill'} objectFit={'cover'} />
-                    </Box>
-                    <Box my={3}>
-                        <Typography variant={'h5'} fontWeight={'bold'}>
-                            Первый урок
-                        </Typography>
-                        <Stack direction={'row'} gap={1}>
-                            <Typography component={'del'}>3000{currencyText(locale)}</Typography>
-                            <Typography color={theme.palette.primary.main} fontWeight={'bold'}>
-                                15000{currencyText(locale)}
-                            </Typography>
-                        </Stack>
-                    </Box>
-                </Card>
+                {userCart?.items.map((item: CartItemProps) => (
+                    <CartItem item={item} key={item.id} />
+                ))}
                 <Divider />
                 <FormContainer formContext={formContext} handleSubmit={onSubmit}>
                     <Stack gap={2}>
-                        {/*{!user && <ContactForm />}*/}
                         <ContactForm />
                         <CheckboxButtonGroup
                             name="agree"
@@ -109,9 +90,32 @@ export const Cart: FC = () => {
                             ]}
                             required
                         />
-                        <Button type={'submit'} variant={'contained'} size={'large'}>
-                            {t.submitButton}
-                        </Button>
+                        <Box display={'flex'} justifyContent={'space-between'}>
+                            <Typography variant={'h2'} fontWeight={'bold'}>
+                                Сумма
+                            </Typography>
+                            <Typography variant={'h2'} fontWeight={'bold'}>
+                                {user?.cart?.amount} {currencyText(locale)}
+                            </Typography>
+                        </Box>
+                        <Stack gap={2}>
+                            {locale === 'ru' && (
+                                <Button
+                                    type={'submit'}
+                                    variant={'contained'}
+                                    size={'large'}
+                                    onClick={() => setValue('currency', Currency.RUB)}>
+                                    {t.submitButtonRUB}
+                                </Button>
+                            )}
+                            <Button
+                                type={'submit'}
+                                variant={'contained'}
+                                size={'large'}
+                                onClick={() => setValue('currency', Currency.USD)}>
+                                {t.submitButtonUSD}
+                            </Button>
+                        </Stack>
                     </Stack>
                 </FormContainer>
             </Stack>
