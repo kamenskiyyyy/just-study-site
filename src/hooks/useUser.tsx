@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import * as Sentry from '@sentry/nextjs';
 
 export const CURRENT_USER_QUERY = gql`
     query {
@@ -46,5 +47,14 @@ export const CURRENT_USER_QUERY = gql`
 
 export const useUser = () => {
     const { data } = useQuery(CURRENT_USER_QUERY);
+    if (data?.authenticatedItem) {
+        const { name, id, email } = data.authenticatedItem;
+        Sentry.setUser({
+            id,
+            username: name,
+            email
+        });
+    }
+
     return data?.authenticatedItem;
 };

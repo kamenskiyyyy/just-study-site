@@ -6,18 +6,18 @@ module.exports = {
     autoLastmod: true,
     generateRobotsTxt: true,
     generateIndexSitemap: true,
-    exclude: ['/profile/*', '/server-sitemap.xml', '/marketing/*', '/success', '/checkout/*'],
+    exclude: ['/profile', '/server-sitemap.xml', '/marketing/*', '/success', '/checkout', '/checkout/*'],
     alternateRefs: [
         {
-            href: process.env.FRONTEND_URL + '/en',
+            href: process.env.NEXT_PUBLIC_FRONTEND_URL + '/en',
             hreflang: 'en'
         },
         {
-            href: process.env.FRONTEND_URL + '/es',
+            href: process.env.NEXT_PUBLIC_FRONTEND_URL + '/es',
             hreflang: 'es'
         },
         {
-            href: process.env.FRONTEND_URL + '/ru',
+            href: process.env.NEXT_PUBLIC_FRONTEND_URL + '/ru',
             hreflang: 'ru'
         }
     ],

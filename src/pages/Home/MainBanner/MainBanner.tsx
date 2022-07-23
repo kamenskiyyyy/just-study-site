@@ -39,7 +39,7 @@ export const MainBanner: FC = () => {
             setSlideNumber(0);
             setActiveSlide({ title: t.cards[6], image: slidesImages[6] });
         }
-    }, [slideNumber]);
+    }, [slideNumber, t.cards]);
 
     return (
         <>
@@ -60,6 +60,7 @@ export const MainBanner: FC = () => {
                                 placeholder={'blur'}
                                 layout={'fill'}
                                 objectFit={'cover'}
+                                priority
                             />
                         </div>
                     </PictureWrapper>

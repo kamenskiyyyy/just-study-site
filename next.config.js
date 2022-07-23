@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 /* eslint-disable */
+const withPlugins = require('next-compose-plugins');
 const { withEffectorReactAliases } = require('effector-next/tools');
+const { withSentryConfig } = require('@sentry/nextjs')
 
 const enhance = withEffectorReactAliases();
-module.exports = enhance({
+
+const nextConfiguration = {
     compress: true,
     i18n: {
         locales: ['en', 'ru', 'es'],
@@ -29,4 +32,8 @@ module.exports = enhance({
             }
         ];
     }
-});
+}
+
+module.exports = withPlugins([
+    [enhance], [withSentryConfig, {silent: true}]
+], nextConfiguration);

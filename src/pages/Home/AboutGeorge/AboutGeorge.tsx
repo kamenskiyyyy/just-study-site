@@ -23,13 +23,7 @@ export const AboutGeorge: FC = () => {
                 gap={{ xs: 2, md: 8 }}
                 alignItems={'center'}>
                 <Card sx={{ width: '70%', m: 'auto' }}>
-                    <Image
-                        placeholder={'blur'}
-                        src={georgeImage}
-                        loading={'lazy'}
-                        alt={'George photo'}
-                        layout={'responsive'}
-                    />
+                    <Image placeholder={'blur'} src={georgeImage} priority alt={'George photo'} layout={'responsive'} />
                 </Card>
                 <Box my={3} display={'flex'} flexDirection={'column'} justifyItems={'left'}>
                     <Box
