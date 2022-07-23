@@ -35,7 +35,7 @@ const nextConfiguration = {
 }
 
 const sentryConfig = {ignore: ['node_modules', 'webpack.config.js'],
-    configFile: 'sentry.properties'}
+    configFile: './sentry.properties'}
 
 module.exports = withPlugins([
     [enhance], [withSentryConfig, sentryConfig]
