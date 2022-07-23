@@ -35,5 +35,5 @@ const nextConfiguration = {
 }
 
 module.exports = withPlugins([
-    [enhance], [withSentryConfig, {silent: true}]
+    [enhance], [withSentryConfig]
 ], nextConfiguration);
