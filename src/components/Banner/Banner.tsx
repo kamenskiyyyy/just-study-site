@@ -4,8 +4,8 @@ import { useTheme } from '@mui/material/styles';
 
 interface IBanner {
     title: string;
-    desc: ReactNode | string;
-    picture: ReactNode;
+    desc?: ReactNode | string;
+    picture?: ReactNode;
     buttonText: string;
     alignPicture?: 'left' | 'right';
 }
@@ -13,10 +13,11 @@ interface IBanner {
 export const Banner: FC<IBanner> = ({ title, desc, picture, buttonText, alignPicture = 'right' }) => {
     const theme = useTheme();
 
-    const gridTemplateColumns =
-        alignPicture === 'right'
+    const gridTemplateColumns = picture
+        ? alignPicture === 'right'
             ? { xs: '1fr', md: '1fr 40%', lg: '1fr 30%' }
-            : { xs: '1fr', md: '40% 1fr ', lg: '30% 1fr ' };
+            : { xs: '1fr', md: '40% 1fr ', lg: '30% 1fr ' }
+        : { xs: '1fr' };
 
     return (
         <Box bgcolor={theme.palette.primary.main}>
@@ -28,12 +29,12 @@ export const Banner: FC<IBanner> = ({ title, desc, picture, buttonText, alignPic
                             <Typography variant={'h1'} color={'white'}>
                                 {title}
                             </Typography>
-                            <Box>{desc}</Box>
+                            {desc && <Box>{desc}</Box>}
                             <Button variant={'contained'} color={'success'} size={'large'} href={'#form-lead'}>
                                 {buttonText}
                             </Button>
                         </Stack>
-                        {alignPicture === 'right' && picture}
+                        {picture && alignPicture === 'right' && picture}
                     </Box>
                 </Box>
             </Container>

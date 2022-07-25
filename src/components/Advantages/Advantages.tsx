@@ -21,7 +21,7 @@ export const Advantages: FC = () => {
     const t = transition(advantages, locale);
 
     return (
-        <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}>
+        <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200} pb={2}>
             <Container maxWidth={'xl'}>
                 <Box py={4} px={{ xs: 0, md: 4 }} display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography variant={'h2'}>{t.title}</Typography>
@@ -40,7 +40,11 @@ export const Advantages: FC = () => {
                             height: { xs: 430, sm: 481, lg: 634 },
                             width: { xs: 300, sm: 355, lg: 468 },
                             display: 'flex',
-                            flexDirection: directions[index]
+                            flexDirection: directions[index],
+                            bgcolor:
+                                theme.palette.mode === 'dark'
+                                    ? theme.palette.grey['800']
+                                    : theme.palette.background.paper
                         }}>
                         <Box p={2} position={'relative'} width={'100%'} maxHeight={'73%'}>
                             <Image

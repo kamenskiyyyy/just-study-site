@@ -12,7 +12,8 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "generate": "graphql-codegen",
         "deploy-config": "scp -r ./ecosystem.config.js juststudy@51.250.90.183:/home/juststudy/just-study-site",
-        "deploy-config-env": "scp -r ./.env.local juststudy@51.250.90.183:/home/juststudy/just-study-site"
+        "deploy-config-env": "scp -r ./.env.local juststudy@51.250.90.183:/home/juststudy/just-study-site",
+        "deploy-sentryclirc": "scp -r ./.sentryclirc juststudy@51.250.90.183:/home/juststudy/just-study-site"
     },
     "dependencies": {
         "@apollo/client": "3.6.9",

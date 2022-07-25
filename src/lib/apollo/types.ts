@@ -78,6 +78,11 @@ export type AvatarUserWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
+export type BooleanFilter = {
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<BooleanFilter>;
+};
+
 export type Cart = {
   __typename?: 'Cart';
   amount?: Maybe<Scalars['Int']>;
@@ -607,6 +612,91 @@ export enum MagicLinkRedemptionErrorCode {
   TokenRedeemed = 'TOKEN_REDEEMED'
 }
 
+export type Marketing = {
+  __typename?: 'Marketing';
+  aboutGeorge: Scalars['Boolean'];
+  advantages: Scalars['Boolean'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  image?: Maybe<ImageFieldOutput>;
+  language?: Maybe<Scalars['String']>;
+  lastModification?: Maybe<Scalars['DateTime']>;
+  reviews: Scalars['Boolean'];
+  slug?: Maybe<Scalars['String']>;
+  statusView?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type MarketingCreateInput = {
+  aboutGeorge?: Scalars['Boolean'];
+  advantages?: Scalars['Boolean'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<ImageFieldInput>;
+  language?: InputMaybe<Scalars['String']>;
+  lastModification?: InputMaybe<Scalars['DateTime']>;
+  reviews?: Scalars['Boolean'];
+  slug?: InputMaybe<Scalars['String']>;
+  statusView?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type MarketingOrderByInput = {
+  aboutGeorge?: InputMaybe<OrderDirection>;
+  advantages?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  description?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  language?: InputMaybe<OrderDirection>;
+  lastModification?: InputMaybe<OrderDirection>;
+  reviews?: InputMaybe<OrderDirection>;
+  slug?: InputMaybe<OrderDirection>;
+  statusView?: InputMaybe<OrderDirection>;
+  title?: InputMaybe<OrderDirection>;
+};
+
+export type MarketingUpdateArgs = {
+  data: MarketingUpdateInput;
+  where: MarketingWhereUniqueInput;
+};
+
+export type MarketingUpdateInput = {
+  aboutGeorge?: InputMaybe<Scalars['Boolean']>;
+  advantages?: InputMaybe<Scalars['Boolean']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<ImageFieldInput>;
+  language?: InputMaybe<Scalars['String']>;
+  lastModification?: InputMaybe<Scalars['DateTime']>;
+  reviews?: InputMaybe<Scalars['Boolean']>;
+  slug?: InputMaybe<Scalars['String']>;
+  statusView?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type MarketingWhereInput = {
+  AND?: InputMaybe<Array<MarketingWhereInput>>;
+  NOT?: InputMaybe<Array<MarketingWhereInput>>;
+  OR?: InputMaybe<Array<MarketingWhereInput>>;
+  aboutGeorge?: InputMaybe<BooleanFilter>;
+  advantages?: InputMaybe<BooleanFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  language?: InputMaybe<StringFilter>;
+  lastModification?: InputMaybe<DateTimeFilter>;
+  reviews?: InputMaybe<BooleanFilter>;
+  slug?: InputMaybe<StringFilter>;
+  statusView?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export type MarketingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   authWithEmail?: Maybe<Scalars['String']>;
@@ -622,6 +712,8 @@ export type Mutation = {
   createFaq?: Maybe<Faq>;
   createFaqs?: Maybe<Array<Maybe<Faq>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
+  createMarketing?: Maybe<Marketing>;
+  createMarketings?: Maybe<Array<Maybe<Marketing>>>;
   createOrder?: Maybe<Order>;
   createOrders?: Maybe<Array<Maybe<Order>>>;
   createPage?: Maybe<Page>;
@@ -658,6 +750,8 @@ export type Mutation = {
   deleteCategory?: Maybe<Category>;
   deleteFaq?: Maybe<Faq>;
   deleteFaqs?: Maybe<Array<Maybe<Faq>>>;
+  deleteMarketing?: Maybe<Marketing>;
+  deleteMarketings?: Maybe<Array<Maybe<Marketing>>>;
   deleteOrder?: Maybe<Order>;
   deleteOrders?: Maybe<Array<Maybe<Order>>>;
   deletePage?: Maybe<Page>;
@@ -698,6 +792,8 @@ export type Mutation = {
   updateCategory?: Maybe<Category>;
   updateFaq?: Maybe<Faq>;
   updateFaqs?: Maybe<Array<Maybe<Faq>>>;
+  updateMarketing?: Maybe<Marketing>;
+  updateMarketings?: Maybe<Array<Maybe<Marketing>>>;
   updateOrder?: Maybe<Order>;
   updateOrders?: Maybe<Array<Maybe<Order>>>;
   updatePage?: Maybe<Page>;
@@ -791,6 +887,16 @@ export type MutationCreateFaqsArgs = {
 
 export type MutationCreateInitialUserArgs = {
   data: CreateInitialUserInput;
+};
+
+
+export type MutationCreateMarketingArgs = {
+  data: MarketingCreateInput;
+};
+
+
+export type MutationCreateMarketingsArgs = {
+  data: Array<MarketingCreateInput>;
 };
 
 
@@ -971,6 +1077,16 @@ export type MutationDeleteFaqArgs = {
 
 export type MutationDeleteFaqsArgs = {
   where: Array<FaqWhereUniqueInput>;
+};
+
+
+export type MutationDeleteMarketingArgs = {
+  where: MarketingWhereUniqueInput;
+};
+
+
+export type MutationDeleteMarketingsArgs = {
+  where: Array<MarketingWhereUniqueInput>;
 };
 
 
@@ -1175,6 +1291,17 @@ export type MutationUpdateFaqsArgs = {
 };
 
 
+export type MutationUpdateMarketingArgs = {
+  data: MarketingUpdateInput;
+  where: MarketingWhereUniqueInput;
+};
+
+
+export type MutationUpdateMarketingsArgs = {
+  data: Array<MarketingUpdateArgs>;
+};
+
+
 export type MutationUpdateOrderArgs = {
   data: OrderUpdateInput;
   where: OrderWhereUniqueInput;
@@ -1345,6 +1472,7 @@ export type Order = {
   payed?: Maybe<Scalars['Int']>;
   payments?: Maybe<Array<Payment>>;
   paymentsCount?: Maybe<Scalars['Int']>;
+  quantityPayments?: Maybe<Scalars['Int']>;
   services?: Maybe<Array<UserService>>;
   servicesCount?: Maybe<Scalars['Int']>;
   status?: Maybe<OrderStatusType>;
@@ -1398,8 +1526,8 @@ export type OrderCreateInput = {
   currency?: InputMaybe<Scalars['String']>;
   label?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
-  leftPayments?: InputMaybe<Scalars['Int']>;
   payments?: InputMaybe<PaymentRelateToManyForCreateInput>;
+  quantityPayments?: InputMaybe<Scalars['Int']>;
   services?: InputMaybe<UserServiceRelateToManyForCreateInput>;
   status?: InputMaybe<OrderStatusType>;
   student?: InputMaybe<UserRelateToOneForCreateInput>;
@@ -1418,7 +1546,7 @@ export type OrderOrderByInput = {
   id?: InputMaybe<OrderDirection>;
   label?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
-  leftPayments?: InputMaybe<OrderDirection>;
+  quantityPayments?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
 };
 
@@ -1459,8 +1587,8 @@ export type OrderUpdateInput = {
   currency?: InputMaybe<Scalars['String']>;
   label?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
-  leftPayments?: InputMaybe<Scalars['Int']>;
   payments?: InputMaybe<PaymentRelateToManyForUpdateInput>;
+  quantityPayments?: InputMaybe<Scalars['Int']>;
   services?: InputMaybe<UserServiceRelateToManyForUpdateInput>;
   status?: InputMaybe<OrderStatusType>;
   student?: InputMaybe<UserRelateToOneForUpdateInput>;
@@ -1477,8 +1605,8 @@ export type OrderWhereInput = {
   id?: InputMaybe<IdFilter>;
   label?: InputMaybe<StringFilter>;
   lastModification?: InputMaybe<DateTimeFilter>;
-  leftPayments?: InputMaybe<IntFilter>;
   payments?: InputMaybe<PaymentManyRelationFilter>;
+  quantityPayments?: InputMaybe<IntFilter>;
   services?: InputMaybe<UserServiceManyRelationFilter>;
   status?: InputMaybe<OrderStatusTypeNullableFilter>;
   student?: InputMaybe<UserWhereInput>;
@@ -2043,6 +2171,9 @@ export type Query = {
   faqs?: Maybe<Array<Faq>>;
   faqsCount?: Maybe<Scalars['Int']>;
   keystone: KeystoneMeta;
+  marketing?: Maybe<Marketing>;
+  marketings?: Maybe<Array<Marketing>>;
+  marketingsCount?: Maybe<Scalars['Int']>;
   order?: Maybe<Order>;
   orders?: Maybe<Array<Order>>;
   ordersCount?: Maybe<Scalars['Int']>;
@@ -2182,6 +2313,24 @@ export type QueryFaqsArgs = {
 
 export type QueryFaqsCountArgs = {
   where?: FaqWhereInput;
+};
+
+
+export type QueryMarketingArgs = {
+  where: MarketingWhereUniqueInput;
+};
+
+
+export type QueryMarketingsArgs = {
+  orderBy?: Array<MarketingOrderByInput>;
+  skip?: Scalars['Int'];
+  take?: InputMaybe<Scalars['Int']>;
+  where?: MarketingWhereInput;
+};
+
+
+export type QueryMarketingsCountArgs = {
+  where?: MarketingWhereInput;
 };
 
 
