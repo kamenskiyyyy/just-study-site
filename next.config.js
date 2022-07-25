@@ -37,7 +37,7 @@ const nextConfiguration = {
 const sentryConfig = {
     ignore: ['node_modules', 'webpack.config.js'],
     configFile: './sentry.properties',
-    dryRun: process.env.CI
+    dryRun: false
 }
 
 module.exports = withPlugins([
