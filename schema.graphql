@@ -58,6 +58,11 @@ input AvatarUserWhereUniqueInput {
   id: ID
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 type Cart {
   amount: Int
   currency: String
@@ -534,6 +539,90 @@ enum MagicLinkRedemptionErrorCode {
   TOKEN_REDEEMED
 }
 
+type Marketing {
+  aboutGeorge: Boolean!
+  advantages: Boolean!
+  createdAt: DateTime
+  description: String
+  id: ID!
+  image: ImageFieldOutput
+  language: String
+  lastModification: DateTime
+  reviews: Boolean!
+  slug: String
+  statusView: String
+  title: String
+}
+
+input MarketingCreateInput {
+  aboutGeorge: Boolean! = true
+  advantages: Boolean! = true
+  createdAt: DateTime
+  description: String
+  image: ImageFieldInput
+  language: String
+  lastModification: DateTime
+  reviews: Boolean! = true
+  slug: String
+  statusView: String
+  title: String
+}
+
+input MarketingOrderByInput {
+  aboutGeorge: OrderDirection
+  advantages: OrderDirection
+  createdAt: OrderDirection
+  description: OrderDirection
+  id: OrderDirection
+  language: OrderDirection
+  lastModification: OrderDirection
+  reviews: OrderDirection
+  slug: OrderDirection
+  statusView: OrderDirection
+  title: OrderDirection
+}
+
+input MarketingUpdateArgs {
+  data: MarketingUpdateInput!
+  where: MarketingWhereUniqueInput!
+}
+
+input MarketingUpdateInput {
+  aboutGeorge: Boolean
+  advantages: Boolean
+  createdAt: DateTime
+  description: String
+  image: ImageFieldInput
+  language: String
+  lastModification: DateTime
+  reviews: Boolean
+  slug: String
+  statusView: String
+  title: String
+}
+
+input MarketingWhereInput {
+  AND: [MarketingWhereInput!]
+  NOT: [MarketingWhereInput!]
+  OR: [MarketingWhereInput!]
+  aboutGeorge: BooleanFilter
+  advantages: BooleanFilter
+  createdAt: DateTimeFilter
+  description: StringFilter
+  id: IDFilter
+  language: StringFilter
+  lastModification: DateTimeFilter
+  reviews: BooleanFilter
+  slug: StringFilter
+  statusView: StringFilter
+  title: StringFilter
+}
+
+input MarketingWhereUniqueInput {
+  id: ID
+  slug: String
+}
+
 type Mutation {
   authWithEmail(email: String!): String
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
@@ -548,6 +637,8 @@ type Mutation {
   createFaq(data: FaqCreateInput!): Faq
   createFaqs(data: [FaqCreateInput!]!): [Faq]
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
+  createMarketing(data: MarketingCreateInput!): Marketing
+  createMarketings(data: [MarketingCreateInput!]!): [Marketing]
   createOrder(data: OrderCreateInput!): Order
   createOrders(data: [OrderCreateInput!]!): [Order]
   createPage(data: PageCreateInput!): Page
@@ -584,6 +675,8 @@ type Mutation {
   deleteCategory(where: CategoryWhereUniqueInput!): Category
   deleteFaq(where: FaqWhereUniqueInput!): Faq
   deleteFaqs(where: [FaqWhereUniqueInput!]!): [Faq]
+  deleteMarketing(where: MarketingWhereUniqueInput!): Marketing
+  deleteMarketings(where: [MarketingWhereUniqueInput!]!): [Marketing]
   deleteOrder(where: OrderWhereUniqueInput!): Order
   deleteOrders(where: [OrderWhereUniqueInput!]!): [Order]
   deletePage(where: PageWhereUniqueInput!): Page
@@ -624,6 +717,8 @@ type Mutation {
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
   updateFaq(data: FaqUpdateInput!, where: FaqWhereUniqueInput!): Faq
   updateFaqs(data: [FaqUpdateArgs!]!): [Faq]
+  updateMarketing(data: MarketingUpdateInput!, where: MarketingWhereUniqueInput!): Marketing
+  updateMarketings(data: [MarketingUpdateArgs!]!): [Marketing]
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
   updateOrders(data: [OrderUpdateArgs!]!): [Order]
   updatePage(data: PageUpdateInput!, where: PageWhereUniqueInput!): Page
@@ -679,6 +774,7 @@ type Order {
   payed: Int
   payments(orderBy: [PaymentOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PaymentWhereInput! = {}): [Payment!]
   paymentsCount(where: PaymentWhereInput! = {}): Int
+  quantityPayments: Int
   services(orderBy: [UserServiceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserServiceWhereInput! = {}): [UserService!]
   servicesCount(where: UserServiceWhereInput! = {}): Int
   status: OrderStatusType
@@ -693,8 +789,8 @@ input OrderCreateInput {
   currency: String
   label: String
   lastModification: DateTime
-  leftPayments: Int
   payments: PaymentRelateToManyForCreateInput
+  quantityPayments: Int
   services: UserServiceRelateToManyForCreateInput
   status: OrderStatusType
   student: UserRelateToOneForCreateInput
@@ -713,7 +809,7 @@ input OrderOrderByInput {
   id: OrderDirection
   label: OrderDirection
   lastModification: OrderDirection
-  leftPayments: OrderDirection
+  quantityPayments: OrderDirection
   status: OrderDirection
 }
 
@@ -754,8 +850,8 @@ input OrderUpdateInput {
   currency: String
   label: String
   lastModification: DateTime
-  leftPayments: Int
   payments: PaymentRelateToManyForUpdateInput
+  quantityPayments: Int
   services: UserServiceRelateToManyForUpdateInput
   status: OrderStatusType
   student: UserRelateToOneForUpdateInput
@@ -772,8 +868,8 @@ input OrderWhereInput {
   id: IDFilter
   label: StringFilter
   lastModification: DateTimeFilter
-  leftPayments: IntFilter
   payments: PaymentManyRelationFilter
+  quantityPayments: IntFilter
   services: UserServiceManyRelationFilter
   status: OrderStatusTypeNullableFilter
   student: UserWhereInput
@@ -1253,6 +1349,9 @@ type Query {
   faqs(orderBy: [FaqOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FaqWhereInput! = {}): [Faq!]
   faqsCount(where: FaqWhereInput! = {}): Int
   keystone: KeystoneMeta!
+  marketing(where: MarketingWhereUniqueInput!): Marketing
+  marketings(orderBy: [MarketingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: MarketingWhereInput! = {}): [Marketing!]
+  marketingsCount(where: MarketingWhereInput! = {}): Int
   order(where: OrderWhereUniqueInput!): Order
   orders(orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int

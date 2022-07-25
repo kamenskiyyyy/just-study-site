@@ -16,7 +16,7 @@ const HOST = 'https://juststudy.online';
 export const Head: FC<IHead> = (props) => {
     const {
         card = '/static/social-previews/default.png',
-        description = 'absent',
+        description = 'just study',
         disableAlternateLocale = false,
         largeCard = true,
         title

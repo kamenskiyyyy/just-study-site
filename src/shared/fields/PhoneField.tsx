@@ -33,7 +33,8 @@ export function PhoneField<TFieldValues>(props: TPhoneField<TFieldValues>) {
                     onChange={field.onChange}
                     isValid={!error?.message}
                     defaultErrorMessage={error?.message}
-                    defaultMask={'ru'}
+                    preferredCountries={['ru', 'ua', 'by', 'kz']}
+                    country={'ru'}
                     containerClass={'MuiFormControl-root'}
                     inputClass={'MuiInputBase-formControl'}
                 />
