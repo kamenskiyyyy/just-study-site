@@ -65,16 +65,18 @@ export default function AppFooter() {
                         gridAutoColumns: '1fr',
                         gap: 2
                     }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography fontWeight="bold" variant="body2">
-                            {t_nav.directions.title}
-                        </Typography>
-                        {t_nav.directions.children.map(({ title }, index) => (
-                            <Link href={COURSES_PATHS[index]} key={index}>
-                                {title}
-                            </Link>
-                        ))}
-                    </Box>
+                    {process.env.NODE_ENV === 'development' && (
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography fontWeight="bold" variant="body2">
+                                {t_nav.directions.title}
+                            </Typography>
+                            {t_nav.directions.children.map(({ title }, index) => (
+                                <Link href={COURSES_PATHS[index]} key={index}>
+                                    {title}
+                                </Link>
+                            ))}
+                        </Box>
+                    )}
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography fontWeight="bold" variant="body2">
                             {t.information.title}
