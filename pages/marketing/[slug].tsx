@@ -72,11 +72,11 @@ const MarketingPage: NextPage<{ data: IQueryMarketingPage; dataAboutUser: IDataA
                     )
                 }
             />
-            <FormForLeads data={dataAboutUser} />
+            <FormForLeads data={dataAboutUser} redirect={false} />
             {marketing.aboutGeorge && <AboutGeorge />}
             {marketing.advantages && <Advantages />}
             {marketing.reviews && <Reviews allReviews={productReviews} />}
-            <FormForLeads data={dataAboutUser} />
+            <FormForLeads data={dataAboutUser} redirect={false} />
         </>
     );
 };
@@ -112,8 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                 }
             }
         `,
-        variables: { lang, slug },
-        fetchPolicy: 'no-cache'
+        variables: { lang, slug }
     });
 
     const dataAboutUser: IDataAboutUser = {
