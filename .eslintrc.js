@@ -31,6 +31,7 @@ module.exports = {
         'prettier/prettier': ['error', {}, { usePrettierrc: true }],
         'react/react-in-jsx-scope': 'off',
         'react/prop-types': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         'simple-import-sort/sort': 'off',
         'react/no-unescaped-entities': 'off',
