@@ -39,16 +39,12 @@ export default function AppHeader() {
                 <Box component={Link} href={routes.home} aria-label="Go to homepage" sx={{ lineHeight: 0, mr: 2 }}>
                     <SvgJustStudyLogo width={30} />
                 </Box>
-                {process.env.NODE_ENV === 'development' && (
-                    <Box sx={{ display: { md: 'none' } }}>
-                        <HeaderNavDropdown />
-                    </Box>
-                )}
-                {process.env.NODE_ENV === 'development' && (
-                    <Box sx={{ display: { xs: 'none', md: 'initial' } }}>
-                        <HeaderNavBar />
-                    </Box>
-                )}
+                <Box sx={{ display: { md: 'none' } }}>
+                    <HeaderNavDropdown />
+                </Box>
+                <Box sx={{ display: { xs: 'none', md: 'initial' } }}>
+                    <HeaderNavBar />
+                </Box>
                 <Box sx={{ ml: 'auto' }} />
                 <Stack direction="row" spacing={1}>
                     <ThemeModeToggle />

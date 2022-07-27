@@ -13,14 +13,17 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { footer } from '@translations/footer';
 import { navigation } from '@translations/navigation';
-import { COURSES_PATHS } from '@shared/../components/Header/HeaderNavBar';
 import routes from '@src/routes';
 import { ChangeLanguage } from '@shared/ui/ChangeLanguage';
+import { useQuery } from '@apollo/client';
+import { Direction } from '@src/lib/apollo/types';
+import { QUERY_DIRECTIONS_NAVBAR } from '@src/lib/apollo/directionNavBar';
 
 export const INFO_PATH = [routes.terms, routes.privacy, routes.faq];
 
 export default function AppFooter() {
     const { locale } = useRouter();
+    const { data } = useQuery<{ directions: Direction[] }>(QUERY_DIRECTIONS_NAVBAR, { variables: { lang: locale } });
     const t = transition(footer, locale as ILanguages);
     const t_nav = transition(navigation, locale as ILanguages);
 
@@ -65,23 +68,21 @@ export default function AppFooter() {
                         gridAutoColumns: '1fr',
                         gap: 2
                     }}>
-                    {process.env.NODE_ENV === 'development' && (
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography fontWeight="bold" variant="body2">
-                                {t_nav.directions.title}
-                            </Typography>
-                            {t_nav.directions.children.map(({ title }, index) => (
-                                <Link href={COURSES_PATHS[index]} key={index}>
-                                    {title}
-                                </Link>
-                            ))}
-                        </Box>
-                    )}
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography fontWeight="bold" variant="body2">
+                            {t_nav.directions.title}
+                        </Typography>
+                        {data?.directions.map(({ id, slug, name }) => (
+                            <Link href={`${routes.directions}/${slug}`} key={id}>
+                                {name}
+                            </Link>
+                        ))}
+                    </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography fontWeight="bold" variant="body2">
                             {t.information.title}
                         </Typography>
-                        {t.information.children.map((title, index) => (
+                        {t.information.children.map((title: string, index: number) => (
                             <Link href={INFO_PATH[index]} key={index}>
                                 {title}
                             </Link>

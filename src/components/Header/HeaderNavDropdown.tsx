@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Link from '@shared/ui/Link';
 import routes from '@src/routes';
 import SvgHamburgerMenu from '@src/icons/SvgHamburgerMenu';
@@ -12,7 +11,9 @@ import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
 import { navigation } from '@translations/navigation';
 import { ILanguages } from '@src/modules/constants';
-import { COURSES_PATHS } from '@components/Header/HeaderNavBar';
+import { useQuery } from '@apollo/client';
+import { Direction } from '@src/lib/apollo/types';
+import { QUERY_DIRECTIONS_NAVBAR } from '@src/lib/apollo/directionNavBar';
 
 const Anchor = styled('a')<{ component?: React.ElementType; noLinkStyle?: boolean }>(({ theme }) => ({
     ...theme.typography.body2,
@@ -47,8 +48,9 @@ export default function HeaderNavDropdown() {
     const [open, setOpen] = React.useState(false);
     const [productsOpen, setProductsOpen] = React.useState(true);
     const hambugerRef = React.useRef<HTMLButtonElement | null>(null);
-
     const { locale } = useRouter();
+    const { data } = useQuery<{ directions: Direction[] }>(QUERY_DIRECTIONS_NAVBAR, { variables: { lang: locale } });
+
     const t = transition(navigation, locale as ILanguages);
 
     return (
@@ -121,10 +123,10 @@ export default function HeaderNavDropdown() {
                                             pb: 1,
                                             ml: 1
                                         }}>
-                                        {t.directions.children.map(({ title, desc }, index) => (
-                                            <li key={index}>
+                                        {data?.directions.map(({ id, slug, name }) => (
+                                            <li key={id}>
                                                 <Anchor
-                                                    href={COURSES_PATHS[index]}
+                                                    href={`${routes.directions}/${slug}`}
                                                     as={Link}
                                                     onClick={() => setOpen(false)}
                                                     noLinkStyle
@@ -132,10 +134,7 @@ export default function HeaderNavDropdown() {
                                                         flexDirection: 'column',
                                                         alignItems: 'initial'
                                                     }}>
-                                                    <div>{title}</div>
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {desc}
-                                                    </Typography>
+                                                    <div>{name}</div>
                                                 </Anchor>
                                             </li>
                                         ))}

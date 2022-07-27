@@ -525,43 +525,6 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
                     }
                 }
             },
-            MuiListItemButton: {
-                styleOverrides: {
-                    root: {
-                        padding: '8px',
-                        textTransform: 'none',
-                        fontWeight: 500,
-                        fontSize: theme.typography.pxToRem(14),
-                        color: theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[700],
-                        borderRadius: 0,
-                        '&:hover': {
-                            backgroundColor:
-                                theme.palette.mode === 'dark'
-                                    ? alpha(theme.palette.primaryDark[700], 0.4)
-                                    : theme.palette.grey[50]
-                        },
-                        '&.Mui-selected': {
-                            color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary[500],
-                            borderRadius: 10,
-                            border: '1px solid',
-                            borderColor:
-                                theme.palette.mode === 'dark'
-                                    ? `${theme.palette.primary[700]} !important`
-                                    : `${theme.palette.primary[500]} !important`,
-                            backgroundColor:
-                                theme.palette.mode === 'dark'
-                                    ? theme.palette.primaryDark[700]
-                                    : theme.palette.primary[50],
-                            '&:hover': {
-                                backgroundColor:
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.primaryDark[600]
-                                        : theme.palette.primary[100]
-                            }
-                        }
-                    }
-                }
-            },
             MuiSelect: {
                 defaultProps: {
                     IconComponent: ArrowDropDownRounded

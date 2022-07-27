@@ -15,6 +15,9 @@ import FlightIcon from '@mui/icons-material/Flight';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { transition } from '@src/lib/transition';
 import { ILanguages } from '@src/modules/constants';
+import { useQuery } from '@apollo/client';
+import { Direction } from '@src/lib/apollo/types';
+import { QUERY_DIRECTIONS_NAVBAR } from '@src/lib/apollo/directionNavBar';
 
 const Navigation = styled('nav')(({ theme }) => ({
     '& ul': {
@@ -49,7 +52,6 @@ const Navigation = styled('nav')(({ theme }) => ({
     }
 }));
 
-export const COURSES_IDS = ['general', 'aviation', 'bigness'];
 export const COURSES_PATHS = [routes.directions_general, routes.directions_aviation, routes.directions_business];
 // eslint-disable-next-line react/jsx-key
 const COURSES_ICONS = [<AutoAwesomeIcon />, <FlightIcon />, <WorkIcon />];
@@ -114,7 +116,7 @@ const CoursesSubMenu = React.forwardRef<HTMLAnchorElement, CoursesSubMenuProps>(
 export default function HeaderNavBar() {
     const { locale } = useRouter();
     const t = transition(navigation, locale as ILanguages);
-
+    const { data } = useQuery<{ directions: Direction[] }>(QUERY_DIRECTIONS_NAVBAR, { variables: { lang: locale } });
     const [subMenuOpen, setSubMenuOpen] = React.useState<null | 'courses'>(null);
     const coursesMenuRef = React.useRef<HTMLAnchorElement | null>(null);
 
@@ -189,15 +191,15 @@ export default function HeaderNavBar() {
                                         '& a': { textDecoration: 'none' }
                                     })}>
                                     <ul role="menu">
-                                        {t.directions.children.map(({ title, desc }, index) => (
-                                            <li role="none" key={index}>
+                                        {data?.directions.map(({ id, slug, name }, index) => (
+                                            <li role="none" key={id}>
                                                 <CoursesSubMenu
-                                                    id={COURSES_IDS[index]}
+                                                    id={id}
                                                     role="menuitem"
-                                                    href={COURSES_PATHS[index]}
+                                                    href={`${routes.directions}/${slug}`}
                                                     icon={COURSES_ICONS[index]}
-                                                    name={title}
-                                                    description={desc}
+                                                    name={name}
+                                                    description={''}
                                                 />
                                             </li>
                                         ))}
