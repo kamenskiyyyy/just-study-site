@@ -21,7 +21,7 @@ interface IQueryBlogPage {
 }
 
 const BlogPage: NextPageWithLayout<{ data: IQueryBlogPage }> = ({ data }) => {
-    const { tags, posts } = data;
+    const { posts } = data;
     const theme = useTheme();
     const { push, locale } = useRouter();
     const t = transition(blogPage, locale);
@@ -30,7 +30,7 @@ const BlogPage: NextPageWithLayout<{ data: IQueryBlogPage }> = ({ data }) => {
         <>
             <Head title={t.title} description={t.description} />
             <Box
-                bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}
+                bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A100}
                 px={{ xs: 0.5, md: 6 }}
                 py={{ xs: 2, md: 6 }}>
                 <Container maxWidth={'xl'} sx={{ p: 0 }}>
@@ -55,9 +55,7 @@ const BlogPage: NextPageWithLayout<{ data: IQueryBlogPage }> = ({ data }) => {
                                         {cover && (
                                             <Image
                                                 src={cover.url}
-                                                width={cover.width}
-                                                height={cover.height}
-                                                loading={'lazy'}
+                                                alt={title as string}
                                                 layout={'fill'}
                                                 objectFit={'cover'}
                                             />

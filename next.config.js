@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
-/* eslint-disable */
 const withPlugins = require('next-compose-plugins');
 const { withEffectorReactAliases } = require('effector-next/tools');
-const { withSentryConfig } = require('@sentry/nextjs')
+const { withSentryConfig } = require('@sentry/nextjs');
+const withPWA = require('next-pwa');
 
 const enhance = withEffectorReactAliases();
 
@@ -32,13 +32,22 @@ const nextConfiguration = {
             }
         ];
     }
-}
+};
 
 const sentryConfig = {
     ignore: ['node_modules', 'webpack.config.js'],
-    configFile: './sentry.properties',
-}
+    configFile: './sentry.properties'
+};
 
-module.exports = withPlugins([
-    [enhance], [withSentryConfig, sentryConfig]
-], nextConfiguration);
+const pwaConfig = {
+    pwa: {
+        dest: 'public',
+        register: true,
+        skipWaiting: true,
+        disable: process.env.NODE_ENV === 'development'
+    }
+};
+
+const nextPlugins = [[withPWA, pwaConfig], [withSentryConfig, sentryConfig], [enhance]];
+
+module.exports = withPlugins(nextPlugins, nextConfiguration);

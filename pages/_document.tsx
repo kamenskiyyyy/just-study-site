@@ -15,7 +15,7 @@ class MyDocument extends Document {
                 <Head>
                     <meta name="theme-color" content={theme.palette.primary.main} />
                     <link rel="icon" href="/favicon.ico" />
-                    <link rel="manifest" href="/site.webmanifest" />
+                    <link rel="manifest" href="/manifest.json" />
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
                     <style data-href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"></style>
                     {process.env.NODE_ENV === 'production' && (
