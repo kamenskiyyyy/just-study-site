@@ -195,7 +195,6 @@ type Category {
   language: String
   lastModification: DateTime
   name: String
-  parent: Category
   products(orderBy: [ProductOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductWhereInput! = {}): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
   statusView: String
@@ -206,7 +205,6 @@ input CategoryCreateInput {
   language: String
   lastModification: DateTime
   name: String
-  parent: CategoryRelateToOneForCreateInput
   products: ProductRelateToManyForCreateInput
   statusView: String
 }
@@ -259,7 +257,6 @@ input CategoryUpdateInput {
   language: String
   lastModification: DateTime
   name: String
-  parent: CategoryRelateToOneForUpdateInput
   products: ProductRelateToManyForUpdateInput
   statusView: String
 }
@@ -273,7 +270,6 @@ input CategoryWhereInput {
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
-  parent: CategoryWhereInput
   products: ProductManyRelationFilter
   statusView: StringFilter
 }
@@ -325,6 +321,223 @@ input DecimalFilter {
   lte: Decimal
   not: DecimalFilter
   notIn: [Decimal!]
+}
+
+type Direction {
+  createdAt: DateTime
+  description: String
+  goals(orderBy: [DirectionGoalOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionGoalWhereInput! = {}): [DirectionGoal!]
+  goalsCount(where: DirectionGoalWhereInput! = {}): Int
+  id: ID!
+  images: ImageFieldOutput
+  language: String
+  lastModification: DateTime
+  name: String
+  products(orderBy: [ProductOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductWhereInput! = {}): [Product!]
+  productsCount(where: ProductWhereInput! = {}): Int
+  results(orderBy: [DirectionResultOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionResultWhereInput! = {}): [DirectionResult!]
+  resultsCount(where: DirectionResultWhereInput! = {}): Int
+  statusView: String
+}
+
+input DirectionCreateInput {
+  createdAt: DateTime
+  description: String
+  goals: DirectionGoalRelateToManyForCreateInput
+  images: ImageFieldInput
+  language: String
+  lastModification: DateTime
+  name: String
+  products: ProductRelateToManyForCreateInput
+  results: DirectionResultRelateToManyForCreateInput
+  statusView: String
+}
+
+type DirectionGoal {
+  createdAt: DateTime
+  id: ID!
+  image: ImageFieldOutput
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionGoalCreateInput {
+  createdAt: DateTime
+  image: ImageFieldInput
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionGoalManyRelationFilter {
+  every: DirectionGoalWhereInput
+  none: DirectionGoalWhereInput
+  some: DirectionGoalWhereInput
+}
+
+input DirectionGoalOrderByInput {
+  createdAt: OrderDirection
+  id: OrderDirection
+  lastModification: OrderDirection
+  name: OrderDirection
+  statusView: OrderDirection
+}
+
+input DirectionGoalRelateToManyForCreateInput {
+  connect: [DirectionGoalWhereUniqueInput!]
+  create: [DirectionGoalCreateInput!]
+}
+
+input DirectionGoalRelateToManyForUpdateInput {
+  connect: [DirectionGoalWhereUniqueInput!]
+  create: [DirectionGoalCreateInput!]
+  disconnect: [DirectionGoalWhereUniqueInput!]
+  set: [DirectionGoalWhereUniqueInput!]
+}
+
+input DirectionGoalUpdateArgs {
+  data: DirectionGoalUpdateInput!
+  where: DirectionGoalWhereUniqueInput!
+}
+
+input DirectionGoalUpdateInput {
+  createdAt: DateTime
+  image: ImageFieldInput
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionGoalWhereInput {
+  AND: [DirectionGoalWhereInput!]
+  NOT: [DirectionGoalWhereInput!]
+  OR: [DirectionGoalWhereInput!]
+  createdAt: DateTimeFilter
+  id: IDFilter
+  lastModification: DateTimeFilter
+  name: StringFilter
+  statusView: StringFilter
+}
+
+input DirectionGoalWhereUniqueInput {
+  id: ID
+}
+
+input DirectionOrderByInput {
+  createdAt: OrderDirection
+  description: OrderDirection
+  id: OrderDirection
+  language: OrderDirection
+  lastModification: OrderDirection
+  name: OrderDirection
+  statusView: OrderDirection
+}
+
+type DirectionResult {
+  createdAt: DateTime
+  id: ID!
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionResultCreateInput {
+  createdAt: DateTime
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionResultManyRelationFilter {
+  every: DirectionResultWhereInput
+  none: DirectionResultWhereInput
+  some: DirectionResultWhereInput
+}
+
+input DirectionResultOrderByInput {
+  createdAt: OrderDirection
+  id: OrderDirection
+  lastModification: OrderDirection
+  name: OrderDirection
+  statusView: OrderDirection
+}
+
+input DirectionResultRelateToManyForCreateInput {
+  connect: [DirectionResultWhereUniqueInput!]
+  create: [DirectionResultCreateInput!]
+}
+
+input DirectionResultRelateToManyForUpdateInput {
+  connect: [DirectionResultWhereUniqueInput!]
+  create: [DirectionResultCreateInput!]
+  disconnect: [DirectionResultWhereUniqueInput!]
+  set: [DirectionResultWhereUniqueInput!]
+}
+
+input DirectionResultUpdateArgs {
+  data: DirectionResultUpdateInput!
+  where: DirectionResultWhereUniqueInput!
+}
+
+input DirectionResultUpdateInput {
+  createdAt: DateTime
+  lastModification: DateTime
+  name: String
+  statusView: String
+}
+
+input DirectionResultWhereInput {
+  AND: [DirectionResultWhereInput!]
+  NOT: [DirectionResultWhereInput!]
+  OR: [DirectionResultWhereInput!]
+  createdAt: DateTimeFilter
+  id: IDFilter
+  lastModification: DateTimeFilter
+  name: StringFilter
+  statusView: StringFilter
+}
+
+input DirectionResultWhereUniqueInput {
+  id: ID
+}
+
+input DirectionUpdateArgs {
+  data: DirectionUpdateInput!
+  where: DirectionWhereUniqueInput!
+}
+
+input DirectionUpdateInput {
+  createdAt: DateTime
+  description: String
+  goals: DirectionGoalRelateToManyForUpdateInput
+  images: ImageFieldInput
+  language: String
+  lastModification: DateTime
+  name: String
+  products: ProductRelateToManyForUpdateInput
+  results: DirectionResultRelateToManyForUpdateInput
+  statusView: String
+}
+
+input DirectionWhereInput {
+  AND: [DirectionWhereInput!]
+  NOT: [DirectionWhereInput!]
+  OR: [DirectionWhereInput!]
+  createdAt: DateTimeFilter
+  description: StringFilter
+  goals: DirectionGoalManyRelationFilter
+  id: IDFilter
+  language: StringFilter
+  lastModification: DateTimeFilter
+  name: StringFilter
+  products: ProductManyRelationFilter
+  results: DirectionResultManyRelationFilter
+  statusView: StringFilter
+}
+
+input DirectionWhereUniqueInput {
+  id: ID
 }
 
 type Faq {
@@ -634,6 +847,12 @@ type Mutation {
   createCartItems(data: [CartItemCreateInput!]!): [CartItem]
   createCategories(data: [CategoryCreateInput!]!): [Category]
   createCategory(data: CategoryCreateInput!): Category
+  createDirection(data: DirectionCreateInput!): Direction
+  createDirectionGoal(data: DirectionGoalCreateInput!): DirectionGoal
+  createDirectionGoals(data: [DirectionGoalCreateInput!]!): [DirectionGoal]
+  createDirectionResult(data: DirectionResultCreateInput!): DirectionResult
+  createDirectionResults(data: [DirectionResultCreateInput!]!): [DirectionResult]
+  createDirections(data: [DirectionCreateInput!]!): [Direction]
   createFaq(data: FaqCreateInput!): Faq
   createFaqs(data: [FaqCreateInput!]!): [Faq]
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -673,6 +892,12 @@ type Mutation {
   deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
   deleteCategories(where: [CategoryWhereUniqueInput!]!): [Category]
   deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteDirection(where: DirectionWhereUniqueInput!): Direction
+  deleteDirectionGoal(where: DirectionGoalWhereUniqueInput!): DirectionGoal
+  deleteDirectionGoals(where: [DirectionGoalWhereUniqueInput!]!): [DirectionGoal]
+  deleteDirectionResult(where: DirectionResultWhereUniqueInput!): DirectionResult
+  deleteDirectionResults(where: [DirectionResultWhereUniqueInput!]!): [DirectionResult]
+  deleteDirections(where: [DirectionWhereUniqueInput!]!): [Direction]
   deleteFaq(where: FaqWhereUniqueInput!): Faq
   deleteFaqs(where: [FaqWhereUniqueInput!]!): [Faq]
   deleteMarketing(where: MarketingWhereUniqueInput!): Marketing
@@ -715,6 +940,12 @@ type Mutation {
   updateCarts(data: [CartUpdateArgs!]!): [Cart]
   updateCategories(data: [CategoryUpdateArgs!]!): [Category]
   updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateDirection(data: DirectionUpdateInput!, where: DirectionWhereUniqueInput!): Direction
+  updateDirectionGoal(data: DirectionGoalUpdateInput!, where: DirectionGoalWhereUniqueInput!): DirectionGoal
+  updateDirectionGoals(data: [DirectionGoalUpdateArgs!]!): [DirectionGoal]
+  updateDirectionResult(data: DirectionResultUpdateInput!, where: DirectionResultWhereUniqueInput!): DirectionResult
+  updateDirectionResults(data: [DirectionResultUpdateArgs!]!): [DirectionResult]
+  updateDirections(data: [DirectionUpdateArgs!]!): [Direction]
   updateFaq(data: FaqUpdateInput!, where: FaqWhereUniqueInput!): Faq
   updateFaqs(data: [FaqUpdateArgs!]!): [Faq]
   updateMarketing(data: MarketingUpdateInput!, where: MarketingWhereUniqueInput!): Marketing
@@ -1165,31 +1396,31 @@ type Post_content_Document {
 }
 
 type Product {
-  categories(orderBy: [CategoryOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CategoryWhereInput! = {}): [Category!]
-  categoriesCount(where: CategoryWhereInput! = {}): Int
+  category: Category
   createdAt: DateTime
-  description: String
+  desc: Product_desc_Document
   id: ID!
-  images: ImageFieldOutput
+  image: ImageFieldOutput
   language: String
   lastModification: DateTime
   name: String
-  price: Int
   statusView: String
+  subscriptions(orderBy: [SubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SubscriptionWhereInput! = {}): [Subscription!]
+  subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
   tag(orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagCount(where: TagWhereInput! = {}): Int
 }
 
 input ProductCreateInput {
-  categories: CategoryRelateToManyForCreateInput
+  category: CategoryRelateToOneForCreateInput
   createdAt: DateTime
-  description: String
-  images: ImageFieldInput
+  desc: JSON
+  image: ImageFieldInput
   language: String
   lastModification: DateTime
   name: String
-  price: Int
   statusView: String
+  subscriptions: SubscriptionRelateToManyForCreateInput
   tag: TagRelateToManyForCreateInput
 }
 
@@ -1201,12 +1432,10 @@ input ProductManyRelationFilter {
 
 input ProductOrderByInput {
   createdAt: OrderDirection
-  description: OrderDirection
   id: OrderDirection
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
-  price: OrderDirection
   statusView: OrderDirection
 }
 
@@ -1220,6 +1449,17 @@ input ProductRelateToManyForUpdateInput {
   create: [ProductCreateInput!]
   disconnect: [ProductWhereUniqueInput!]
   set: [ProductWhereUniqueInput!]
+}
+
+input ProductRelateToOneForCreateInput {
+  connect: ProductWhereUniqueInput
+  create: ProductCreateInput
+}
+
+input ProductRelateToOneForUpdateInput {
+  connect: ProductWhereUniqueInput
+  create: ProductCreateInput
+  disconnect: Boolean
 }
 
 type ProductReview {
@@ -1297,15 +1537,15 @@ input ProductUpdateArgs {
 }
 
 input ProductUpdateInput {
-  categories: CategoryRelateToManyForUpdateInput
+  category: CategoryRelateToOneForUpdateInput
   createdAt: DateTime
-  description: String
-  images: ImageFieldInput
+  desc: JSON
+  image: ImageFieldInput
   language: String
   lastModification: DateTime
   name: String
-  price: Int
   statusView: String
+  subscriptions: SubscriptionRelateToManyForUpdateInput
   tag: TagRelateToManyForUpdateInput
 }
 
@@ -1313,20 +1553,23 @@ input ProductWhereInput {
   AND: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   OR: [ProductWhereInput!]
-  categories: CategoryManyRelationFilter
+  category: CategoryWhereInput
   createdAt: DateTimeFilter
-  description: StringFilter
   id: IDFilter
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
-  price: IntNullableFilter
   statusView: StringFilter
+  subscriptions: SubscriptionManyRelationFilter
   tag: TagManyRelationFilter
 }
 
 input ProductWhereUniqueInput {
   id: ID
+}
+
+type Product_desc_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Query {
@@ -1345,6 +1588,15 @@ type Query {
   categoriesCount(where: CategoryWhereInput! = {}): Int
   category(where: CategoryWhereUniqueInput!): Category
   checkPayment(paymentId: String!): Payment
+  direction(where: DirectionWhereUniqueInput!): Direction
+  directionGoal(where: DirectionGoalWhereUniqueInput!): DirectionGoal
+  directionGoals(orderBy: [DirectionGoalOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionGoalWhereInput! = {}): [DirectionGoal!]
+  directionGoalsCount(where: DirectionGoalWhereInput! = {}): Int
+  directionResult(where: DirectionResultWhereUniqueInput!): DirectionResult
+  directionResults(orderBy: [DirectionResultOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionResultWhereInput! = {}): [DirectionResult!]
+  directionResultsCount(where: DirectionResultWhereInput! = {}): Int
+  directions(orderBy: [DirectionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionWhereInput! = {}): [Direction!]
+  directionsCount(where: DirectionWhereInput! = {}): Int
   faq(where: FaqWhereUniqueInput!): Faq
   faqs(orderBy: [FaqOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FaqWhereInput! = {}): [Faq!]
   faqsCount(where: FaqWhereInput! = {}): Int
@@ -1588,7 +1840,6 @@ input StringFilter {
 
 type Subscription {
   createdAt: DateTime
-  description: Subscription_description_Document
   id: ID!
   label: String
   language: String
@@ -1596,20 +1847,27 @@ type Subscription {
   name: String
   period: Int
   price: Int
+  product: Product
   statusView: String
   visitCount: Int
 }
 
 input SubscriptionCreateInput {
   createdAt: DateTime
-  description: JSON
   language: String
   lastModification: DateTime
   name: String
   period: Int
   price: Int
+  product: ProductRelateToOneForCreateInput
   statusView: String
   visitCount: Int
+}
+
+input SubscriptionManyRelationFilter {
+  every: SubscriptionWhereInput
+  none: SubscriptionWhereInput
+  some: SubscriptionWhereInput
 }
 
 input SubscriptionOrderByInput {
@@ -1622,6 +1880,18 @@ input SubscriptionOrderByInput {
   price: OrderDirection
   statusView: OrderDirection
   visitCount: OrderDirection
+}
+
+input SubscriptionRelateToManyForCreateInput {
+  connect: [SubscriptionWhereUniqueInput!]
+  create: [SubscriptionCreateInput!]
+}
+
+input SubscriptionRelateToManyForUpdateInput {
+  connect: [SubscriptionWhereUniqueInput!]
+  create: [SubscriptionCreateInput!]
+  disconnect: [SubscriptionWhereUniqueInput!]
+  set: [SubscriptionWhereUniqueInput!]
 }
 
 input SubscriptionRelateToOneForCreateInput {
@@ -1642,12 +1912,12 @@ input SubscriptionUpdateArgs {
 
 input SubscriptionUpdateInput {
   createdAt: DateTime
-  description: JSON
   language: String
   lastModification: DateTime
   name: String
   period: Int
   price: Int
+  product: ProductRelateToOneForUpdateInput
   statusView: String
   visitCount: Int
 }
@@ -1663,6 +1933,7 @@ input SubscriptionWhereInput {
   name: StringFilter
   period: IntNullableFilter
   price: IntFilter
+  product: ProductWhereInput
   statusView: StringFilter
   visitCount: IntFilter
 }
@@ -1671,16 +1942,13 @@ input SubscriptionWhereUniqueInput {
   id: ID
 }
 
-type Subscription_description_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
-}
-
 type Tag {
   createdAt: DateTime
   id: ID!
   language: String
   lastModification: DateTime
   name: String
+  statusView: String
 }
 
 input TagCreateInput {
@@ -1688,6 +1956,7 @@ input TagCreateInput {
   language: String
   lastModification: DateTime
   name: String
+  statusView: String
 }
 
 input TagManyRelationFilter {
@@ -1702,6 +1971,7 @@ input TagOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
+  statusView: OrderDirection
 }
 
 input TagRelateToManyForCreateInput {
@@ -1726,6 +1996,7 @@ input TagUpdateInput {
   language: String
   lastModification: DateTime
   name: String
+  statusView: String
 }
 
 input TagWhereInput {
@@ -1737,6 +2008,7 @@ input TagWhereInput {
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
+  statusView: StringFilter
 }
 
 input TagWhereUniqueInput {

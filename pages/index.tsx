@@ -76,7 +76,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
                         }
                     }
                 }
-                posts(where: { statusView: { equals: "show" }, language: { equals: $lang } }, take: 4) {
+                posts(
+                    where: { statusView: { equals: "show" }, language: { equals: $lang } }
+                    orderBy: { createdAt: desc }
+                    take: 4
+                ) {
                     id
                     title
                     cover {

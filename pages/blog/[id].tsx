@@ -31,7 +31,7 @@ const PostBlogPage: NextPageWithLayout<{ data: Post }> = ({ data }) => {
         <>
             <Head title={title as string} description={description as string} />
             <Box
-                bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200}
+                bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A100}
                 px={{ xs: 0.5, md: 6 }}
                 py={{ xs: 2, md: 6 }}>
                 <Container maxWidth={'xl'} sx={{ p: 0 }}>
@@ -46,13 +46,9 @@ const PostBlogPage: NextPageWithLayout<{ data: Post }> = ({ data }) => {
                             </Typography>
                         )}
                         {cover && (
-                            <Image
-                                src={cover.url}
-                                alt={title || ''}
-                                width={cover.width}
-                                height={cover.height}
-                                loading={'lazy'}
-                            />
+                            <Card sx={{ minHeight: 370, position: 'relative' }}>
+                                <Image src={cover.url} alt={title as string} layout={'fill'} objectFit={'cover'} />
+                            </Card>
                         )}
                         <DocumentRenderer document={content!.document} />
                         <Stack mb={2} gap={3} direction={'row'} color={theme.palette.grey.A700}>
