@@ -26,8 +26,10 @@ export const CURRENT_USER_QUERY = gql`
                         id
                         subscription {
                             name
-                            description {
-                                document(hydrateRelationships: true)
+                            product {
+                                desc {
+                                    document(hydrateRelationships: true)
+                                }
                             }
                         }
                         service {

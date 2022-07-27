@@ -18,7 +18,7 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
     const [anchorEl, setAnchorEl] = useState<SVGSVGElement | null>(null);
 
     const title = subscription?.name || service?.name;
-    const description = subscription?.description?.document || service?.description?.document;
+    const description = subscription?.product?.desc?.document || service?.description?.document;
 
     const handlePopoverOpen: MouseEventHandler<SVGSVGElement> = (event) => {
         setAnchorEl(event.currentTarget);
@@ -66,7 +66,7 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
                 <>
                     <InfoIcon
                         color="action"
-                        sx={{ m: 'auto' }}
+                        style={{ margin: 'auto' }}
                         aria-owns={open ? 'mouse-over-popover' : undefined}
                         aria-haspopup="true"
                         onMouseEnter={handlePopoverOpen}
