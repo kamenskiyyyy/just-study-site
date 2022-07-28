@@ -480,23 +480,14 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
             MuiChip: {
                 styleOverrides: {
                     root: ({ ownerState: { color, variant } }) => ({
-                        fontWeight: 500,
-                        ...(variant === 'outlined' &&
-                            color === 'default' && {
-                                color:
-                                    theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[900],
-                                backgroundColor: 'transparent',
-                                borderColor:
-                                    theme.palette.mode === 'dark'
-                                        ? alpha(theme.palette.grey[100], 0.1)
-                                        : theme.palette.grey[200],
-                                '&:hover': {
-                                    color:
-                                        theme.palette.mode === 'dark'
-                                            ? theme.palette.grey[300]
-                                            : theme.palette.grey[900]
-                                }
-                            }),
+                        padding: 10,
+                        height: 'auto',
+                        border: 'none',
+                        boxShadow: '0px 4px 4px rgba(39, 80, 197, 0.04)',
+                        ...(variant === 'outlined' && {
+                            color: theme.palette.text.primary,
+                            backgroundColor: theme.palette.background.paper
+                        }),
                         ...(variant === 'outlined' &&
                             color === 'primary' && {
                                 '&:hover': {
@@ -517,35 +508,7 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
                                             ? theme.palette.primaryDark[600]
                                             : theme.palette.primary[100]
                                 }
-                            }),
-                        // for labelling product in the search
-                        // @ts-ignore internal repo module augmentation issue
-                        ...(variant === 'light' && {
-                            ...(color === 'default' && {
-                                color:
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.primary[200]
-                                        : theme.palette.primary[700],
-                                backgroundColor:
-                                    theme.palette.mode === 'dark'
-                                        ? alpha(theme.palette.primaryDark[700], 0.5)
-                                        : alpha(theme.palette.primary[100], 0.3)
-                            }),
-                            ...(color === 'warning' && {
-                                color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.warning[900],
-                                backgroundColor:
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.warning[900]
-                                        : theme.palette.warning[100]
-                            }),
-                            ...(color === 'success' && {
-                                color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.success[900],
-                                backgroundColor:
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.success[900]
-                                        : theme.palette.success[100]
                             })
-                        })
                     }),
                     deleteIcon: {
                         color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary[700],
@@ -559,43 +522,6 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
                 styleOverrides: {
                     root: {
                         padding: 0
-                    }
-                }
-            },
-            MuiListItemButton: {
-                styleOverrides: {
-                    root: {
-                        padding: '8px',
-                        textTransform: 'none',
-                        fontWeight: 500,
-                        fontSize: theme.typography.pxToRem(14),
-                        color: theme.palette.mode === 'dark' ? theme.palette.grey[300] : theme.palette.grey[700],
-                        borderRadius: 0,
-                        '&:hover': {
-                            backgroundColor:
-                                theme.palette.mode === 'dark'
-                                    ? alpha(theme.palette.primaryDark[700], 0.4)
-                                    : theme.palette.grey[50]
-                        },
-                        '&.Mui-selected': {
-                            color: theme.palette.mode === 'dark' ? '#fff' : theme.palette.primary[500],
-                            borderRadius: 10,
-                            border: '1px solid',
-                            borderColor:
-                                theme.palette.mode === 'dark'
-                                    ? `${theme.palette.primary[700]} !important`
-                                    : `${theme.palette.primary[500]} !important`,
-                            backgroundColor:
-                                theme.palette.mode === 'dark'
-                                    ? theme.palette.primaryDark[700]
-                                    : theme.palette.primary[50],
-                            '&:hover': {
-                                backgroundColor:
-                                    theme.palette.mode === 'dark'
-                                        ? theme.palette.primaryDark[600]
-                                        : theme.palette.primary[100]
-                            }
-                        }
                     }
                 }
             },

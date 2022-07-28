@@ -197,7 +197,6 @@ type Category {
   name: String
   products(orderBy: [ProductOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductWhereInput! = {}): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  statusView: String
 }
 
 input CategoryCreateInput {
@@ -206,7 +205,6 @@ input CategoryCreateInput {
   lastModification: DateTime
   name: String
   products: ProductRelateToManyForCreateInput
-  statusView: String
 }
 
 input CategoryManyRelationFilter {
@@ -221,7 +219,6 @@ input CategoryOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
-  statusView: OrderDirection
 }
 
 input CategoryRelateToManyForCreateInput {
@@ -258,7 +255,6 @@ input CategoryUpdateInput {
   lastModification: DateTime
   name: String
   products: ProductRelateToManyForUpdateInput
-  statusView: String
 }
 
 input CategoryWhereInput {
@@ -271,7 +267,6 @@ input CategoryWhereInput {
   lastModification: DateTimeFilter
   name: StringFilter
   products: ProductManyRelationFilter
-  statusView: StringFilter
 }
 
 input CategoryWhereUniqueInput {
@@ -329,7 +324,7 @@ type Direction {
   goals(orderBy: [DirectionGoalOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionGoalWhereInput! = {}): [DirectionGoal!]
   goalsCount(where: DirectionGoalWhereInput! = {}): Int
   id: ID!
-  images: ImageFieldOutput
+  image: ImageFieldOutput
   language: String
   lastModification: DateTime
   name: String
@@ -337,6 +332,7 @@ type Direction {
   productsCount(where: ProductWhereInput! = {}): Int
   results(orderBy: [DirectionResultOrderByInput!]! = [], skip: Int! = 0, take: Int, where: DirectionResultWhereInput! = {}): [DirectionResult!]
   resultsCount(where: DirectionResultWhereInput! = {}): Int
+  slug: String
   statusView: String
 }
 
@@ -344,12 +340,13 @@ input DirectionCreateInput {
   createdAt: DateTime
   description: String
   goals: DirectionGoalRelateToManyForCreateInput
-  images: ImageFieldInput
+  image: ImageFieldInput
   language: String
   lastModification: DateTime
   name: String
   products: ProductRelateToManyForCreateInput
   results: DirectionResultRelateToManyForCreateInput
+  slug: String
   statusView: String
 }
 
@@ -431,6 +428,7 @@ input DirectionOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
+  slug: OrderDirection
   statusView: OrderDirection
 }
 
@@ -511,12 +509,13 @@ input DirectionUpdateInput {
   createdAt: DateTime
   description: String
   goals: DirectionGoalRelateToManyForUpdateInput
-  images: ImageFieldInput
+  image: ImageFieldInput
   language: String
   lastModification: DateTime
   name: String
   products: ProductRelateToManyForUpdateInput
   results: DirectionResultRelateToManyForUpdateInput
+  slug: String
   statusView: String
 }
 
@@ -533,6 +532,7 @@ input DirectionWhereInput {
   name: StringFilter
   products: ProductManyRelationFilter
   results: DirectionResultManyRelationFilter
+  slug: StringFilter
   statusView: StringFilter
 }
 
@@ -1407,8 +1407,8 @@ type Product {
   statusView: String
   subscriptions(orderBy: [SubscriptionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SubscriptionWhereInput! = {}): [Subscription!]
   subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
-  tag(orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
-  tagCount(where: TagWhereInput! = {}): Int
+  tags(orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
 }
 
 input ProductCreateInput {
@@ -1421,7 +1421,7 @@ input ProductCreateInput {
   name: String
   statusView: String
   subscriptions: SubscriptionRelateToManyForCreateInput
-  tag: TagRelateToManyForCreateInput
+  tags: TagRelateToManyForCreateInput
 }
 
 input ProductManyRelationFilter {
@@ -1546,7 +1546,7 @@ input ProductUpdateInput {
   name: String
   statusView: String
   subscriptions: SubscriptionRelateToManyForUpdateInput
-  tag: TagRelateToManyForUpdateInput
+  tags: TagRelateToManyForUpdateInput
 }
 
 input ProductWhereInput {
@@ -1561,7 +1561,7 @@ input ProductWhereInput {
   name: StringFilter
   statusView: StringFilter
   subscriptions: SubscriptionManyRelationFilter
-  tag: TagManyRelationFilter
+  tags: TagManyRelationFilter
 }
 
 input ProductWhereUniqueInput {
@@ -1948,7 +1948,6 @@ type Tag {
   language: String
   lastModification: DateTime
   name: String
-  statusView: String
 }
 
 input TagCreateInput {
@@ -1956,7 +1955,6 @@ input TagCreateInput {
   language: String
   lastModification: DateTime
   name: String
-  statusView: String
 }
 
 input TagManyRelationFilter {
@@ -1971,7 +1969,6 @@ input TagOrderByInput {
   language: OrderDirection
   lastModification: OrderDirection
   name: OrderDirection
-  statusView: OrderDirection
 }
 
 input TagRelateToManyForCreateInput {
@@ -1996,7 +1993,6 @@ input TagUpdateInput {
   language: String
   lastModification: DateTime
   name: String
-  statusView: String
 }
 
 input TagWhereInput {
@@ -2008,7 +2004,6 @@ input TagWhereInput {
   language: StringFilter
   lastModification: DateTimeFilter
   name: StringFilter
-  statusView: StringFilter
 }
 
 input TagWhereUniqueInput {

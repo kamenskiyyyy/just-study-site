@@ -20,6 +20,11 @@ export const GET_ALL_PAGES = gql`
             language
             lastModification
         }
+        directions(where: { statusView: { equals: "show" } }) {
+            slug
+            language
+            lastModification
+        }
     }
 `;
 
@@ -44,6 +49,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         data.posts.map(({ language, id, lastModification }) => {
             fields.push({
                 loc: `${FRONTEND_URL}/${language}${routes.blog}/${id}`,
+                lastmod: format(new Date(lastModification), 'yyyy-MM-dd')
+            });
+        });
+    }
+
+    if (data.directions) {
+        data.directions.map(({ language, slug, lastModification }) => {
+            fields.push({
+                loc: `${FRONTEND_URL}/${language}${routes.directions}/${slug}`,
                 lastmod: format(new Date(lastModification), 'yyyy-MM-dd')
             });
         });

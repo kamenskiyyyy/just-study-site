@@ -233,7 +233,6 @@ export type Category = {
   name?: Maybe<Scalars['String']>;
   products?: Maybe<Array<Product>>;
   productsCount?: Maybe<Scalars['Int']>;
-  statusView?: Maybe<Scalars['String']>;
 };
 
 
@@ -255,7 +254,6 @@ export type CategoryCreateInput = {
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   products?: InputMaybe<ProductRelateToManyForCreateInput>;
-  statusView?: InputMaybe<Scalars['String']>;
 };
 
 export type CategoryManyRelationFilter = {
@@ -270,7 +268,6 @@ export type CategoryOrderByInput = {
   language?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
-  statusView?: InputMaybe<OrderDirection>;
 };
 
 export type CategoryRelateToManyForCreateInput = {
@@ -307,7 +304,6 @@ export type CategoryUpdateInput = {
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   products?: InputMaybe<ProductRelateToManyForUpdateInput>;
-  statusView?: InputMaybe<Scalars['String']>;
 };
 
 export type CategoryWhereInput = {
@@ -320,7 +316,6 @@ export type CategoryWhereInput = {
   lastModification?: InputMaybe<DateTimeFilter>;
   name?: InputMaybe<StringFilter>;
   products?: InputMaybe<ProductManyRelationFilter>;
-  statusView?: InputMaybe<StringFilter>;
 };
 
 export type CategoryWhereUniqueInput = {
@@ -375,7 +370,7 @@ export type Direction = {
   goals?: Maybe<Array<DirectionGoal>>;
   goalsCount?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
-  images?: Maybe<ImageFieldOutput>;
+  image?: Maybe<ImageFieldOutput>;
   language?: Maybe<Scalars['String']>;
   lastModification?: Maybe<Scalars['DateTime']>;
   name?: Maybe<Scalars['String']>;
@@ -383,6 +378,7 @@ export type Direction = {
   productsCount?: Maybe<Scalars['Int']>;
   results?: Maybe<Array<DirectionResult>>;
   resultsCount?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['String']>;
   statusView?: Maybe<Scalars['String']>;
 };
 
@@ -429,12 +425,13 @@ export type DirectionCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   description?: InputMaybe<Scalars['String']>;
   goals?: InputMaybe<DirectionGoalRelateToManyForCreateInput>;
-  images?: InputMaybe<ImageFieldInput>;
+  image?: InputMaybe<ImageFieldInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   products?: InputMaybe<ProductRelateToManyForCreateInput>;
   results?: InputMaybe<DirectionResultRelateToManyForCreateInput>;
+  slug?: InputMaybe<Scalars['String']>;
   statusView?: InputMaybe<Scalars['String']>;
 };
 
@@ -517,6 +514,7 @@ export type DirectionOrderByInput = {
   language?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
+  slug?: InputMaybe<OrderDirection>;
   statusView?: InputMaybe<OrderDirection>;
 };
 
@@ -598,12 +596,13 @@ export type DirectionUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   description?: InputMaybe<Scalars['String']>;
   goals?: InputMaybe<DirectionGoalRelateToManyForUpdateInput>;
-  images?: InputMaybe<ImageFieldInput>;
+  image?: InputMaybe<ImageFieldInput>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   products?: InputMaybe<ProductRelateToManyForUpdateInput>;
   results?: InputMaybe<DirectionResultRelateToManyForUpdateInput>;
+  slug?: InputMaybe<Scalars['String']>;
   statusView?: InputMaybe<Scalars['String']>;
 };
 
@@ -620,6 +619,7 @@ export type DirectionWhereInput = {
   name?: InputMaybe<StringFilter>;
   products?: InputMaybe<ProductManyRelationFilter>;
   results?: InputMaybe<DirectionResultManyRelationFilter>;
+  slug?: InputMaybe<StringFilter>;
   statusView?: InputMaybe<StringFilter>;
 };
 
@@ -2323,8 +2323,8 @@ export type Product = {
   statusView?: Maybe<Scalars['String']>;
   subscriptions?: Maybe<Array<Subscription>>;
   subscriptionsCount?: Maybe<Scalars['Int']>;
-  tag?: Maybe<Array<Tag>>;
-  tagCount?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<Tag>>;
+  tagsCount?: Maybe<Scalars['Int']>;
 };
 
 
@@ -2341,7 +2341,7 @@ export type ProductSubscriptionsCountArgs = {
 };
 
 
-export type ProductTagArgs = {
+export type ProductTagsArgs = {
   orderBy?: Array<TagOrderByInput>;
   skip?: Scalars['Int'];
   take?: InputMaybe<Scalars['Int']>;
@@ -2349,7 +2349,7 @@ export type ProductTagArgs = {
 };
 
 
-export type ProductTagCountArgs = {
+export type ProductTagsCountArgs = {
   where?: TagWhereInput;
 };
 
@@ -2363,7 +2363,7 @@ export type ProductCreateInput = {
   name?: InputMaybe<Scalars['String']>;
   statusView?: InputMaybe<Scalars['String']>;
   subscriptions?: InputMaybe<SubscriptionRelateToManyForCreateInput>;
-  tag?: InputMaybe<TagRelateToManyForCreateInput>;
+  tags?: InputMaybe<TagRelateToManyForCreateInput>;
 };
 
 export type ProductManyRelationFilter = {
@@ -2502,7 +2502,7 @@ export type ProductUpdateInput = {
   name?: InputMaybe<Scalars['String']>;
   statusView?: InputMaybe<Scalars['String']>;
   subscriptions?: InputMaybe<SubscriptionRelateToManyForUpdateInput>;
-  tag?: InputMaybe<TagRelateToManyForUpdateInput>;
+  tags?: InputMaybe<TagRelateToManyForUpdateInput>;
 };
 
 export type ProductWhereInput = {
@@ -2517,7 +2517,7 @@ export type ProductWhereInput = {
   name?: InputMaybe<StringFilter>;
   statusView?: InputMaybe<StringFilter>;
   subscriptions?: InputMaybe<SubscriptionManyRelationFilter>;
-  tag?: InputMaybe<TagManyRelationFilter>;
+  tags?: InputMaybe<TagManyRelationFilter>;
 };
 
 export type ProductWhereUniqueInput = {
@@ -3342,7 +3342,6 @@ export type Tag = {
   language?: Maybe<Scalars['String']>;
   lastModification?: Maybe<Scalars['DateTime']>;
   name?: Maybe<Scalars['String']>;
-  statusView?: Maybe<Scalars['String']>;
 };
 
 export type TagCreateInput = {
@@ -3350,7 +3349,6 @@ export type TagCreateInput = {
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
-  statusView?: InputMaybe<Scalars['String']>;
 };
 
 export type TagManyRelationFilter = {
@@ -3365,7 +3363,6 @@ export type TagOrderByInput = {
   language?: InputMaybe<OrderDirection>;
   lastModification?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
-  statusView?: InputMaybe<OrderDirection>;
 };
 
 export type TagRelateToManyForCreateInput = {
@@ -3390,7 +3387,6 @@ export type TagUpdateInput = {
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
-  statusView?: InputMaybe<Scalars['String']>;
 };
 
 export type TagWhereInput = {
@@ -3402,7 +3398,6 @@ export type TagWhereInput = {
   language?: InputMaybe<StringFilter>;
   lastModification?: InputMaybe<DateTimeFilter>;
   name?: InputMaybe<StringFilter>;
-  statusView?: InputMaybe<StringFilter>;
 };
 
 export type TagWhereUniqueInput = {
