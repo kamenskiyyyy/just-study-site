@@ -40,7 +40,7 @@ export const Orders: FC<{ userId: string }> = ({ userId }) => {
 
     return (
         <SpinnerWrapper loading={loading}>
-            {data?.orders && (
+            {data?.orders && data.orders.length > 0 && (
                 <Card
                     sx={{
                         display: 'flex',
