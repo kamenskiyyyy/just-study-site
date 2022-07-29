@@ -15,7 +15,7 @@ import routes from '@src/routes';
 import { ContactForm } from '@components/Cart/ContactForm';
 import { Currency } from '@shared/enums/currency.enum';
 import { CartItem } from '@components/Cart/CartItem';
-import { CartItem as CartItemProps } from '@src/lib/apollo/types';
+import { CartItem as CartItemProps, PaytureResponse } from '@src/lib/apollo/types';
 import { useMutation } from '@apollo/client';
 import { ICartForm } from '@components/Cart/types';
 import { MUTATION_CART } from '@components/Cart/graphql';
@@ -23,23 +23,20 @@ import { LoadingButton } from '@mui/lab';
 
 export const Cart: FC = () => {
     const { locale, push } = useRouter();
-    const user = useUser();
+    const { user } = useUser();
     const userCart = user?.cart;
     const formContext = useForm<ICartForm>({ defaultValues: { language: locale } });
     const { handleSubmit, setValue } = formContext;
     const t = transition(cartPage, locale);
     const t_contact = transition(formLeadsList, locale);
-    const [sendCart, { loading, error, data }] = useMutation(MUTATION_CART);
+    const [sendCart, { loading, error, data }] = useMutation<{ cart: PaytureResponse }>(MUTATION_CART);
 
     const onSubmit = handleSubmit(async (data) => {
         const { agree, ...formattedData } = data;
-        console.log('onSubmit', formattedData);
         await sendCart({ variables: { data: formattedData } });
     });
 
     useEffect(() => {
-        console.log('useMutation data', data);
-        console.log('useMutation error', error);
         if (data?.cart.Success === 'True') {
             push(data.cart.RedirectUrl);
         }
@@ -75,6 +72,9 @@ export const Cart: FC = () => {
 
     return (
         <Stack gap={3}>
+            <Typography variant={'h1'} mb={{ xs: 1, md: 3 }} style={{ wordBreak: 'break-word' }}>
+                {t.title}
+            </Typography>
             <Divider />
             <Stack gap={2}>
                 {userCart?.items.map((item: CartItemProps) => (

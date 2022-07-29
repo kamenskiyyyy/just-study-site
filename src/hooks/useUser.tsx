@@ -48,7 +48,7 @@ export const CURRENT_USER_QUERY = gql`
 `;
 
 export const useUser = () => {
-    const { data } = useQuery(CURRENT_USER_QUERY);
+    const { data, loading, error } = useQuery(CURRENT_USER_QUERY, { fetchPolicy: 'network-only' });
     if (data?.authenticatedItem) {
         const { name, id, email } = data.authenticatedItem;
         Sentry.setUser({
@@ -58,5 +58,9 @@ export const useUser = () => {
         });
     }
 
-    return data?.authenticatedItem;
+    return {
+        user: data?.authenticatedItem,
+        loading,
+        error
+    };
 };
