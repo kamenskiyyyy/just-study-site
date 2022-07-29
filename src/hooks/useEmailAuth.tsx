@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { CURRENT_USER_QUERY, useUser } from '@src/hooks/useUser';
 import { useRouter } from 'next/router';
+import { QUERY_ACTIVE_ORDERS } from '../../pages/checkout';
 
 const MUTATION_GET_TOKEN_FOR_AUTH = gql`
     mutation ($email: String!) {
@@ -25,14 +26,16 @@ const MUTATION_REDEEM_USER_WITH_TOKEN = gql`
 export const EmailAuth: FC = () => {
     const [getTokenForAuth] = useMutation(MUTATION_GET_TOKEN_FOR_AUTH);
     const [authWithToken] = useMutation(MUTATION_REDEEM_USER_WITH_TOKEN, {
-        refetchQueries: [{ query: CURRENT_USER_QUERY }]
+        refetchQueries: [{ query: CURRENT_USER_QUERY }, { query: QUERY_ACTIVE_ORDERS }]
     });
     const { query } = useRouter();
     const [email, setEmail] = useState<string | null>();
     const { user } = useUser();
 
+    console.log(user);
+
     const auth = useCallback(async () => {
-        if (email && !user) {
+        if (email && !user.id) {
             const token = await getTokenForAuth({ variables: { email } });
             if (token) {
                 await authWithToken({ variables: { email, token: token.data.authWithEmail } });

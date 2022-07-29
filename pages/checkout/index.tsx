@@ -1,5 +1,5 @@
 import { Head } from '@src/modules/components/Head';
-import { Alert, AlertTitle, Box, Card, Container } from '@mui/material';
+import { Box, Card, Container } from '@mui/material';
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
@@ -11,8 +11,8 @@ import { Cart } from '@components/Cart/Cart';
 import dynamic from 'next/dynamic';
 import { NextPage } from 'next';
 import { SpinnerWrapper } from '@shared/ui/SpinnerWrapper';
-import { gql, useQuery } from '@apollo/client';
-import { IOrders, Orders } from '@components/Orders/Orders';
+import { gql } from '@apollo/client';
+import { Orders } from '@components/Orders/Orders';
 
 export const QUERY_ACTIVE_ORDERS = gql`
     query ($userId: ID!) {
@@ -34,10 +34,7 @@ const Checkout: NextPage = () => {
     const { user, loading } = useUser();
     const userCart = user?.cart;
 
-    const { data } = useQuery<IOrders>(QUERY_ACTIVE_ORDERS, {
-        variables: { userId: user?.id },
-        fetchPolicy: 'network-only'
-    });
+    console.log(user);
 
     return (
         <MainLayout>
@@ -52,13 +49,7 @@ const Checkout: NextPage = () => {
                             px: { xs: 2, md: 6 }
                         }}>
                         <SpinnerWrapper loading={loading}>
-                            {user === null && (
-                                <Alert severity="error">
-                                    <AlertTitle>Вы не авторизованы 😢</AlertTitle>
-                                    Для оплаты заказа вам необходимо авторизоваться
-                                </Alert>
-                            )}
-                            {data?.orders && data?.orders?.length > 0 && <Orders orders={data.orders} />}
+                            {user?.id && <Orders userId={user.id} />}
                             {userCart?.items.length > 0 && <Cart />}
                         </SpinnerWrapper>
                     </Card>
