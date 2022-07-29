@@ -35,7 +35,7 @@ export const EmailAuth: FC = () => {
     console.log(user);
 
     const auth = useCallback(async () => {
-        if (email && !user.id) {
+        if (email && !user?.id) {
             const token = await getTokenForAuth({ variables: { email } });
             if (token) {
                 await authWithToken({ variables: { email, token: token.data.authWithEmail } });
