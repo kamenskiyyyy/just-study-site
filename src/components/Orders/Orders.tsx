@@ -4,13 +4,24 @@ import Divider from '@mui/material/Divider';
 import { Stack, Typography } from '@mui/material';
 import { Order } from '@src/lib/apollo/types';
 import { gql, useQuery } from '@apollo/client';
-import { QUERY_ACTIVE_ORDERS } from '../../../pages/checkout';
 import { SpinnerWrapper } from '@shared/ui/SpinnerWrapper';
 import { OrderItem } from '@components/Orders/OrderItem';
 
 export interface IOrders {
     orders: Order[];
 }
+
+export const QUERY_ACTIVE_ORDERS = gql`
+    query ($userId: ID!) {
+        orders(where: { status: { equals: created }, student: { id: { equals: $userId } } }) {
+            id
+            label
+            amount
+            nextPayment
+            quantityPayments
+        }
+    }
+`;
 
 export const MUTATION_GET_PAY = gql`
     mutation ($orderId: String!) {

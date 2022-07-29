@@ -2,7 +2,6 @@
 const withPlugins = require('next-compose-plugins');
 const { withEffectorReactAliases } = require('effector-next/tools');
 const { withSentryConfig } = require('@sentry/nextjs');
-const withPWA = require('next-pwa');
 
 const enhance = withEffectorReactAliases();
 
@@ -39,15 +38,6 @@ const sentryConfig = {
     configFile: './sentry.properties'
 };
 
-const pwaConfig = {
-    pwa: {
-        dest: 'public',
-        register: true,
-        skipWaiting: true,
-        disable: process.env.NODE_ENV === 'development'
-    }
-};
-
-const nextPlugins = [[withPWA, pwaConfig], [withSentryConfig, sentryConfig], [enhance]];
+const nextPlugins = [[withSentryConfig, sentryConfig], [enhance]];
 
 module.exports = withPlugins(nextPlugins, nextConfiguration);

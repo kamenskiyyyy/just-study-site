@@ -11,20 +11,7 @@ import { Cart } from '@components/Cart/Cart';
 import dynamic from 'next/dynamic';
 import { NextPage } from 'next';
 import { SpinnerWrapper } from '@shared/ui/SpinnerWrapper';
-import { gql } from '@apollo/client';
 import { Orders } from '@components/Orders/Orders';
-
-export const QUERY_ACTIVE_ORDERS = gql`
-    query ($userId: ID!) {
-        orders(where: { status: { equals: created }, student: { id: { equals: $userId } } }) {
-            id
-            label
-            amount
-            nextPayment
-            quantityPayments
-        }
-    }
-`;
 
 const Checkout: NextPage = () => {
     const theme = useTheme();
