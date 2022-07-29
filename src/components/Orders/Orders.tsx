@@ -40,21 +40,23 @@ export const Orders: FC<{ userId: string }> = ({ userId }) => {
 
     return (
         <SpinnerWrapper loading={loading}>
-            <Card
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    py: { xs: 3, md: 6 },
-                    px: { xs: 2, md: 6 }
-                }}>
-                <Stack gap={3}>
-                    <Typography variant={'h1'}>🏁 Завершите оформление заказа</Typography>
-                    <Divider />
-                    {data?.orders.map((order) => (
-                        <OrderItem key={order.id} order={order} />
-                    ))}
-                </Stack>
-            </Card>
+            {data?.orders && (
+                <Card
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        py: { xs: 3, md: 6 },
+                        px: { xs: 2, md: 6 }
+                    }}>
+                    <Stack gap={3}>
+                        <Typography variant={'h1'}>🏁 Завершите оформление заказа</Typography>
+                        <Divider />
+                        {data?.orders.map((order) => (
+                            <OrderItem key={order.id} order={order} />
+                        ))}
+                    </Stack>
+                </Card>
+            )}
         </SpinnerWrapper>
     );
 };
