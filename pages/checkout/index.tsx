@@ -1,5 +1,5 @@
 import { Head } from '@src/modules/components/Head';
-import { Box, Card, Container } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
@@ -21,25 +21,17 @@ const Checkout: NextPage = () => {
     const { user, loading } = useUser();
     const userCart = user?.cart;
 
-    console.log(user);
-
     return (
         <MainLayout>
             <Head title={t.title} />
             <Box bgcolor={theme.palette.primary.main} px={{ xs: 0.5, md: 6 }} py={{ xs: 2, md: 6 }}>
                 <Container maxWidth={'md'} sx={{ p: 0 }}>
-                    <Card
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            py: { xs: 3, md: 6 },
-                            px: { xs: 2, md: 6 }
-                        }}>
-                        <SpinnerWrapper loading={loading}>
+                    <SpinnerWrapper loading={loading} color={'warning'}>
+                        <Stack gap={3}>
                             {user?.id && <Orders userId={user.id} />}
                             {userCart?.items.length > 0 && <Cart />}
-                        </SpinnerWrapper>
-                    </Card>
+                        </Stack>
+                    </SpinnerWrapper>
                 </Container>
             </Box>
         </MainLayout>

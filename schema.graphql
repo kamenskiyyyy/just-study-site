@@ -70,6 +70,7 @@ type Cart {
   items(orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
   itemsCount(where: CartItemWhereInput! = {}): Int
   lastModification: DateTime
+  linkForUser: String
   quantityPayments: Int
   user: User
 }
@@ -1409,6 +1410,7 @@ type Product {
   subscriptionsCount(where: SubscriptionWhereInput! = {}): Int
   tags(orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
+  trial: Boolean
 }
 
 input ProductCreateInput {
@@ -1422,6 +1424,7 @@ input ProductCreateInput {
   statusView: String
   subscriptions: SubscriptionRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
+  trial: Boolean
 }
 
 input ProductManyRelationFilter {
@@ -1437,6 +1440,7 @@ input ProductOrderByInput {
   lastModification: OrderDirection
   name: OrderDirection
   statusView: OrderDirection
+  trial: OrderDirection
 }
 
 input ProductRelateToManyForCreateInput {
@@ -1449,17 +1453,6 @@ input ProductRelateToManyForUpdateInput {
   create: [ProductCreateInput!]
   disconnect: [ProductWhereUniqueInput!]
   set: [ProductWhereUniqueInput!]
-}
-
-input ProductRelateToOneForCreateInput {
-  connect: ProductWhereUniqueInput
-  create: ProductCreateInput
-}
-
-input ProductRelateToOneForUpdateInput {
-  connect: ProductWhereUniqueInput
-  create: ProductCreateInput
-  disconnect: Boolean
 }
 
 type ProductReview {
@@ -1547,6 +1540,7 @@ input ProductUpdateInput {
   statusView: String
   subscriptions: SubscriptionRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
+  trial: Boolean
 }
 
 input ProductWhereInput {
@@ -1562,6 +1556,7 @@ input ProductWhereInput {
   statusView: StringFilter
   subscriptions: SubscriptionManyRelationFilter
   tags: TagManyRelationFilter
+  trial: BooleanFilter
 }
 
 input ProductWhereUniqueInput {
@@ -1840,6 +1835,7 @@ input StringFilter {
 
 type Subscription {
   createdAt: DateTime
+  desc: Subscription_desc_Document
   id: ID!
   label: String
   language: String
@@ -1847,19 +1843,18 @@ type Subscription {
   name: String
   period: Int
   price: Int
-  product: Product
   statusView: String
   visitCount: Int
 }
 
 input SubscriptionCreateInput {
   createdAt: DateTime
+  desc: JSON
   language: String
   lastModification: DateTime
   name: String
   period: Int
   price: Int
-  product: ProductRelateToOneForCreateInput
   statusView: String
   visitCount: Int
 }
@@ -1912,12 +1907,12 @@ input SubscriptionUpdateArgs {
 
 input SubscriptionUpdateInput {
   createdAt: DateTime
+  desc: JSON
   language: String
   lastModification: DateTime
   name: String
   period: Int
   price: Int
-  product: ProductRelateToOneForUpdateInput
   statusView: String
   visitCount: Int
 }
@@ -1933,13 +1928,16 @@ input SubscriptionWhereInput {
   name: StringFilter
   period: IntNullableFilter
   price: IntFilter
-  product: ProductWhereInput
   statusView: StringFilter
   visitCount: IntFilter
 }
 
 input SubscriptionWhereUniqueInput {
   id: ID
+}
+
+type Subscription_desc_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Tag {

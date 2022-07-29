@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 import { useUser } from '@src/hooks/useUser';
 import Divider from '@mui/material/Divider';
-import { Alert, Box, Stack, Typography } from '@mui/material';
+import { Alert, Box, Card, Stack, Typography } from '@mui/material';
 import { currencyText } from '@src/lib/currency';
 import { CheckboxButtonGroup, FormContainer } from 'react-hook-form-mui';
 import { useRouter } from 'next/router';
@@ -71,62 +71,70 @@ export const Cart: FC = () => {
     );
 
     return (
-        <Stack gap={3}>
-            <Typography variant={'h1'} mb={{ xs: 1, md: 3 }} style={{ wordBreak: 'break-word' }}>
-                {t.title}
-            </Typography>
-            <Divider />
-            <Stack gap={2}>
-                {userCart?.items.map((item: CartItemProps) => (
-                    <CartItem item={item} key={item.id} />
-                ))}
+        <Card
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                py: { xs: 3, md: 6 },
+                px: { xs: 2, md: 6 }
+            }}>
+            <Stack gap={3}>
+                <Typography variant={'h1'} mb={{ xs: 1, md: 3 }} style={{ wordBreak: 'break-word' }}>
+                    {t.title}
+                </Typography>
                 <Divider />
-                <FormContainer formContext={formContext} handleSubmit={onSubmit}>
-                    <Stack gap={2}>
-                        <ContactForm />
-                        <CheckboxButtonGroup
-                            name="agree"
-                            options={[
-                                {
-                                    id: '1',
-                                    label: textTermAgree
-                                },
-                                { id: '2', label: textPrivateAgree }
-                            ]}
-                            required
-                        />
-                        <Box display={'flex'} justifyContent={'space-between'}>
-                            <Typography variant={'h2'} fontWeight={'bold'}>
-                                Сумма
-                            </Typography>
-                            <Typography variant={'h2'} fontWeight={'bold'}>
-                                {user?.cart?.amount} {currencyText(locale)}
-                            </Typography>
-                        </Box>
-                        {error && <Alert severity="error">Произошла ошибка при оформлении оплаты</Alert>}
+                <Stack gap={2}>
+                    {userCart?.items.map((item: CartItemProps) => (
+                        <CartItem item={item} key={item.id} />
+                    ))}
+                    <Divider />
+                    <FormContainer formContext={formContext} handleSubmit={onSubmit}>
                         <Stack gap={2}>
-                            {locale === 'ru' && (
+                            <ContactForm />
+                            <CheckboxButtonGroup
+                                name="agree"
+                                options={[
+                                    {
+                                        id: '1',
+                                        label: textTermAgree
+                                    },
+                                    { id: '2', label: textPrivateAgree }
+                                ]}
+                                required
+                            />
+                            <Box display={'flex'} justifyContent={'space-between'}>
+                                <Typography variant={'h2'} fontWeight={'bold'}>
+                                    Сумма
+                                </Typography>
+                                <Typography variant={'h2'} fontWeight={'bold'}>
+                                    {user?.cart?.amount} {currencyText(locale)}
+                                </Typography>
+                            </Box>
+                            {error && <Alert severity="error">Произошла ошибка при оформлении оплаты</Alert>}
+                            <Stack gap={2}>
+                                {locale === 'ru' && (
+                                    <LoadingButton
+                                        type={'submit'}
+                                        variant={'contained'}
+                                        size={'large'}
+                                        onClick={() => setValue('currency', Currency.RUB)}
+                                        loading={loading}>
+                                        {t.submitButtonRUB}
+                                    </LoadingButton>
+                                )}
                                 <LoadingButton
                                     type={'submit'}
                                     variant={'contained'}
                                     size={'large'}
-                                    onClick={() => setValue('currency', Currency.RUB)}
+                                    onClick={() => setValue('currency', Currency.USD)}
                                     loading={loading}>
-                                    {t.submitButtonRUB}
+                                    {t.submitButtonUSD}
                                 </LoadingButton>
-                            )}
-                            <LoadingButton
-                                type={'submit'}
-                                variant={'contained'}
-                                size={'large'}
-                                onClick={() => setValue('currency', Currency.USD)}
-                                loading={loading}>
-                                {t.submitButtonUSD}
-                            </LoadingButton>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                </FormContainer>
+                    </FormContainer>
+                </Stack>
             </Stack>
-        </Stack>
+        </Card>
     );
 };

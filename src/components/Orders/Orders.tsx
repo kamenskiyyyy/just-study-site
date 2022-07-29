@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 import Divider from '@mui/material/Divider';
-import { Stack, Typography } from '@mui/material';
+import { Card, Stack, Typography } from '@mui/material';
 import { Order } from '@src/lib/apollo/types';
 import { gql, useQuery } from '@apollo/client';
 import { SpinnerWrapper } from '@shared/ui/SpinnerWrapper';
@@ -40,13 +40,21 @@ export const Orders: FC<{ userId: string }> = ({ userId }) => {
 
     return (
         <SpinnerWrapper loading={loading}>
-            <Stack gap={3}>
-                <Typography variant={'h1'}>🏁 Завершите оформление заказа</Typography>
-                <Divider />
-                {data?.orders.map((order) => (
-                    <OrderItem key={order.id} order={order} />
-                ))}
-            </Stack>
+            <Card
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    py: { xs: 3, md: 6 },
+                    px: { xs: 2, md: 6 }
+                }}>
+                <Stack gap={3}>
+                    <Typography variant={'h1'}>🏁 Завершите оформление заказа</Typography>
+                    <Divider />
+                    {data?.orders.map((order) => (
+                        <OrderItem key={order.id} order={order} />
+                    ))}
+                </Stack>
+            </Card>
         </SpinnerWrapper>
     );
 };

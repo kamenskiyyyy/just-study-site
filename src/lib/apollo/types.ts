@@ -91,6 +91,7 @@ export type Cart = {
   items?: Maybe<Array<CartItem>>;
   itemsCount?: Maybe<Scalars['Int']>;
   lastModification?: Maybe<Scalars['DateTime']>;
+  linkForUser?: Maybe<Scalars['String']>;
   quantityPayments?: Maybe<Scalars['Int']>;
   user?: Maybe<User>;
 };
@@ -2325,6 +2326,7 @@ export type Product = {
   subscriptionsCount?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<Tag>>;
   tagsCount?: Maybe<Scalars['Int']>;
+  trial?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -2364,6 +2366,7 @@ export type ProductCreateInput = {
   statusView?: InputMaybe<Scalars['String']>;
   subscriptions?: InputMaybe<SubscriptionRelateToManyForCreateInput>;
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
+  trial?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ProductManyRelationFilter = {
@@ -2379,6 +2382,7 @@ export type ProductOrderByInput = {
   lastModification?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   statusView?: InputMaybe<OrderDirection>;
+  trial?: InputMaybe<OrderDirection>;
 };
 
 export type ProductRelateToManyForCreateInput = {
@@ -2391,17 +2395,6 @@ export type ProductRelateToManyForUpdateInput = {
   create?: InputMaybe<Array<ProductCreateInput>>;
   disconnect?: InputMaybe<Array<ProductWhereUniqueInput>>;
   set?: InputMaybe<Array<ProductWhereUniqueInput>>;
-};
-
-export type ProductRelateToOneForCreateInput = {
-  connect?: InputMaybe<ProductWhereUniqueInput>;
-  create?: InputMaybe<ProductCreateInput>;
-};
-
-export type ProductRelateToOneForUpdateInput = {
-  connect?: InputMaybe<ProductWhereUniqueInput>;
-  create?: InputMaybe<ProductCreateInput>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ProductReview = {
@@ -2503,6 +2496,7 @@ export type ProductUpdateInput = {
   statusView?: InputMaybe<Scalars['String']>;
   subscriptions?: InputMaybe<SubscriptionRelateToManyForUpdateInput>;
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
+  trial?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ProductWhereInput = {
@@ -2518,6 +2512,7 @@ export type ProductWhereInput = {
   statusView?: InputMaybe<StringFilter>;
   subscriptions?: InputMaybe<SubscriptionManyRelationFilter>;
   tags?: InputMaybe<TagManyRelationFilter>;
+  trial?: InputMaybe<BooleanFilter>;
 };
 
 export type ProductWhereUniqueInput = {
@@ -3233,6 +3228,7 @@ export type StringFilter = {
 export type Subscription = {
   __typename?: 'Subscription';
   createdAt?: Maybe<Scalars['DateTime']>;
+  desc?: Maybe<Subscription_Desc_Document>;
   id: Scalars['ID'];
   label?: Maybe<Scalars['String']>;
   language?: Maybe<Scalars['String']>;
@@ -3240,19 +3236,18 @@ export type Subscription = {
   name?: Maybe<Scalars['String']>;
   period?: Maybe<Scalars['Int']>;
   price?: Maybe<Scalars['Int']>;
-  product?: Maybe<Product>;
   statusView?: Maybe<Scalars['String']>;
   visitCount?: Maybe<Scalars['Int']>;
 };
 
 export type SubscriptionCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  desc?: InputMaybe<Scalars['JSON']>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   period?: InputMaybe<Scalars['Int']>;
   price?: InputMaybe<Scalars['Int']>;
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   statusView?: InputMaybe<Scalars['String']>;
   visitCount?: InputMaybe<Scalars['Int']>;
 };
@@ -3305,12 +3300,12 @@ export type SubscriptionUpdateArgs = {
 
 export type SubscriptionUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  desc?: InputMaybe<Scalars['JSON']>;
   language?: InputMaybe<Scalars['String']>;
   lastModification?: InputMaybe<Scalars['DateTime']>;
   name?: InputMaybe<Scalars['String']>;
   period?: InputMaybe<Scalars['Int']>;
   price?: InputMaybe<Scalars['Int']>;
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   statusView?: InputMaybe<Scalars['String']>;
   visitCount?: InputMaybe<Scalars['Int']>;
 };
@@ -3326,13 +3321,22 @@ export type SubscriptionWhereInput = {
   name?: InputMaybe<StringFilter>;
   period?: InputMaybe<IntNullableFilter>;
   price?: InputMaybe<IntFilter>;
-  product?: InputMaybe<ProductWhereInput>;
   statusView?: InputMaybe<StringFilter>;
   visitCount?: InputMaybe<IntFilter>;
 };
 
 export type SubscriptionWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+export type Subscription_Desc_Document = {
+  __typename?: 'Subscription_desc_Document';
+  document: Scalars['JSON'];
+};
+
+
+export type Subscription_Desc_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean'];
 };
 
 export type Tag = {

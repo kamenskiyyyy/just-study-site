@@ -18,7 +18,7 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
     const [anchorEl, setAnchorEl] = useState<SVGSVGElement | null>(null);
 
     const title = subscription?.name || service?.name;
-    const description = subscription?.product?.desc?.document || service?.description?.document;
+    const description = subscription?.desc?.document || service?.description?.document;
 
     const handlePopoverOpen: MouseEventHandler<SVGSVGElement> = (event) => {
         setAnchorEl(event.currentTarget);
@@ -62,7 +62,7 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
                     </Typography>
                 </Stack>
             </Box>
-            {description.length > 1 && (
+            {description && description.length >= 1 && (
                 <>
                     <InfoIcon
                         color="action"
