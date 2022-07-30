@@ -3,13 +3,18 @@ import { Category, Direction, Product } from '@src/lib/apollo/types';
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, Card, Chip, Container, Stack, Typography } from '@mui/material';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
+import { useRouter } from 'next/router';
+import { transition } from '@src/lib/transition';
+import { directionPage } from '@translations/directionPage';
+import { ILanguages } from '@src/modules/constants';
 
 export const Courses: FC<Pick<Direction, 'products'>> = ({ products }) => {
     const theme = useTheme();
     const categories = products?.map((product: Product) => product.category) as Category[];
     const [category, setCategory] = useState(categories[0].id);
-
     const filter = (product: Product) => product?.category?.id === category;
+    const { locale } = useRouter();
+    const t = transition(directionPage, locale as ILanguages);
 
     return (
         <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200} pb={4}>
@@ -21,7 +26,7 @@ export const Courses: FC<Pick<Direction, 'products'>> = ({ products }) => {
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}>
-                    <Typography variant={'h2'}>Курсы для любой цели и уровня</Typography>
+                    <Typography variant={'h2'}>{t.coursesTitle}</Typography>
                     <Stack gap={2} direction={'row'} flexWrap={'wrap'} justifyContent={'center'}>
                         {categories?.map(({ name, id }) => (
                             <Chip
@@ -63,7 +68,7 @@ export const Courses: FC<Pick<Direction, 'products'>> = ({ products }) => {
                                         variant={'contained'}
                                         color={'info'}
                                         href={`?course=${id}#form-lead`}>
-                                        Оставить заявку
+                                        {t.coursesButton}
                                     </Button>
                                 </Box>
                                 <Stack mx={{ xs: 4, sm: 0 }} alignItems={{ sm: 'end' }} gridRow={{ xs: 1, md: 'auto' }}>

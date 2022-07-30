@@ -3,15 +3,21 @@ import { Direction } from '@src/lib/apollo/types';
 import { Box, Container, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { transition } from '@src/lib/transition';
+import { directionPage } from '@translations/directionPage';
+import { ILanguages } from '@src/modules/constants';
 
 export const Goals: FC<Pick<Direction, 'goals'>> = ({ goals }) => {
     const theme = useTheme();
+    const { locale } = useRouter();
+    const t = transition(directionPage, locale as ILanguages);
 
     return (
         <Box bgcolor={theme.palette.mode === 'dark' ? theme.palette.grey['900'] : theme.palette.grey.A200} pb={4}>
             <Container maxWidth={'xl'}>
                 <Box py={4} px={{ xs: 0, md: 4 }} display={'flex'} flexDirection={'column'}>
-                    <Typography variant={'h2'}>Для каких целей подойдет этот курс</Typography>
+                    <Typography variant={'h2'}>{t.goalsTitle}</Typography>
                     <Box mt={2} display={'grid'} gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={3}>
                         {goals?.map(({ name, image, id }) => (
                             <Box key={id} textAlign={'center'}>

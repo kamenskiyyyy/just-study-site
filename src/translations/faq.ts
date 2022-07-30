@@ -9,6 +9,6 @@ export const faq = {
         title: 'FAQ',
         description:
             'Answer FAQ from our students about our courses, class duration, payment methods, teachers and so on.',
-        help: "Haven't found an answer for your question? Contact us on Telegram or Instagram "
+        help: "Haven't found an answer for your question? Contact us on Telegram or Instagram"
     }
 };

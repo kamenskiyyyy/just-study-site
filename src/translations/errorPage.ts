@@ -18,9 +18,9 @@ export const errorPage = {
             description: "We can't find the page you're looking for."
         },
         500: {
-            title: 'Делаем сайт лучше',
+            title: 'Making the site better',
             description:
-                'Сейчас на сервере производятся технические работы, совсем скоро все заработает. Попробуйте обновить страницу позже 😉'
+                'Now technical work is being done on the server, everything will work very soon. Try refreshing the page later 😉'
         },
         codeText: 'Error code:',
         buttonText: 'Go home'

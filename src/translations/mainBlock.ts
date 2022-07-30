@@ -13,7 +13,7 @@ export const mainBlock = {
         ]
     },
     en: {
-        title: 'Just Study Online English',
+        title: 'Just Study Online English School',
         buttonText: 'Get started',
         cards: [
             'For traveling 🏝',
