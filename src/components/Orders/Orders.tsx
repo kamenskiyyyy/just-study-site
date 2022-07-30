@@ -6,6 +6,9 @@ import { Order } from '@src/lib/apollo/types';
 import { gql, useQuery } from '@apollo/client';
 import { SpinnerWrapper } from '@shared/ui/SpinnerWrapper';
 import { OrderItem } from '@components/Orders/OrderItem';
+import { transition } from '@src/lib/transition';
+import { cartPage } from '@translations/cartPage';
+import { useRouter } from 'next/router';
 
 export interface IOrders {
     orders: Order[];
@@ -34,6 +37,8 @@ export const MUTATION_GET_PAY = gql`
 `;
 
 export const Orders: FC<{ userId: string }> = ({ userId }) => {
+    const { locale } = useRouter();
+    const t = transition(cartPage, locale);
     const { data, loading } = useQuery<IOrders>(QUERY_ACTIVE_ORDERS, {
         variables: { userId },
         fetchPolicy: 'network-only'
@@ -50,7 +55,7 @@ export const Orders: FC<{ userId: string }> = ({ userId }) => {
                         px: { xs: 2, md: 6 }
                     }}>
                     <Stack gap={3}>
-                        <Typography variant={'h1'}>🏁 Завершите оформление заказа</Typography>
+                        <Typography variant={'h1'}>🏁 {t.orderTitle}</Typography>
                         <Divider />
                         {data?.orders.map((order) => (
                             <OrderItem key={order.id} order={order} />

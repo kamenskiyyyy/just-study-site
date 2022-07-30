@@ -107,7 +107,7 @@ export const Cart: FC = () => {
                             />
                             <Box display={'flex'} justifyContent={'space-between'}>
                                 <Typography variant={'h2'} fontWeight={'bold'}>
-                                    Сумма
+                                    {t.amount}
                                 </Typography>
                                 <Stack direction={'row'} gap={1}>
                                     <Typography variant={'h2'} fontWeight={'bold'}>
@@ -120,7 +120,7 @@ export const Cart: FC = () => {
                                     )}
                                 </Stack>
                             </Box>
-                            {error && <Alert severity="error">Произошла ошибка при оформлении оплаты</Alert>}
+                            {error && <Alert severity="error">{t.errorMessage}</Alert>}
                             <Stack gap={2}>
                                 {locale === 'ru' && (
                                     <LoadingButton
