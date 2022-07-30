@@ -1,8 +1,8 @@
 export const cartPage = {
     ru: {
         title: 'Оплата',
-        submitButtonRUB: 'Оплатить картой Российского банка',
-        submitButtonUSD: 'Оплатить картой зарубежного банка'
+        submitButtonRUB: 'Оплатить картой Российского банка в рублях',
+        submitButtonUSD: 'Оплатить картой зарубежного банка в долларах'
     },
     en: {
         title: 'Payment',

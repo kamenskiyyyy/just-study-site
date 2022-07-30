@@ -17,6 +17,7 @@ export const QUERY_ACTIVE_ORDERS = gql`
             id
             label
             amount
+            currency
             nextPayment
             quantityPayments
         }
