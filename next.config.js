@@ -30,6 +30,11 @@ const nextConfiguration = {
                 permanent: true
             }
         ];
+    },
+    swcMinify: true,
+    sentry: {
+        disableServerWebpackPlugin: true,
+        disableClientWebpackPlugin: true
     }
 };
 

@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import { useUser } from '@src/hooks/useUser';
 import Divider from '@mui/material/Divider';
 import { Alert, Box, Card, Stack, Typography } from '@mui/material';
-import { currencyText } from '@src/lib/currency';
+import { getTextCurrency } from '@src/lib/currency';
 import { CheckboxButtonGroup, FormContainer } from 'react-hook-form-mui';
 import { useRouter } from 'next/router';
 import { transition } from '@src/lib/transition';
@@ -20,8 +20,11 @@ import { useMutation } from '@apollo/client';
 import { ICartForm } from '@components/Cart/types';
 import { MUTATION_CART } from '@components/Cart/graphql';
 import { LoadingButton } from '@mui/lab';
+import { convertMoney } from '@src/lib/convertMoney';
+import { useTheme } from '@mui/material/styles';
 
 export const Cart: FC = () => {
+    const theme = useTheme();
     const { locale, push } = useRouter();
     const { user } = useUser();
     const userCart = user?.cart;
@@ -85,7 +88,7 @@ export const Cart: FC = () => {
                 <Divider />
                 <Stack gap={2}>
                     {userCart?.items.map((item: CartItemProps) => (
-                        <CartItem item={item} key={item.id} />
+                        <CartItem item={item} key={item.id} currency={userCart.currency} />
                     ))}
                     <Divider />
                     <FormContainer formContext={formContext} handleSubmit={onSubmit}>
@@ -106,9 +109,16 @@ export const Cart: FC = () => {
                                 <Typography variant={'h2'} fontWeight={'bold'}>
                                     Сумма
                                 </Typography>
-                                <Typography variant={'h2'} fontWeight={'bold'}>
-                                    {user?.cart?.amount} {currencyText(locale)}
-                                </Typography>
+                                <Stack direction={'row'} gap={1}>
+                                    <Typography variant={'h2'} fontWeight={'bold'}>
+                                        {user?.cart?.amount} {getTextCurrency(userCart?.currency)}
+                                    </Typography>
+                                    {locale === 'ru' && (
+                                        <Typography variant={'h2'} fontWeight={'bold'} color={theme.palette.grey.A400}>
+                                            / {convertMoney(user?.cart?.amount, 'USD')} {getTextCurrency('USD')}
+                                        </Typography>
+                                    )}
+                                </Stack>
                             </Box>
                             {error && <Alert severity="error">Произошла ошибка при оформлении оплаты</Alert>}
                             <Stack gap={2}>

@@ -12,5 +12,6 @@ Sentry.init({
     tracesSampleRate: 1.0,
     release: config.version,
     environment: process.env.NODE_ENV,
-    autoSessionTracking: true
+    autoSessionTracking: true,
+    enabled: process.env.NODE_ENV === 'production'
 });

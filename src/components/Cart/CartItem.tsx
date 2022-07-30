@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { FC, MouseEventHandler, useEffect, useState } from 'react';
 import { Avatar, Box, Card, Popover, Stack, Typography } from '@mui/material';
-import { currencyText } from '@src/lib/currency';
+import { getTextCurrency } from '@src/lib/currency';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { CartItem as CartItemProps } from '@src/lib/apollo/types';
 import InfoIcon from '@mui/icons-material/Info';
 import { DocumentRenderer } from '@keystone-6/document-renderer';
+import { Currency } from '@shared/enums/currency.enum';
+import { convertMoney } from '@src/lib/convertMoney';
 
 const smiles = ['💬', '🇬🇧', '👨🏻‍🎓', '🤗', '✨', '⚡️', '👑', '😎', '🙌🏻'];
 
-export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
+export const CartItem: FC<{ item: CartItemProps; currency: Currency }> = ({ item, currency }) => {
     const theme = useTheme();
     const { locale } = useRouter();
     const { subscription, service, originalPrice, price } = item;
@@ -32,6 +34,8 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
 
     useEffect(() => setNumberSmile(Math.floor(Math.random() * smiles.length)), []);
 
+    console.log(currency);
+
     return (
         <Card
             sx={{
@@ -52,13 +56,13 @@ export const CartItem: FC<{ item: CartItemProps }> = ({ item }) => {
                 <Stack direction={'row'} gap={1}>
                     {originalPrice !== price && (
                         <Typography component={'del'}>
-                            {originalPrice}
-                            {currencyText(locale)}
+                            {convertMoney(originalPrice as number, currency)}
+                            {getTextCurrency(currency)}
                         </Typography>
                     )}
                     <Typography color={theme.palette.primary.main} fontWeight={'bold'}>
-                        {price}
-                        {currencyText(locale)}
+                        {convertMoney(price as number, currency)}
+                        {getTextCurrency(currency)}
                     </Typography>
                 </Stack>
             </Box>

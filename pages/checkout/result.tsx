@@ -46,18 +46,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const { orderid } = ctx.query;
 
-    const { data, error } = await client.query({
+    const { data } = await client.query({
         variables: { paymentId: orderid },
         query: QUERY_CHECK_PAYMENT,
         fetchPolicy: 'no-cache'
     });
-
-    if (error) {
-        return {
-            notFound: true,
-            props: {}
-        };
-    }
 
     return {
         props: {

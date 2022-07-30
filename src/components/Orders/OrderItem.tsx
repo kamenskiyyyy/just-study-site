@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
 import { Alert, Card, Stack, Typography } from '@mui/material';
-import { currencyText } from '@src/lib/currency';
+import { getTextCurrency } from '@src/lib/currency';
 import { LoadingButton } from '@mui/lab';
 import { useTheme } from '@mui/material/styles';
 import { Order, PaytureResponse } from '@src/lib/apollo/types';
@@ -10,7 +10,7 @@ import { useMutation } from '@apollo/client';
 import { MUTATION_GET_PAY } from '@components/Orders/Orders';
 
 export const OrderItem: FC<{ order: Order }> = (props) => {
-    const { id, label, quantityPayments, nextPayment, amount } = props.order;
+    const { id, label, quantityPayments, nextPayment, amount, currency } = props.order;
     const theme = useTheme();
     const { locale, push } = useRouter();
 
@@ -37,7 +37,7 @@ export const OrderItem: FC<{ order: Order }> = (props) => {
                 <Stack direction={'row'} gap={1}>
                     <Typography color={theme.palette.primary.main} fontWeight={'bold'} fontSize={'larger'}>
                         Сумма: {amount}
-                        {currencyText(locale)}
+                        {getTextCurrency(currency as string)}
                     </Typography>
                 </Stack>
                 {quantityPayments && quantityPayments > 1 && (
@@ -48,7 +48,7 @@ export const OrderItem: FC<{ order: Order }> = (props) => {
                     variant={'contained'}
                     onClick={() => pay({ variables: { orderId: id } })}
                     loading={loading}>
-                    Оплатить {nextPayment} {currencyText(locale)}
+                    Оплатить {nextPayment} {getTextCurrency(currency as string)}
                 </LoadingButton>
             </Stack>
         </Card>
